@@ -31,6 +31,72 @@ CITATION_STYLES = [
     ("bibtex", {"ru": "BibTeX", "en": "BibTeX"}),
 ]
 
+SELECTED_PUBLICATION_NUMBERS = [
+    "113",
+    "114",
+    "102",
+    "103",
+    "109",
+    "107",
+    "119",
+    "99",
+    "100",
+    "70",
+    "133",
+    "134",
+]
+
+PUBLICATION_BADGES = {
+    "70": {
+        "ru": ["распределённые системы", "моделирование"],
+        "en": ["distributed systems", "simulation"],
+    },
+    "99": {
+        "ru": ["распределённые системы", "нейросетевое управление"],
+        "en": ["distributed systems", "neural control"],
+    },
+    "100": {
+        "ru": ["распределённые вычисления", "моделирование"],
+        "en": ["distributed computing", "modeling"],
+    },
+    "102": {
+        "ru": ["БАС", "YOLO", "computer vision"],
+        "en": ["UAV", "YOLO", "computer vision"],
+    },
+    "103": {
+        "ru": ["3D-реконструкция", "U-Net", "segmentation"],
+        "en": ["3D reconstruction", "U-Net", "segmentation"],
+    },
+    "107": {
+        "ru": ["БАС", "сенсорные данные"],
+        "en": ["UAV", "sensor fusion"],
+    },
+    "109": {
+        "ru": ["on-board AI", "обнаружение объектов"],
+        "en": ["on-board AI", "object detection"],
+    },
+    "113": {
+        "ru": ["WEVJ", "энергетика", "электротранспорт"],
+        "en": ["WEVJ", "energy systems", "electric transport"],
+    },
+    "114": {
+        "ru": ["WEVJ", "EV charging", "моделирование"],
+        "en": ["WEVJ", "EV charging", "simulation"],
+    },
+    "119": {
+        "ru": ["БАС", "обработка данных"],
+        "en": ["UAV", "data processing"],
+    },
+    "133": {
+        "ru": ["AISEI 2026", "роботизированная сборка"],
+        "en": ["AISEI 2026", "robotic assembly"],
+    },
+    "134": {
+        "ru": ["AISEI 2026", "Edge AI", "fault detection"],
+        "en": ["AISEI 2026", "Edge AI", "fault detection"],
+    },
+}
+
 SECTION_LABELS = {
     "Научные работы": {
         "ru": "Научные работы",
@@ -413,6 +479,96 @@ def render_style_switcher(lang: str) -> str:
     return f'<div class="citation-switcher" role="group" aria-label="{aria}">' + "\n".join(buttons) + "</div>"
 
 
+def publication_sort_key(publication: dict[str, str]) -> int:
+    return int(publication["number"])
+
+
+def publication_tags(publication: dict[str, str], lang: str) -> list[str]:
+    tags = PUBLICATION_BADGES.get(publication["number"], {})
+    return tags.get(lang, [])
+
+
+def render_publication_item(publication: dict[str, str], lang: str) -> str:
+    section_label = SECTION_LABELS[publication["section"]][lang]
+    citations = publication["citations"]
+    parts = ['<li class="publication-item">']
+    parts.append(f'<span class="publication-number">{publication["number"]}</span>')
+    parts.append('<div class="publication-citations">')
+    parts.append(
+        f'<div class="publication-meta">{html.escape(publication["year"])} · '
+        f"{html.escape(section_label)}</div>"
+    )
+
+    tags = publication_tags(publication, lang)
+    if tags:
+        parts.append('<div class="publication-badges">')
+        for tag in tags:
+            parts.append(f'<span>{html.escape(tag)}</span>')
+        parts.append("</div>")
+
+    for style, _labels in CITATION_STYLES:
+        citation = citations[style]
+        if style == "bibtex":
+            parts.append(
+                f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
+                f"<code>{html.escape(citation)}</code></pre>"
+            )
+        else:
+            parts.append(
+                f'<p class="citation citation-{style}" data-citation-style="{style}">'
+                f"{html.escape(citation)}</p>"
+            )
+    parts.append("</div>")
+    parts.append("</li>")
+    return "\n".join(parts)
+
+
+def render_publication_section(
+    title: str,
+    intro: str,
+    entries: list[dict[str, str]],
+    lang: str,
+    class_name: str,
+) -> str:
+    item_word = "поз." if lang == "ru" else "items"
+    parts = [f'<section class="publication-group {class_name}">']
+    parts.append(
+        f"<h2>{html.escape(title)} "
+        f'<span class="group-count">{len(entries)} {item_word}</span></h2>'
+    )
+    if intro:
+        parts.append(f'<p class="publication-section-intro">{html.escape(intro)}</p>')
+    parts.append('<ol class="publication-list">')
+    for publication in entries:
+        parts.append(render_publication_item(publication, lang))
+    parts.append("</ol>")
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
+def render_citation_tools(lang: str) -> str:
+    if lang == "ru":
+        summary = "Форматы цитирования"
+        note = (
+            "По умолчанию показан ГОСТ. Остальные стили генерируются автоматически "
+            "из той же записи и требуют ручной сверки перед официальной подачей."
+        )
+    else:
+        summary = "Citation formats"
+        note = (
+            "GOST is shown by default. Other styles are generated automatically "
+            "from the same source record and should be checked before official use."
+        )
+
+    return (
+        '<details class="citation-tools">'
+        f"<summary>{html.escape(summary)}</summary>"
+        f"<p>{html.escape(note)}</p>"
+        f"{render_style_switcher(lang)}"
+        "</details>"
+    )
+
+
 def render_publications_page(lang: str) -> str:
     publications = load_publications()
     count = len(publications)
@@ -420,22 +576,49 @@ def render_publications_page(lang: str) -> str:
     for publication in publications:
         grouped[publication["section"]].append(publication)
 
+    by_number = {publication["number"]: publication for publication in publications}
+    selected = [
+        by_number[number]
+        for number in SELECTED_PUBLICATION_NUMBERS
+        if number in by_number
+    ]
+    research_section = next(iter(SECTION_LABELS))
+    recent = sorted(
+        grouped[research_section],
+        key=publication_sort_key,
+        reverse=True,
+    )[:10]
+
     if lang == "ru":
         count_word = ru_plural(count, "позиция", "позиции", "позиций")
         intro = (
-            f"Полный реестр содержит {count} {count_word} из исходной библиографической "
-            "карточки проекта. ГОСТ-версия сохраняет исходную нормализацию; остальные "
-            "стили построены автоматически из тех же данных и требуют ручной сверки "
-            "перед подачей в журнал, заявку или официальный отчёт."
+            "Короткая публичная витрина работ: сначала выбранные публикации по ключевым "
+            "направлениям, затем последние записи из научного реестра. Полная библиография "
+            f"доступна ниже в архивном блоке и содержит {count} {count_word}."
         )
+        selected_title = "Избранные публикации"
+        selected_intro = (
+            "WEVJ, работы по БАС, computer vision, 3D-реконструкции, Edge AI "
+            "и распределённым системам."
+        )
+        recent_title = "Последние публикации"
+        recent_intro = "Десять последних научных записей из локального библиографического реестра."
+        archive_summary = f"Полная библиография — {count} {count_word}"
         source_note = "Источник: локальный файл библиографии по ГОСТу."
     else:
         intro = (
-            f"The full register contains {count} items from the local bibliography note. "
-            "The GOST view preserves the source normalization; other styles are generated "
-            "automatically from the same data and should be manually verified before journal, "
-            "grant, or official-report submission."
+            "A concise public view of the bibliography: selected publications first, "
+            "then the most recent research entries. The full bibliography is available "
+            f"below as an archive block and contains {count} items."
         )
+        selected_title = "Selected publications"
+        selected_intro = (
+            "WEVJ, UAV-based monitoring, computer vision, 3D reconstruction, "
+            "Edge AI, and distributed systems."
+        )
+        recent_title = "Recent publications"
+        recent_intro = "The ten latest research entries from the local bibliography register."
+        archive_summary = f"Full bibliography — {count} items"
         source_note = "Source: local GOST bibliography file."
 
     parts = [
@@ -443,7 +626,11 @@ def render_publications_page(lang: str) -> str:
         f"<h1>{'Публикации' if lang == 'ru' else 'Publications'}</h1>",
         f"<p>{html.escape(intro)}</p>",
         f'<p class="source-note">{html.escape(source_note)}</p>',
-        render_style_switcher(lang),
+        render_publication_section(selected_title, selected_intro, selected, lang, "publication-selected"),
+        render_publication_section(recent_title, recent_intro, recent, lang, "publication-recent"),
+        render_citation_tools(lang),
+        '<details class="bibliography-archive">',
+        f"<summary>{html.escape(archive_summary)}</summary>",
     ]
 
     for section, entries in grouped.items():
@@ -458,31 +645,11 @@ def render_publications_page(lang: str) -> str:
         )
         parts.append('<ol class="publication-list">')
         for publication in entries:
-            citations = publication["citations"]
-            parts.append('<li class="publication-item">')
-            parts.append(f'<span class="publication-number">{publication["number"]}</span>')
-            parts.append('<div class="publication-citations">')
-            parts.append(
-                f'<div class="publication-meta">{html.escape(publication["year"])} · '
-                f"{html.escape(section_label)}</div>"
-            )
-            for style, _labels in CITATION_STYLES:
-                citation = citations[style]
-                if style == "bibtex":
-                    parts.append(
-                        f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
-                        f"<code>{html.escape(citation)}</code></pre>"
-                    )
-                else:
-                    parts.append(
-                        f'<p class="citation citation-{style}" data-citation-style="{style}">'
-                        f"{html.escape(citation)}</p>"
-                    )
-            parts.append("</div>")
-            parts.append("</li>")
+            parts.append(render_publication_item(publication, lang))
         parts.append("</ol>")
         parts.append("</section>")
 
+    parts.append("</details>")
     parts.append(
         """<script>
 (() => {
