@@ -120,7 +120,7 @@ LANG_META = {
         "skip": "К содержанию",
         "site": "Олеслав Антамошкин",
         "role": "Software engineering · AI · distributed systems",
-        "footer": "Публичная визитка. Источники: локальные профильные карточки проекта.",
+        "footer": "© 2026 Олеслав Антамошкин · Персональный академический и R&D-профиль",
     },
     "en": {
         "html_lang": "en",
@@ -129,7 +129,7 @@ LANG_META = {
         "skip": "Skip to content",
         "site": "Oleslav Antamoshkin",
         "role": "Software engineering · AI · distributed systems",
-        "footer": "Public profile site. Sources: local project profile notes.",
+        "footer": "© 2026 Oleslav Antamoshkin · Personal academic and R&D profile",
     },
 }
 
