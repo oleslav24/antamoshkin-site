@@ -281,6 +281,13 @@ def markdown_to_html(markdown: str) -> str:
             i += 1
             continue
 
+        if stripped.startswith("<") and stripped.endswith(">"):
+            flush_paragraph()
+            close_list()
+            output.append(stripped)
+            i += 1
+            continue
+
         close_list()
         paragraph.append(line)
         i += 1

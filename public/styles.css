@@ -178,6 +178,55 @@ a:hover {
   color: var(--bg);
 }
 
+.project-showcase {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 2rem 0 3rem;
+}
+
+.project-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.15rem;
+}
+
+.project-card-featured {
+  border-color: var(--text);
+}
+
+.project-card h2 {
+  border-top: 0;
+  font-size: 1.28rem;
+  margin: 0 0 0.75rem;
+  padding-top: 0;
+}
+
+.project-card p {
+  margin-bottom: 0.9rem;
+}
+
+.project-card dl {
+  display: grid;
+  gap: 0.55rem 0.9rem;
+  grid-template-columns: 6.4rem 1fr;
+  margin: 1rem 0;
+}
+
+.project-card dt {
+  color: var(--muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.project-card dd {
+  margin: 0;
+}
+
+.project-card > :last-child {
+  margin-bottom: 0;
+}
+
 h2 {
   border-top: 1px solid var(--line);
   font-size: 1.15rem;
@@ -489,6 +538,14 @@ th {
 
   .content > h1:first-child {
     max-width: none;
+  }
+
+  .project-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card dl {
+    grid-template-columns: 1fr;
   }
 
   .citation-switcher {

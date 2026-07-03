@@ -1,6 +1,36 @@
 # Projects
 
-## Research Engineering
+A compact portfolio of applied platforms, research engineering repositories, and active project directions.
+
+<section class="project-showcase" aria-label="Showcase projects">
+<article class="project-card project-card-featured">
+<h2>AirScope</h2>
+<p>UAV-based spatial monitoring platform for construction, infrastructure, and industrial objects.</p>
+<dl>
+<dt>Role</dt>
+<dd>scientific and technical lead</dd>
+<dt>Technologies</dt>
+<dd>UAV data, photogrammetry, 3D models, point clouds, computer vision</dd>
+<dt>Module</dt>
+<dd><a href="https://airbim.org/" target="_blank" rel="noreferrer">AirBIM</a> for construction progress control, comparison of the actual object state with the design model, and analytical reporting</dd>
+</dl>
+<p>The AirScope track also includes the optimal flight mission module and tree species detection from UAV data.</p>
+</article>
+<article class="project-card">
+<h2>Siberiana</h2>
+<p>A fully operational digital platform for the historical and cultural heritage of Yenisei Siberia.</p>
+<dl>
+<dt>Role</dt>
+<dd>project lead</dd>
+<dt>Website</dt>
+<dd><a href="https://siberiana.online/" target="_blank" rel="noreferrer">siberiana.online</a></dd>
+<dt>Result</dt>
+<dd>a platform with storage, management, intelligent processing, visualization, GIS, and 3D model viewing modules; registered Siberiana software, certificate No. 2023615453 dated 07 Apr 2023</dd>
+</dl>
+</article>
+</section>
+
+## Research Engineering Repositories
 
 ### Adaptive-control-of-heterogeneous-distributed-computing-systems
 
@@ -33,53 +63,6 @@ Portfolio signal: an applied bridge between evaluation methodology, backend API 
 A simulation of distributed computing system control with carbon-footprint reduction in mind. It includes synthetic data, large-network modeling, comparison of ZNN, LNN, and hybrid ZNN-LNN workflows, energy and emissions calculations, and result visualization.
 
 Portfolio signal: optimization, time-varying matrix problems, distributed dynamic computing systems, and sustainability-oriented computing.
-
-## Applied R&D
-
-### AirScope
-
-AirScope is a project to create a platform for monitoring construction, infrastructure, and industrial objects using unmanned aerial system data, photogrammetry, 3D models, point clouds, and computer vision methods.
-
-Within the project, AirScope is developed as a universal platform where AirBIM is treated as a construction module for tracking work progress, comparing the actual state of an object with the design model, recording deviations, and generating analytical reports.
-
-- AirBIM construction module website: [airbim.org](https://airbim.org/).
-
-**Role in the project:** direction lead / scientific and technical project lead.
-
-**Key tasks:**
-
-- Shaping AirScope as a monitoring platform rather than a single construction service.
-- Defining the module architecture: UAS data acquisition, image processing, photogrammetry, 3D reconstruction, analytics, and user interface.
-- Setting development tasks with a focus on practical system use.
-- Developing use cases for construction, infrastructure, energy, and monitoring of extended linear objects.
-- Organizing collaboration with industrial partners, including the use of UAVs and field data.
-- Preparing the project for commercialization: describing functionality, forming intellectual property outputs, registering software components, and packaging solutions for customers.
-
-**Technology focus:**
-
-- UAS and remote sensing data.
-- Photogrammetry and 3D model generation.
-- Point clouds and orthophoto maps.
-- Computer vision and intelligent image analysis.
-- Monitoring object change dynamics.
-- Web interface for engineering and management control.
-- Preparation of reports and analytical materials for customers.
-
-**Result:** the AirScope concept has been formed as a remote spatial monitoring platform; AirBIM has been positioned as a specialized construction module; and product development directions have been prepared for practical use in construction, infrastructure monitoring, and industrial control tasks.
-
-**Related results within the AirScope track:**
-
-- Tree Species Detection from UAV Data — a UAS data processing module for automatic tree species identification; software registration certificate No. 2024615231, published 05 Mar 2024.
-- Optimal Flight Mission Module — a software module for planning UAS flight missions; software registration certificate No. 2025680895, published 08 Aug 2025.
-
-### Siberiana
-
-A digital platform for the historical and cultural heritage of Yenisei Siberia, focused on storage, management, analysis, and visualization of heterogeneous cultural-historical data.
-
-- Website: [siberiana.online](https://siberiana.online/).
-- Period: 01 Mar 2022-31 Dec 2023.
-- Role: project lead.
-- Result: a fully operational platform with storage, management, intelligent processing, visualization, GIS, and 3D model viewing modules; registered Siberiana software, certificate No. 2023615453 dated 07 Apr 2023.
 
 ## Additional Project Tracks
 
