@@ -60,11 +60,11 @@ PUBLICATION_BADGES = {
         "en": ["distributed computing", "modeling"],
     },
     "102": {
-        "ru": ["БАС", "YOLO", "computer vision"],
+        "ru": ["БАС", "YOLO", "компьютерное зрение"],
         "en": ["UAV", "YOLO", "computer vision"],
     },
     "103": {
-        "ru": ["3D-реконструкция", "U-Net", "segmentation"],
+        "ru": ["3D-реконструкция", "U-Net", "сегментация"],
         "en": ["3D reconstruction", "U-Net", "segmentation"],
     },
     "107": {
@@ -72,7 +72,7 @@ PUBLICATION_BADGES = {
         "en": ["UAV", "sensor fusion"],
     },
     "109": {
-        "ru": ["on-board AI", "обнаружение объектов"],
+        "ru": ["бортовой ИИ", "обнаружение объектов"],
         "en": ["on-board AI", "object detection"],
     },
     "113": {
@@ -80,7 +80,7 @@ PUBLICATION_BADGES = {
         "en": ["WEVJ", "energy systems", "electric transport"],
     },
     "114": {
-        "ru": ["WEVJ", "EV charging", "моделирование"],
+        "ru": ["WEVJ", "зарядка электромобилей", "моделирование"],
         "en": ["WEVJ", "EV charging", "simulation"],
     },
     "119": {
@@ -92,7 +92,7 @@ PUBLICATION_BADGES = {
         "en": ["AISEI 2026", "robotic assembly"],
     },
     "134": {
-        "ru": ["AISEI 2026", "Edge AI", "fault detection"],
+        "ru": ["AISEI 2026", "периферийный ИИ", "обнаружение отказов"],
         "en": ["AISEI 2026", "Edge AI", "fault detection"],
     },
 }
@@ -119,8 +119,8 @@ LANG_META = {
         "other": "en",
         "skip": "К содержанию",
         "site": "Олеслав Антамошкин",
-        "role": "Software engineering · AI · distributed systems",
-        "footer": "© 2026 Олеслав Антамошкин · Персональный академический и R&D-профиль",
+        "role": "Программная инженерия · ИИ · распределённые системы",
+        "footer": "© 2026 Олеслав Антамошкин · Персональный академический и научно-технический профиль",
     },
     "en": {
         "html_lang": "en",
@@ -605,7 +605,7 @@ def render_publications_page(lang: str) -> str:
         )
         selected_title = "Избранные публикации"
         selected_intro = (
-            "WEVJ, работы по БАС, computer vision, 3D-реконструкции, Edge AI "
+            "WEVJ, работы по БАС, компьютерному зрению, 3D-реконструкции, периферийному ИИ "
             "и распределённым системам."
         )
         recent_title = "Последние публикации"

@@ -1,6 +1,6 @@
 # Контакты
 
-## Email
+## Электронная почта
 
 [oleslav@mail.ru](mailto:oleslav@mail.ru)
 
