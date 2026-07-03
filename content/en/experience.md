@@ -2,8 +2,8 @@
 
 ## Academic Positions
 
-- IKIT, Siberian Federal University — Head of the Software Engineering Department.
-- Institute for the Humanities, Siberian Federal University — Professor at the Department of Information Technologies in Creative and Cultural Industries.
+- Siberian Federal University — Head of the Software Engineering Department.
+- Siberian Federal University — Professor at the Department of Information Technologies in Creative and Cultural Industries.
 
 ## Project Roles
 
@@ -30,7 +30,7 @@ In the Siberiana and AirScope projects, he coordinated Siberian Federal Universi
 
 - Siberian State Aerospace University: Bachelor of Engineering and Technology, 2000.
 - Siberian State Aerospace University: Master of Engineering and Technology in Systems Analysis and Control, 2003.
-- Academic degrees: Candidate of Technical Sciences, 2006; Doctor of Technical Sciences, 2017.
+- Academic degrees: Candidate of Engineering Sciences, 2006; Doctor of Engineering Sciences, 2017.
 - Specialty: Systems Analysis, Control, and Information Processing.
 - Academic title: Associate Professor.
 

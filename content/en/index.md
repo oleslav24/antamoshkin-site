@@ -2,7 +2,7 @@
 
 Software Engineering, AI Systems, and Applied R&D.
 
-Head of the Software Engineering Department at Siberian Federal University. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.
+Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.
 
 [Selected projects](projects.html) [Publications](publications.html) [Contact](contacts.html)
 
@@ -24,8 +24,9 @@ Head of the Software Engineering Department at Siberian Federal University. I le
 
 ## Snapshot
 
-- Head of the Software Engineering Department, IKIT, Siberian Federal University.
-- Professor at the Department of Information Technologies in Creative and Cultural Industries, Institute for the Humanities, Siberian Federal University (GI SFU).
+- Doctor of Engineering Sciences.
+- Head of the Software Engineering Department, Siberian Federal University.
+- Professor at the Department of Information Technologies in Creative and Cultural Industries, Siberian Federal University.
 - Project lead of Siberiana, a digital cultural heritage platform for the Angara-Yenisei region.
 - Project lead of AirScope.
 - Author and co-author of research and applied software systems in distributed computing, UAV systems, computer vision, and digital platforms.

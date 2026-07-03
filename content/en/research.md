@@ -28,5 +28,5 @@ The full bibliography is available on the separate [Publications](publications.h
 
 ## Dissertations
 
-1. Multi-attribute decision-making methods for multi-level design of onboard information exchange systems - Candidate of Technical Sciences in Systems Analysis, Control, and Information Processing, 2006.
-2. Technology for managing heterogeneous information processing systems in special modes - Doctor of Technical Sciences in Systems Analysis, Control, and Information Processing, 2017.
+1. Multi-attribute decision-making methods for multi-level design of onboard information exchange systems - Candidate of Engineering Sciences in Systems Analysis, Control, and Information Processing, 2006.
+2. Technology for managing heterogeneous information processing systems in special modes - Doctor of Engineering Sciences in Systems Analysis, Control, and Information Processing, 2017.
