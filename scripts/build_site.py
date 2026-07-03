@@ -33,24 +33,26 @@ CITATION_STYLES = [
 ]
 
 SELECTED_PUBLICATION_NUMBERS = [
+    "127",
     "113",
     "114",
-    "102",
-    "103",
-    "109",
-    "107",
+    "101",
+    "106",
+    "121",
+    "80",
+    "122",
     "119",
-    "99",
-    "100",
-    "70",
     "133",
-    "134",
 ]
 
 PUBLICATION_BADGES = {
     "70": {
         "ru": ["распределённые системы", "моделирование"],
         "en": ["distributed systems", "simulation"],
+    },
+    "80": {
+        "ru": ["Q2", "SJR 2025: 0.233", "городская оценка"],
+        "en": ["Q2", "SJR 2025: 0.233", "city evaluation"],
     },
     "99": {
         "ru": ["распределённые системы", "нейросетевое управление"],
@@ -60,6 +62,10 @@ PUBLICATION_BADGES = {
         "ru": ["распределённые вычисления", "моделирование"],
         "en": ["distributed computing", "modeling"],
     },
+    "101": {
+        "ru": ["Q2", "SJR 0.40+", "горная промышленность"],
+        "en": ["Q2", "SJR 0.40+", "mining"],
+    },
     "102": {
         "ru": ["БАС", "YOLO", "компьютерное зрение"],
         "en": ["UAV", "YOLO", "computer vision"],
@@ -67,6 +73,10 @@ PUBLICATION_BADGES = {
     "103": {
         "ru": ["3D-реконструкция", "U-Net", "сегментация"],
         "en": ["3D reconstruction", "U-Net", "segmentation"],
+    },
+    "106": {
+        "ru": ["Scopus Q2", "SJR 0.273", "Сибириана"],
+        "en": ["Scopus Q2", "SJR 0.273", "Siberiana"],
     },
     "107": {
         "ru": ["БАС", "сенсорные данные"],
@@ -87,6 +97,18 @@ PUBLICATION_BADGES = {
     "119": {
         "ru": ["БАС", "обработка данных"],
         "en": ["UAV", "data processing"],
+    },
+    "121": {
+        "ru": ["Q3", "SJR 0.272-0.322", "биомасса"],
+        "en": ["Q3", "SJR 0.272-0.322", "biomass"],
+    },
+    "122": {
+        "ru": ["Q3", "SJR 0.34-0.38", "машинное обучение"],
+        "en": ["Q3", "SJR 0.34-0.38", "machine learning"],
+    },
+    "127": {
+        "ru": ["Q1", "SJR 0.626", "устойчивое развитие"],
+        "en": ["Q1", "SJR 0.626", "sustainable development"],
     },
     "133": {
         "ru": ["AISEI 2026", "роботизированная сборка"],
@@ -644,9 +666,9 @@ def render_publications_page(lang: str) -> str:
         )
         selected_title = "Избранные публикации"
         selected_intro = (
-            "Ключевые журнальные и прикладные работы: MDPI / World Electric Vehicle Journal, "
-            "БАС, компьютерное зрение, 3D-реконструкция, периферийный ИИ "
-            "и распределённые системы."
+            "Короткий список значимых работ: журнальные публикации Q1-Q3, "
+            "MDPI / World Electric Vehicle Journal, «Сибириана», БАС "
+            "и AISEI 2026."
         )
         recent_title = "Последние публикации"
         recent_intro = "Десять последних научных публикаций."
@@ -659,9 +681,9 @@ def render_publications_page(lang: str) -> str:
         )
         selected_title = "Selected publications"
         selected_intro = (
-            "Key journal and applied publications, including MDPI / World Electric Vehicle Journal, "
-            "UAV-based monitoring, computer vision, 3D reconstruction, "
-            "Edge AI, and distributed systems."
+            "A short list of significant works: Q1-Q3 journal publications, "
+            "MDPI / World Electric Vehicle Journal, Siberiana, UAV systems, "
+            "and AISEI 2026."
         )
         recent_title = "Recent publications"
         recent_intro = "The ten latest research publications."
