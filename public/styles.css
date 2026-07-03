@@ -69,6 +69,8 @@ a:hover {
 
 .brand a {
   border: 1px solid var(--text);
+  background: var(--text);
+  color: var(--bg);
   display: inline-flex;
   font-size: 0.8rem;
   font-weight: 700;
@@ -176,6 +178,79 @@ a:hover {
 .page-index > h1:first-child + p + p + p a:hover {
   background: var(--text);
   color: var(--bg);
+}
+
+.profile-anchor {
+  border: 1px solid var(--text);
+  display: grid;
+  grid-template-columns: minmax(9rem, 13rem) 1fr;
+  margin: 0 0 3rem;
+  min-height: 12rem;
+}
+
+.profile-monogram {
+  align-items: center;
+  background: var(--text);
+  color: var(--bg);
+  display: flex;
+  font-size: clamp(3.6rem, 10vw, 6.7rem);
+  font-weight: 800;
+  justify-content: center;
+  line-height: 1;
+  min-height: 12rem;
+}
+
+.profile-anchor-text {
+  padding: 1.25rem 1.35rem;
+}
+
+.section-kicker {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+
+.compact-role-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.compact-role-list li {
+  border-top: 1px solid var(--line);
+  line-height: 1.45;
+  margin: 0;
+  padding: 0.72rem 0;
+}
+
+.compact-role-list li:first-child {
+  border-top-color: var(--text);
+}
+
+.direction-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 1.1rem 0 3rem;
+}
+
+.direction-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.direction-card h3 {
+  margin-top: 0;
+}
+
+.direction-card p {
+  color: var(--muted);
+  font-size: 0.96rem;
+  margin-bottom: 0;
 }
 
 .project-showcase {
@@ -310,11 +385,6 @@ th {
   padding: 1.2rem 2rem 2rem;
 }
 
-.source-note {
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
 .citation-tools,
 .bibliography-archive {
   border-bottom: 1px solid var(--line);
@@ -371,6 +441,42 @@ th {
   margin-top: 3rem;
 }
 
+.publication-downloads {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin: 2rem 0 3rem;
+  padding: 1rem;
+}
+
+.publication-downloads p {
+  color: var(--muted);
+  font-size: 0.96rem;
+  margin-bottom: 0.9rem;
+}
+
+.publication-downloads .section-kicker {
+  color: var(--text);
+}
+
+.publication-download-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.publication-download-links a {
+  border: 1px solid var(--text);
+  font-size: 0.86rem;
+  line-height: 1;
+  padding: 0.55rem 0.7rem;
+  text-decoration: none;
+}
+
+.publication-download-links a:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
 .bibliography-archive .publication-group {
   margin-top: 2rem;
 }
@@ -401,6 +507,10 @@ th {
   gap: 1rem;
   grid-template-columns: 3.2rem 1fr;
   padding: 1.05rem 0;
+}
+
+.publication-item-no-number {
+  grid-template-columns: 1fr;
 }
 
 .publication-number {
@@ -541,6 +651,19 @@ th {
   }
 
   .project-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-anchor {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .profile-monogram {
+    min-height: 8rem;
+  }
+
+  .direction-grid {
     grid-template-columns: 1fr;
   }
 

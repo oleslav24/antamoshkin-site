@@ -10,6 +10,7 @@ WORKSPACE_ROOT = ROOT.parent
 CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshkin - GOST.md"
+PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 
 PAGES = [
     ("index", {"ru": "Главная", "en": "Home"}),
@@ -76,12 +77,12 @@ PUBLICATION_BADGES = {
         "en": ["on-board AI", "object detection"],
     },
     "113": {
-        "ru": ["WEVJ", "энергетика", "электротранспорт"],
-        "en": ["WEVJ", "energy systems", "electric transport"],
+        "ru": ["MDPI", "WEVJ", "энергетика", "электротранспорт"],
+        "en": ["MDPI", "WEVJ", "energy systems", "electric transport"],
     },
     "114": {
-        "ru": ["WEVJ", "зарядка электромобилей", "моделирование"],
-        "en": ["WEVJ", "EV charging", "simulation"],
+        "ru": ["MDPI", "WEVJ", "зарядка электромобилей", "моделирование"],
+        "en": ["MDPI", "WEVJ", "EV charging", "simulation"],
     },
     "119": {
         "ru": ["БАС", "обработка данных"],
@@ -495,11 +496,17 @@ def publication_tags(publication: dict[str, str], lang: str) -> list[str]:
     return tags.get(lang, [])
 
 
-def render_publication_item(publication: dict[str, str], lang: str) -> str:
+def render_publication_item(
+    publication: dict[str, str],
+    lang: str,
+    show_number: bool = True,
+) -> str:
     section_label = SECTION_LABELS[publication["section"]][lang]
     citations = publication["citations"]
-    parts = ['<li class="publication-item">']
-    parts.append(f'<span class="publication-number">{publication["number"]}</span>')
+    class_name = "publication-item" if show_number else "publication-item publication-item-no-number"
+    parts = [f'<li class="{class_name}">']
+    if show_number:
+        parts.append(f'<span class="publication-number">{publication["number"]}</span>')
     parts.append('<div class="publication-citations">')
     parts.append(
         f'<div class="publication-meta">{html.escape(publication["year"])} · '
@@ -536,8 +543,14 @@ def render_publication_section(
     entries: list[dict[str, str]],
     lang: str,
     class_name: str,
+    show_numbers: bool = True,
 ) -> str:
-    item_word = "поз." if lang == "ru" else "items"
+    if lang == "ru" and class_name == "publication-selected":
+        item_word = "работ"
+    elif lang == "ru" and class_name == "publication-recent":
+        item_word = "публикаций"
+    else:
+        item_word = "поз." if lang == "ru" else "items"
     parts = [f'<section class="publication-group {class_name}">']
     parts.append(
         f"<h2>{html.escape(title)} "
@@ -547,10 +560,36 @@ def render_publication_section(
         parts.append(f'<p class="publication-section-intro">{html.escape(intro)}</p>')
     parts.append('<ol class="publication-list">')
     for publication in entries:
-        parts.append(render_publication_item(publication, lang))
+        parts.append(render_publication_item(publication, lang, show_numbers))
     parts.append("</ol>")
     parts.append("</section>")
     return "\n".join(parts)
+
+
+def render_publication_downloads(lang: str) -> str:
+    if lang == "ru":
+        title = "PDF-версии"
+        intro = "Готовые списки публикаций для пересылки, заявок и рабочих материалов."
+    else:
+        title = "PDF versions"
+        intro = "Ready-to-share publication lists for applications and working materials."
+
+    links = []
+    for style, labels in CITATION_STYLES:
+        href = f"../downloads/publications-{style}.pdf"
+        links.append(
+            f'<a href="{href}" target="_blank" rel="noreferrer">'
+            f"{html.escape(labels[lang])} PDF</a>"
+        )
+
+    return (
+        '<section class="publication-downloads" aria-label="PDF downloads">'
+        f'<p class="section-kicker">{html.escape(title)}</p>'
+        f"<p>{html.escape(intro)}</p>"
+        '<div class="publication-download-links">'
+        + "\n".join(links)
+        + "</div></section>"
+    )
 
 
 def render_citation_tools(lang: str) -> str:
@@ -599,41 +638,48 @@ def render_publications_page(lang: str) -> str:
     if lang == "ru":
         count_word = ru_plural(count, "позиция", "позиции", "позиций")
         intro = (
-            "Короткая публичная витрина работ: сначала выбранные публикации по ключевым "
-            "направлениям, затем последние записи из научного реестра. Полная библиография "
-            f"доступна ниже в архивном блоке и содержит {count} {count_word}."
+            "Публичный раздел публикаций: наверху избранные работы и свежие записи, "
+            "ниже полный архив с переключением стилей цитирования. PDF-версии "
+            f"доступны отдельными файлами; всего в архиве {count} {count_word}."
         )
         selected_title = "Избранные публикации"
         selected_intro = (
-            "WEVJ, работы по БАС, компьютерному зрению, 3D-реконструкции, периферийному ИИ "
-            "и распределённым системам."
+            "Ключевые журнальные и прикладные работы: MDPI / World Electric Vehicle Journal, "
+            "БАС, компьютерное зрение, 3D-реконструкция, периферийный ИИ "
+            "и распределённые системы."
         )
         recent_title = "Последние публикации"
-        recent_intro = "Десять последних научных записей из локального библиографического реестра."
-        archive_summary = f"Полная библиография — {count} {count_word}"
-        source_note = "Источник: локальный файл библиографии по ГОСТу."
+        recent_intro = "Десять последних научных публикаций."
+        archive_summary = f"Полная библиография - {count} {count_word}"
     else:
         intro = (
-            "A concise public view of the bibliography: selected publications first, "
-            "then the most recent research entries. The full bibliography is available "
-            f"below as an archive block and contains {count} items."
+            "A public publication section: selected and recent works first, followed "
+            f"by the full bibliography with citation style switching. PDF versions "
+            f"are available as separate files; the archive contains {count} items."
         )
         selected_title = "Selected publications"
         selected_intro = (
-            "WEVJ, UAV-based monitoring, computer vision, 3D reconstruction, "
+            "Key journal and applied publications, including MDPI / World Electric Vehicle Journal, "
+            "UAV-based monitoring, computer vision, 3D reconstruction, "
             "Edge AI, and distributed systems."
         )
         recent_title = "Recent publications"
-        recent_intro = "The ten latest research entries from the local bibliography register."
-        archive_summary = f"Full bibliography — {count} items"
-        source_note = "Source: local GOST bibliography file."
+        recent_intro = "The ten latest research publications."
+        archive_summary = f"Full bibliography - {count} items"
 
     parts = [
         '<div class="publications-page" data-style="gost">',
         f"<h1>{'Публикации' if lang == 'ru' else 'Publications'}</h1>",
         f"<p>{html.escape(intro)}</p>",
-        f'<p class="source-note">{html.escape(source_note)}</p>',
-        render_publication_section(selected_title, selected_intro, selected, lang, "publication-selected"),
+        render_publication_downloads(lang),
+        render_publication_section(
+            selected_title,
+            selected_intro,
+            selected,
+            lang,
+            "publication-selected",
+            show_numbers=False,
+        ),
         render_publication_section(recent_title, recent_intro, recent, lang, "publication-recent"),
         render_citation_tools(lang),
         '<details class="bibliography-archive">',
@@ -681,6 +727,104 @@ def render_publications_page(lang: str) -> str:
     return "\n".join(parts)
 
 
+def pdf_font_path() -> Path | None:
+    candidates = [
+        Path(r"C:\Windows\Fonts\arial.ttf"),
+        Path(r"C:\Windows\Fonts\segoeui.ttf"),
+        Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+        Path("/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf"),
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def build_publication_pdf_exports() -> None:
+    try:
+        from reportlab.lib import colors
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import ParagraphStyle
+        from reportlab.lib.units import mm
+        from reportlab.pdfbase import pdfmetrics
+        from reportlab.pdfbase.ttfonts import TTFont
+        from reportlab.platypus import Paragraph, Preformatted, SimpleDocTemplate
+    except ImportError:
+        return
+
+    font_path = pdf_font_path()
+    if font_path is None:
+        return
+
+    publications = load_publications()
+    PDF_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+    font_name = "SiteSans"
+    if font_name not in pdfmetrics.getRegisteredFontNames():
+        pdfmetrics.registerFont(TTFont(font_name, str(font_path)))
+
+    title_style = ParagraphStyle(
+        "Title",
+        fontName=font_name,
+        fontSize=15,
+        leading=19,
+        spaceAfter=8,
+    )
+    body_style = ParagraphStyle(
+        "Body",
+        fontName=font_name,
+        fontSize=8.5,
+        leading=11.5,
+        spaceAfter=7,
+        wordWrap="CJK",
+    )
+    code_style = ParagraphStyle(
+        "Code",
+        fontName=font_name,
+        fontSize=7,
+        leading=9,
+        spaceAfter=7,
+    )
+
+    def page_footer(canvas, document) -> None:
+        canvas.saveState()
+        canvas.setFont(font_name, 8)
+        canvas.setFillColor(colors.HexColor("#606060"))
+        canvas.drawRightString(190 * mm, 10 * mm, str(document.page))
+        canvas.restoreState()
+
+    for style, labels in CITATION_STYLES:
+        destination = PDF_EXPORT_DIR / f"publications-{style}.pdf"
+        document = SimpleDocTemplate(
+            str(destination),
+            pagesize=A4,
+            rightMargin=18 * mm,
+            leftMargin=18 * mm,
+            topMargin=16 * mm,
+            bottomMargin=16 * mm,
+            title=f"Oleslav Antamoshkin - Publications - {labels['en']}",
+        )
+        story = [
+            Paragraph(
+                f"Oleslav Antamoshkin - Publications - {html.escape(labels['en'])}",
+                title_style,
+            )
+        ]
+
+        for publication in publications:
+            citation = publication["citations"][style]
+            if style == "bibtex":
+                story.append(Preformatted(citation, code_style))
+            else:
+                story.append(
+                    Paragraph(
+                        f"{publication['number']}. {html.escape(citation)}",
+                        body_style,
+                    )
+                )
+
+        document.build(story, onFirstPage=page_footer, onLaterPages=page_footer)
+
+
 def render_nav(lang: str, current_slug: str) -> str:
     links = []
     for slug, labels in PAGES:
@@ -709,7 +853,7 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
   <a class="skip-link" href="#content">{html.escape(meta["skip"])}</a>
   <header class="site-header">
     <div class="brand">
-      <a href="index.html" aria-label="{html.escape(meta["site"])}">O.A.</a>
+      <a href="index.html" aria-label="{html.escape(meta["site"])}">OA</a>
       <span>{html.escape(meta["role"])}</span>
     </div>
     <nav class="site-nav" aria-label="Primary navigation">
@@ -771,6 +915,7 @@ def build() -> None:
             destination.write_text(render_page(lang, slug, title, body), encoding="utf-8")
 
     (PUBLIC_DIR / "index.html").write_text(render_root(), encoding="utf-8")
+    build_publication_pdf_exports()
 
 
 if __name__ == "__main__":

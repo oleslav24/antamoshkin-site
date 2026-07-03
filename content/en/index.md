@@ -6,13 +6,38 @@ Doctor of Engineering Sciences; Head of the Software Engineering Department, Sib
 
 [Selected projects](projects.html) [Publications](publications.html) [Contact](contacts.html)
 
-## Focus
+<section class="profile-anchor" aria-label="Current roles">
+<div class="profile-monogram" aria-hidden="true">OA</div>
+<div class="profile-anchor-text">
+<p class="section-kicker">Current roles</p>
+<ul class="compact-role-list">
+<li>Head of the Software Engineering Department, Siberian Federal University.</li>
+<li>Professor at the Department of Information Technologies in Creative and Cultural Industries, Siberian Federal University.</li>
+<li>Scientific and technical lead for AirScope; project lead for Siberiana.</li>
+</ul>
+</div>
+</section>
 
-- Heterogeneous distributed information processing systems.
-- Multi-agent systems, resource optimization, and decision support.
-- Artificial intelligence, machine learning, and computer vision.
-- Digital platforms, spatial data, 3D/geodata, and digital cultural heritage.
-- Software engineering, reproducible research stands, and R&D prototypes.
+## Key Directions
+
+<section class="direction-grid" aria-label="Key directions">
+<article class="direction-card">
+<h3>Distributed systems</h3>
+<p>Adaptive control, multi-agent models, resource optimization, and reproducible experimental stands.</p>
+</article>
+<article class="direction-card">
+<h3>Computer vision and UAVs</h3>
+<p>Object monitoring, UAV data processing, 3D reconstruction, and image analysis.</p>
+</article>
+<article class="direction-card">
+<h3>Digital platforms</h3>
+<p>AirScope, Siberiana, spatial data, geodata, and digital cultural heritage.</p>
+</article>
+<article class="direction-card">
+<h3>Applied R&D</h3>
+<p>Research task framing, product architecture, engineering coordination, and preparation for deployment.</p>
+</article>
+</section>
 
 ## Site Sections
 
@@ -21,15 +46,6 @@ Doctor of Engineering Sciences; Head of the Software Engineering Department, Sib
 - [Publications](publications.html) - full bibliography and citation views.
 - [Roles](experience.html) - academic positions, project roles, competencies, and education.
 - [Contacts](contacts.html) - email and public profiles.
-
-## Snapshot
-
-- Doctor of Engineering Sciences.
-- Head of the Software Engineering Department, Siberian Federal University.
-- Professor at the Department of Information Technologies in Creative and Cultural Industries, Siberian Federal University.
-- Project lead of Siberiana, a digital cultural heritage platform for the Angara-Yenisei region.
-- Project lead of AirScope.
-- Author and co-author of research and applied software systems in distributed computing, UAV systems, computer vision, and digital platforms.
 
 ## Public Links
 
