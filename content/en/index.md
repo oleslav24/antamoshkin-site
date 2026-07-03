@@ -1,8 +1,10 @@
 # Oleslav Antamoshkin
 
-Doctor of Technical Sciences, Associate Professor; Head of the Software Engineering Department at IKIT, Siberian Federal University.
+Software Engineering, AI Systems, and Applied R&D.
 
-I work at the intersection of software engineering, artificial intelligence, heterogeneous distributed systems, and digital platforms. My profile combines academic research, engineering prototypes, project leadership, and educational program design.
+Head of the Software Engineering Department at Siberian Federal University. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.
+
+[Selected projects](projects.html) [Publications](publications.html) [Contact](contacts.html)
 
 ## Focus
 

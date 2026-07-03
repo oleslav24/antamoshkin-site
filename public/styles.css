@@ -137,6 +137,47 @@ a:hover {
   padding-bottom: 2rem;
 }
 
+.page-index > h1:first-child {
+  margin-bottom: 1.2rem;
+}
+
+.page-index > h1:first-child + p {
+  border-bottom: 0;
+  font-size: clamp(1.18rem, 2.3vw, 1.62rem);
+  line-height: 1.35;
+  margin-bottom: 1rem;
+  max-width: 42rem;
+  padding-bottom: 0;
+}
+
+.page-index > h1:first-child + p + p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin-bottom: 1.35rem;
+  max-width: 50rem;
+}
+
+.page-index > h1:first-child + p + p + p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.7rem;
+}
+
+.page-index > h1:first-child + p + p + p a {
+  border: 1px solid var(--text);
+  display: inline-flex;
+  line-height: 1;
+  padding: 0.72rem 0.9rem;
+  text-decoration: none;
+}
+
+.page-index > h1:first-child + p + p + p a:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
 h2 {
   border-top: 1px solid var(--line);
   font-size: 1.15rem;
