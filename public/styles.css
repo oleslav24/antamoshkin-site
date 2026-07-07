@@ -122,6 +122,32 @@ a:hover {
   padding: 4.5rem 2rem 5rem;
 }
 
+.breadcrumbs {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin: -2rem 0 2rem;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbs li {
+  line-height: 1.4;
+  margin: 0;
+}
+
+.breadcrumbs li + li::before {
+  color: var(--line);
+  content: "/";
+  margin-right: 0.45rem;
+}
+
 .content > h1:first-child {
   font-size: clamp(2.4rem, 7vw, 5.6rem);
   font-weight: 750;
@@ -677,6 +703,10 @@ th {
 
   .publication-item {
     grid-template-columns: 2.4rem 1fr;
+  }
+
+  .publication-item-no-number {
+    grid-template-columns: 1fr;
   }
 
   .site-footer {

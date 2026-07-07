@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://antamoshkin-site.pages.dev/sitemap.xml

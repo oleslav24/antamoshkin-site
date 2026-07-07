@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Oleslav Antamoshkin</title>
+  <desc id="desc">Personal academic and applied R&amp;D profile</desc>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="72" y="72" width="220" height="220" fill="#111111"/>
+  <text x="182" y="218" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" text-anchor="middle">OA</text>
+  <text x="72" y="390" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Oleslav Antamoshkin</text>
+  <text x="72" y="455" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="32">Software engineering, AI systems, applied R&amp;D</text>
+  <line x1="72" y1="508" x2="1128" y2="508" stroke="#d8d8d8" stroke-width="2"/>
+  <text x="72" y="560" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="24">Siberian Federal University · Distributed systems · UAV-based monitoring</text>
+</svg>

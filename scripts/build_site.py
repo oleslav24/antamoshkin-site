@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
@@ -11,6 +12,8 @@ CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshkin - GOST.md"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
+SITE_URL = "https://antamoshkin-site.pages.dev"
+OG_IMAGE = "og-image.svg"
 
 PAGES = [
     ("index", {"ru": "Главная", "en": "Home"}),
@@ -156,9 +159,132 @@ LANG_META = {
     },
 }
 
+PAGE_DESCRIPTIONS = {
+    "ru": {
+        "index": "Олеслав Антамошкин: программная инженерия, ИИ-системы, распределённые вычисления и прикладные НИОКР.",
+        "projects": "Прикладные платформы, исследовательские репозитории и проектные направления Олеслава Антамошкина.",
+        "research": "Научные профили, метрики, диссертационные исследования и исследовательский контур Олеслава Антамошкина.",
+        "publications": "Избранные публикации, последние работы, полный архив и PDF-версии библиографии в разных стилях.",
+        "experience": "Академические должности, проектные роли, компетенции, образование и профессиональное развитие.",
+        "contacts": "Электронная почта и публичные профили Олеслава Антамошкина: GitHub, ORCID, Scopus, ResearchGate и СФУ.",
+    },
+    "en": {
+        "index": "Oleslav Antamoshkin: software engineering, AI systems, distributed computing, and applied R&D.",
+        "projects": "Applied platforms, research engineering repositories, and project directions by Oleslav Antamoshkin.",
+        "research": "Scholarly profiles, metrics, dissertation research, and research context for Oleslav Antamoshkin.",
+        "publications": "Selected publications, recent works, full bibliography, and PDF exports in multiple citation styles.",
+        "experience": "Academic roles, project leadership, competencies, education, and professional development.",
+        "contacts": "Email and public profiles for Oleslav Antamoshkin: GitHub, ORCID, Scopus, ResearchGate, and SFU.",
+    },
+}
+
 
 def page_href(slug: str) -> str:
     return "index.html" if slug == "index" else f"{slug}.html"
+
+
+def site_url(path: str = "") -> str:
+    suffix = path.strip("/")
+    return SITE_URL if not suffix else f"{SITE_URL}/{suffix}"
+
+
+def page_path(lang: str, slug: str) -> str:
+    return f"{lang}/{page_href(slug)}"
+
+
+def page_description(lang: str, slug: str) -> str:
+    return PAGE_DESCRIPTIONS[lang][slug]
+
+
+def json_script(data: dict[str, object]) -> str:
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    return f'<script type="application/ld+json">{payload}</script>'
+
+
+def breadcrumb_entries(lang: str, slug: str, title: str) -> list[tuple[str, str]]:
+    if lang == "ru":
+        entries = [("Профиль", "../index.html"), ("Русская версия", "index.html")]
+    else:
+        entries = [("Profile", "../index.html"), ("English version", "index.html")]
+    if slug != "index":
+        entries.append((title, page_href(slug)))
+    return entries
+
+
+def render_breadcrumbs(lang: str, slug: str, title: str) -> str:
+    label = "Хлебные крошки" if lang == "ru" else "Breadcrumb"
+    entries = breadcrumb_entries(lang, slug, title)
+    parts = [f'<nav class="breadcrumbs" aria-label="{html.escape(label)}"><ol>']
+    for index, (name, href) in enumerate(entries):
+        if index == len(entries) - 1:
+            parts.append(f'<li aria-current="page">{html.escape(name)}</li>')
+        else:
+            parts.append(f'<li><a href="{html.escape(href, quote=True)}">{html.escape(name)}</a></li>')
+    parts.append("</ol></nav>")
+    return "\n".join(parts)
+
+
+def breadcrumb_json_ld(lang: str, slug: str, title: str) -> dict[str, object]:
+    entries = breadcrumb_entries(lang, slug, title)
+    items = []
+    for index, (name, _href) in enumerate(entries, start=1):
+        if index == 1:
+            item_url = site_url()
+        elif index == 2:
+            item_url = site_url(page_path(lang, "index"))
+        else:
+            item_url = site_url(page_path(lang, slug))
+        items.append(
+            {
+                "@type": "ListItem",
+                "position": index,
+                "name": name,
+                "item": item_url,
+            }
+        )
+    return {"@type": "BreadcrumbList", "itemListElement": items}
+
+
+def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
+    page_url = site_url(page_path(lang, slug))
+    language = LANG_META[lang]["html_lang"]
+    data = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": site_url("#person"),
+                "name": "Oleslav Antamoshkin",
+                "alternateName": "Олеслав Александрович Антамошкин",
+                "url": site_url(),
+                "sameAs": [
+                    "https://github.com/oleslav24",
+                    "https://orcid.org/0000-0002-5976-5847",
+                    "https://www.researchgate.net/profile/Oleslav-Antamoshkin",
+                    "https://www.scopus.com/authid/detail.uri?authorId=56825984000",
+                ],
+            },
+            {
+                "@type": "WebSite",
+                "@id": site_url("#website"),
+                "url": site_url(),
+                "name": "Oleslav Antamoshkin",
+                "inLanguage": language,
+            },
+            {
+                "@type": "Article",
+                "@id": f"{page_url}#article",
+                "headline": title,
+                "description": description,
+                "author": {"@id": site_url("#person")},
+                "mainEntityOfPage": page_url,
+                "inLanguage": language,
+                "dateModified": "2026-07-07",
+            },
+            breadcrumb_json_ld(lang, slug, title),
+        ],
+    }
+    return json_script(data)
 
 
 def render_inline(text: str) -> str:
@@ -851,8 +977,9 @@ def render_nav(lang: str, current_slug: str) -> str:
     links = []
     for slug, labels in PAGES:
         class_name = "active" if slug == current_slug else ""
+        current = ' aria-current="page"' if slug == current_slug else ""
         links.append(
-            f'<a class="{class_name}" href="{page_href(slug)}">{html.escape(labels[lang])}</a>'
+            f'<a class="{class_name}" href="{page_href(slug)}"{current}>{html.escape(labels[lang])}</a>'
         )
     return "\n".join(links)
 
@@ -862,14 +989,32 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
     other = meta["other"]
     other_href = f"../{other}/{page_href(slug)}"
     nav = render_nav(lang, slug)
+    description = page_description(lang, slug)
+    url = site_url(page_path(lang, slug))
+    og_locale = "ru_RU" if lang == "ru" else "en_US"
+    breadcrumbs = render_breadcrumbs(lang, slug, title)
+    json_ld = page_json_ld(lang, slug, title, description)
     return f"""<!doctype html>
 <html lang="{meta["html_lang"]}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)} | {html.escape(meta["site"])}</title>
-  <meta name="description" content="{html.escape(meta["site"])} - public profile">
+  <meta name="description" content="{html.escape(description)}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="{html.escape(url, quote=True)}">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="{og_locale}">
+  <meta property="og:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
+  <meta property="og:description" content="{html.escape(description)}">
+  <meta property="og:url" content="{html.escape(url, quote=True)}">
+  <meta property="og:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
+  <meta name="twitter:description" content="{html.escape(description)}">
+  <meta name="twitter:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
   <link rel="stylesheet" href="../styles.css">
+  {json_ld}
 </head>
 <body>
   <a class="skip-link" href="#content">{html.escape(meta["skip"])}</a>
@@ -884,6 +1029,7 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
     <a class="language-link" href="{other_href}">{LANG_META[other]["name"]}</a>
   </header>
   <main id="content" class="content page-{slug}">
+    {breadcrumbs}
     {body}
   </main>
   <footer class="site-footer">
@@ -894,27 +1040,165 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
 """
 
 
+def root_json_ld() -> str:
+    data = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": site_url("#person"),
+                "name": "Oleslav Antamoshkin",
+                "alternateName": "Олеслав Александрович Антамошкин",
+                "url": site_url(),
+                "sameAs": [
+                    "https://github.com/oleslav24",
+                    "https://orcid.org/0000-0002-5976-5847",
+                    "https://www.researchgate.net/profile/Oleslav-Antamoshkin",
+                    "https://www.scopus.com/authid/detail.uri?authorId=56825984000",
+                ],
+            },
+            {
+                "@type": "WebSite",
+                "@id": site_url("#website"),
+                "url": site_url(),
+                "name": "Oleslav Antamoshkin",
+                "inLanguage": ["ru", "en"],
+            },
+            {
+                "@type": "Article",
+                "@id": site_url("#article"),
+                "headline": "Oleslav Antamoshkin",
+                "description": "Personal academic and applied R&D profile of Oleslav Antamoshkin.",
+                "author": {"@id": site_url("#person")},
+                "mainEntityOfPage": site_url(),
+                "inLanguage": ["ru", "en"],
+                "dateModified": "2026-07-07",
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Oleslav Antamoshkin",
+                        "item": site_url(),
+                    }
+                ],
+            },
+        ],
+    }
+    return json_script(data)
+
+
 def render_root() -> str:
+    description = (
+        "Oleslav Antamoshkin: software engineering, AI systems, "
+        "distributed computing, UAV monitoring, and applied R&D."
+    )
     return """<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Oleslav Antamoshkin</title>
+  <meta name="description" content="{description}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="{url}">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Oleslav Antamoshkin">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{image}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Oleslav Antamoshkin">
+  <meta name="twitter:description" content="{description}">
+  <meta name="twitter:image" content="{image}">
   <link rel="stylesheet" href="styles.css">
+  {json_ld}
 </head>
 <body>
-  <main class="language-gate">
-    <p class="gate-kicker">Personal profile</p>
+  <a class="skip-link" href="#content">К содержанию / Skip to content</a>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html" aria-label="Oleslav Antamoshkin" aria-current="page">OA</a>
+      <span>Software engineering · AI · distributed systems</span>
+    </div>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="index.html" aria-current="page">Start</a>
+      <a href="ru/index.html">Главная</a>
+      <a href="ru/projects.html">Проекты</a>
+      <a href="ru/publications.html">Публикации</a>
+      <a href="ru/contacts.html">Контакты</a>
+    </nav>
+    <a class="language-link" href="en/index.html">EN</a>
+  </header>
+  <main id="content" class="content page-root">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li aria-current="page">Oleslav Antamoshkin</li>
+      </ol>
+    </nav>
     <h1>Oleslav Antamoshkin</h1>
-    <p>Software engineering · AI · distributed systems</p>
-    <div class="gate-links" aria-label="Language selection">
+    <p>Software engineering, AI systems, and applied R&D.</p>
+    <p>Head of the Software Engineering Department at Siberian Federal University. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.</p>
+    <div class="gate-links" aria-label="Language selection and key sections">
       <a href="ru/index.html">Русская версия</a>
       <a href="en/index.html">English version</a>
+      <a href="ru/projects.html">Проекты</a>
+      <a href="ru/publications.html">Публикации</a>
+      <a href="ru/contacts.html">Контакты</a>
     </div>
   </main>
+  <footer class="site-footer">
+    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&D profile</span>
+  </footer>
 </body>
 </html>
+""".format(
+        description=html.escape(description),
+        url=html.escape(site_url(), quote=True),
+        image=html.escape(site_url(OG_IMAGE), quote=True),
+        json_ld=root_json_ld(),
+    )
+
+
+def render_sitemap() -> str:
+    urls = [("", "1.0")]
+    for lang in LANG_META:
+        for slug, _labels in PAGES:
+            urls.append((page_path(lang, slug), "0.8" if slug != "index" else "0.9"))
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for path, priority in urls:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{html.escape(site_url(path))}</loc>")
+        lines.append("    <lastmod>2026-07-07</lastmod>")
+        lines.append("    <changefreq>monthly</changefreq>")
+        lines.append(f"    <priority>{priority}</priority>")
+        lines.append("  </url>")
+    lines.append("</urlset>")
+    return "\n".join(lines)
+
+
+def render_robots() -> str:
+    return f"""User-agent: *
+Allow: /
+Sitemap: {site_url("sitemap.xml")}
+"""
+
+
+def render_og_image() -> str:
+    return """<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Oleslav Antamoshkin</title>
+  <desc id="desc">Personal academic and applied R&amp;D profile</desc>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="72" y="72" width="220" height="220" fill="#111111"/>
+  <text x="182" y="218" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" text-anchor="middle">OA</text>
+  <text x="72" y="390" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Oleslav Antamoshkin</text>
+  <text x="72" y="455" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="32">Software engineering, AI systems, applied R&amp;D</text>
+  <line x1="72" y1="508" x2="1128" y2="508" stroke="#d8d8d8" stroke-width="2"/>
+  <text x="72" y="560" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="24">Siberian Federal University · Distributed systems · UAV-based monitoring</text>
+</svg>
 """
 
 
@@ -937,6 +1221,9 @@ def build() -> None:
             destination.write_text(render_page(lang, slug, title, body), encoding="utf-8")
 
     (PUBLIC_DIR / "index.html").write_text(render_root(), encoding="utf-8")
+    (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(), encoding="utf-8")
+    (PUBLIC_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
+    (PUBLIC_DIR / OG_IMAGE).write_text(render_og_image(), encoding="utf-8")
     build_publication_pdf_exports()
 
 
