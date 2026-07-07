@@ -2,7 +2,9 @@
 
 ## Электронная почта
 
-[oleslav@mail.ru](mailto:oleslav@mail.ru)
+Основной адрес: [contact@oleslav.com](mailto:contact@oleslav.com)
+
+Персональный алиас: [antamoshkin@oleslav.com](mailto:antamoshkin@oleslav.com)
 
 ## Публичные профили
 

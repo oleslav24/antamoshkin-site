@@ -29,7 +29,7 @@ Use these settings:
 
 The generated `public/` directory is committed, so Cloudflare Pages can publish it directly from GitHub.
 
-Canonical URLs, Open Graph URLs, `robots.txt`, and `sitemap.xml` are generated from `SITE_URL` in `scripts/build_site.py`. Update that constant when switching from the default Cloudflare Pages domain to a custom domain.
+Canonical URLs, Open Graph URLs, `robots.txt`, and `sitemap.xml` are generated from `SITE_URL` in `scripts/build_site.py`, currently set to `https://oleslav.com`.
 
 ## Publication Boundary
 

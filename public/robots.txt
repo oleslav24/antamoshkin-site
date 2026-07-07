@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://antamoshkin-site.pages.dev/sitemap.xml
+
+Sitemap: https://oleslav.com/sitemap.xml

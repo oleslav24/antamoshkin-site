@@ -178,22 +178,30 @@ a:hover {
   padding-bottom: 0;
 }
 
-.page-index > h1:first-child + p + p {
+.hero-roles,
+.hero-summary {
   color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.65;
-  margin-bottom: 1.35rem;
   max-width: 50rem;
 }
 
-.page-index > h1:first-child + p + p + p {
+.hero-roles {
+  margin-bottom: 0.8rem;
+}
+
+.hero-summary {
+  margin-bottom: 1.35rem;
+}
+
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 2.7rem;
 }
 
-.page-index > h1:first-child + p + p + p a {
+.hero-actions a {
   border: 1px solid var(--text);
   display: inline-flex;
   line-height: 1;
@@ -201,7 +209,7 @@ a:hover {
   text-decoration: none;
 }
 
-.page-index > h1:first-child + p + p + p a:hover {
+.hero-actions a:hover {
   background: var(--text);
   color: var(--bg);
 }
@@ -292,11 +300,13 @@ a:hover {
   padding: 1.15rem;
 }
 
-.project-card-featured {
+.project-card-featured,
+.featured-project {
   border-color: var(--text);
 }
 
-.project-card h2 {
+.project-card h2,
+.project-card h3 {
   border-top: 0;
   font-size: 1.28rem;
   margin: 0 0 0.75rem;

@@ -2,30 +2,36 @@
 
 A compact portfolio of applied platforms, research engineering repositories, and active project directions.
 
+## Featured applied R&D projects
+
 <section class="project-showcase" aria-label="Showcase projects">
-<article class="project-card project-card-featured">
-<h2>AirScope</h2>
-<p>UAV-based spatial monitoring platform for construction, infrastructure, and industrial objects.</p>
+<article class="project-card project-card-featured featured-project">
+<h3>AirScope</h3>
+<p>UAV-based spatial monitoring platform for construction, infrastructure, industrial objects, and extended assets.</p>
 <dl>
 <dt>Role</dt>
 <dd>scientific and technical lead</dd>
-<dt>Technologies</dt>
-<dd>UAV data, photogrammetry, 3D models, point clouds, computer vision</dd>
+<dt>Focus</dt>
+<dd>UAV data, photogrammetry, 3D models, point clouds, computer vision, engineering analytics</dd>
+<dt>Result</dt>
+<dd>platform concept, product architecture, applied scenarios, software registration pipeline, and preparation for commercialization</dd>
 <dt>Module</dt>
 <dd><a href="https://airbim.org/" target="_blank" rel="noreferrer">AirBIM</a> for construction progress control, comparison of the actual object state with the design model, and analytical reporting</dd>
 </dl>
 <p>The AirScope track also includes the optimal flight mission module and tree species detection from UAV data.</p>
 </article>
 <article class="project-card">
-<h2>Siberiana</h2>
-<p>A fully operational digital platform for the historical and cultural heritage of Yenisei Siberia.</p>
+<h3>Siberiana</h3>
+<p>Digital cultural heritage platform for the Angara-Yenisei region.</p>
 <dl>
 <dt>Role</dt>
 <dd>project lead</dd>
 <dt>Website</dt>
 <dd><a href="https://siberiana.online/" target="_blank" rel="noreferrer">siberiana.online</a></dd>
+<dt>Focus</dt>
+<dd>heterogeneous cultural heritage data, GIS, 3D models, digital archives, visualization, and platform architecture</dd>
 <dt>Result</dt>
-<dd>a platform with storage, management, intelligent processing, visualization, GIS, and 3D model viewing modules; registered Siberiana software, certificate No. 2023615453 dated 07 Apr 2023</dd>
+<dd>working digital platform and registered software system, certificate No. 2023615453 dated 07 Apr 2023</dd>
 </dl>
 </article>
 </section>
@@ -64,7 +70,7 @@ A simulation of distributed computing system control with carbon-footprint reduc
 
 Portfolio signal: optimization, time-varying matrix problems, distributed dynamic computing systems, and sustainability-oriented computing.
 
-## Additional Project Tracks
+## Additional Project Directions
 
 ### UAS, Computer Vision, and Spatial Data
 

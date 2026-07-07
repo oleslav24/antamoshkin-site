@@ -2,7 +2,9 @@
 
 ## Email
 
-[oleslav@mail.ru](mailto:oleslav@mail.ru)
+Primary: [contact@oleslav.com](mailto:contact@oleslav.com)
+
+Personal alias: [antamoshkin@oleslav.com](mailto:antamoshkin@oleslav.com)
 
 ## Public Profiles
 

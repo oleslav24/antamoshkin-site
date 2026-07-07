@@ -1,10 +1,12 @@
 # Oleslav Antamoshkin
 
-Software Engineering, AI Systems, and Applied R&D.
+Software Engineering · AI Systems · Applied R&D
 
-Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.
+<p class="hero-roles">Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries.</p>
 
-[Selected projects](projects.html) [Publications](publications.html) [Contact](contacts.html)
+<p class="hero-summary">I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
+
+<p class="hero-actions"><a href="projects.html">Selected projects</a><a href="publications.html">Publications</a><a href="contacts.html">Contact</a></p>
 
 <section class="profile-anchor" aria-label="Current roles">
 <div class="profile-monogram" aria-hidden="true">OA</div>
@@ -49,7 +51,7 @@ Doctor of Engineering Sciences; Head of the Software Engineering Department, Sib
 
 ## Public Links
 
-- [Email](mailto:oleslav@mail.ru)
+- [Email](mailto:contact@oleslav.com)
 - [GitHub oleslav24](https://github.com/oleslav24)
 - [ORCID](https://orcid.org/0000-0002-5976-5847)
 - [ResearchGate](https://www.researchgate.net/profile/Oleslav-Antamoshkin)

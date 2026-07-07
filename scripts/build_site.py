@@ -12,7 +12,7 @@ CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshkin - GOST.md"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
-SITE_URL = "https://antamoshkin-site.pages.dev"
+SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
 
 PAGES = [
@@ -186,6 +186,25 @@ def page_href(slug: str) -> str:
 def site_url(path: str = "") -> str:
     suffix = path.strip("/")
     return SITE_URL if not suffix else f"{SITE_URL}/{suffix}"
+
+
+def alternate_links(slug: str | None = None) -> str:
+    if slug is None:
+        targets = [
+            ("en", page_path("en", "index")),
+            ("ru", page_path("ru", "index")),
+            ("x-default", ""),
+        ]
+    else:
+        targets = [
+            ("en", page_path("en", slug)),
+            ("ru", page_path("ru", slug)),
+            ("x-default", ""),
+        ]
+    return "\n".join(
+        f'  <link rel="alternate" hreflang="{hreflang}" href="{html.escape(site_url(path), quote=True)}">'
+        for hreflang, path in targets
+    )
 
 
 def page_path(lang: str, slug: str) -> str:
@@ -597,6 +616,9 @@ def load_publications() -> list[dict[str, str]]:
     publications: list[dict[str, str]] = []
     section = ""
 
+    if not BIBLIOGRAPHY_SOURCE.exists():
+        return publications
+
     for raw_line in BIBLIOGRAPHY_SOURCE.read_text(encoding="utf-8").splitlines():
         line = raw_line.strip()
         heading = re.match(r"^##\s+(.+)$", line)
@@ -889,6 +911,9 @@ def pdf_font_path() -> Path | None:
 
 
 def build_publication_pdf_exports() -> None:
+    if not BIBLIOGRAPHY_SOURCE.exists():
+        return
+
     try:
         from reportlab.lib import colors
         from reportlab.lib.pagesizes import A4
@@ -1003,7 +1028,9 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
   <meta name="description" content="{html.escape(description)}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{html.escape(url, quote=True)}">
-  <meta property="og:type" content="article">
+{alternate_links(slug)}
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
   <meta property="og:locale" content="{og_locale}">
   <meta property="og:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
   <meta property="og:description" content="{html.escape(description)}">
@@ -1104,7 +1131,9 @@ def render_root() -> str:
   <meta name="description" content="{description}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{url}">
-  <meta property="og:type" content="article">
+{alternate}
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Oleslav Antamoshkin">
   <meta property="og:description" content="{description}">
@@ -1140,8 +1169,9 @@ def render_root() -> str:
       </ol>
     </nav>
     <h1>Oleslav Antamoshkin</h1>
-    <p>Software engineering, AI systems, and applied R&D.</p>
-    <p>Head of the Software Engineering Department at Siberian Federal University. I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, and digital platforms.</p>
+    <p>Software Engineering · AI Systems · Applied R&D</p>
+    <p>Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries.</p>
+    <p>I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
     <div class="gate-links" aria-label="Language selection and key sections">
       <a href="ru/index.html">Русская версия</a>
       <a href="en/index.html">English version</a>
@@ -1159,13 +1189,14 @@ def render_root() -> str:
         description=html.escape(description),
         url=html.escape(site_url(), quote=True),
         image=html.escape(site_url(OG_IMAGE), quote=True),
+        alternate=alternate_links(),
         json_ld=root_json_ld(),
     )
 
 
 def render_sitemap() -> str:
     urls = [("", "1.0")]
-    for lang in LANG_META:
+    for lang in ("en", "ru"):
         for slug, _labels in PAGES:
             urls.append((page_path(lang, slug), "0.8" if slug != "index" else "0.9"))
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -1183,7 +1214,17 @@ def render_sitemap() -> str:
 def render_robots() -> str:
     return f"""User-agent: *
 Allow: /
+
 Sitemap: {site_url("sitemap.xml")}
+"""
+
+
+def render_favicon() -> str:
+    return """<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Oleslav Antamoshkin</title>
+  <rect width="64" height="64" fill="#111111"/>
+  <text x="32" y="40" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="middle">OA</text>
+</svg>
 """
 
 
@@ -1202,14 +1243,74 @@ def render_og_image() -> str:
 """
 
 
+def render_404() -> str:
+    description = "Page not found. Choose the Russian or English version of the personal profile site."
+    return """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found | Oleslav Antamoshkin</title>
+  <meta name="description" content="{description}">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="{url}">
+{alternate}
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html" aria-label="Oleslav Antamoshkin">OA</a>
+      <span>Software engineering · AI · distributed systems</span>
+    </div>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="ru/index.html">Главная</a>
+      <a href="en/index.html">Home</a>
+      <a href="ru/projects.html">Проекты</a>
+      <a href="en/publications.html">Publications</a>
+      <a href="en/contacts.html">Contact</a>
+    </nav>
+  </header>
+  <main id="content" class="content page-404">
+    <h1>Page not found</h1>
+    <p>The requested page is unavailable. Use one of the links below to return to the site.</p>
+    <div class="gate-links" aria-label="Site sections">
+      <a href="ru/index.html">Русская версия</a>
+      <a href="en/index.html">English version</a>
+      <a href="ru/contacts.html">Контакты</a>
+      <a href="en/contacts.html">Contact</a>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&D profile</span>
+  </footer>
+</body>
+</html>
+""".format(
+        description=html.escape(description),
+        url=html.escape(site_url("404.html"), quote=True),
+        alternate=alternate_links(),
+    )
+
+
 def build() -> None:
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     (PUBLIC_DIR / "ru").mkdir(exist_ok=True)
     (PUBLIC_DIR / "en").mkdir(exist_ok=True)
+    bibliography_available = BIBLIOGRAPHY_SOURCE.exists()
 
     for lang in LANG_META:
         for slug, labels in PAGES:
+            destination = PUBLIC_DIR / lang / page_href(slug)
             if slug == "publications":
+                if not bibliography_available and destination.exists():
+                    print(
+                        f"Warning: bibliography source not found at {BIBLIOGRAPHY_SOURCE}; "
+                        f"preserving {destination}."
+                    )
+                    continue
                 title = labels[lang]
                 body = render_publications_page(lang)
             else:
@@ -1217,13 +1318,14 @@ def build() -> None:
                 markdown = source.read_text(encoding="utf-8")
                 title = first_heading(markdown, labels[lang])
                 body = markdown_to_html(markdown)
-            destination = PUBLIC_DIR / lang / page_href(slug)
             destination.write_text(render_page(lang, slug, title, body), encoding="utf-8")
 
     (PUBLIC_DIR / "index.html").write_text(render_root(), encoding="utf-8")
     (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(), encoding="utf-8")
     (PUBLIC_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
+    (PUBLIC_DIR / "favicon.svg").write_text(render_favicon(), encoding="utf-8")
     (PUBLIC_DIR / OG_IMAGE).write_text(render_og_image(), encoding="utf-8")
+    (PUBLIC_DIR / "404.html").write_text(render_404(), encoding="utf-8")
     build_publication_pdf_exports()
 
 

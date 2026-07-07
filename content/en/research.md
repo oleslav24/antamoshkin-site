@@ -24,7 +24,7 @@ Metrics are dynamic. The values below come from the project profile note and wer
 
 ## Publications
 
-The full bibliography is available on the separate [Publications](publications.html) page. It includes every item from the local project bibliography and provides citation views.
+The full bibliography is available on the separate [Publications](publications.html) page, with selected works, recent publications, citation formats, and PDF versions.
 
 ## Dissertations
 
