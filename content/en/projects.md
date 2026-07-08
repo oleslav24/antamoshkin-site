@@ -38,6 +38,14 @@ A compact portfolio of applied platforms, research engineering repositories, and
 
 ## Research Engineering Repositories
 
+### AutoTinyCV
+
+[Repository](https://github.com/oleslav24/autotinycv)
+
+A resource-aware experimental framework for selecting, fine-tuning, profiling, compressing, and ranking computer vision models for edge deployment. The current milestone focuses on YAML-driven classification experiments for AID aerial scene data, torchvision model candidates, FP32 fine-tuning, checkpoint profiling, result traceability, hard-constraint filtering, Pareto analysis, and weighted ranking.
+
+Portfolio signal: edge AI, computer vision, reproducible experimental protocols, deployment constraints, and decision support for choosing practical models rather than only the most accurate architecture.
+
 ### Adaptive-control-of-heterogeneous-distributed-computing-systems
 
 [Repository](https://github.com/oleslav24/Adaptive-control-of-heterogeneous-distributed-computing-systems)
