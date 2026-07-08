@@ -1033,6 +1033,7 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
     json_ld = page_json_ld(lang, slug, title, description)
     page_title = HOMEPAGE_TITLES[lang] if slug == "index" else f"{title} | {meta['site']}"
     escaped_page_title = html.escape(page_title)
+    nav_label = "Основная навигация" if lang == "ru" else "Primary navigation"
     return f"""<!doctype html>
 <html lang="{meta["html_lang"]}">
 <head>
@@ -1064,7 +1065,7 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
       <a href="index.html" aria-label="{html.escape(meta["site"])}">OA</a>
       <span>{html.escape(meta["role"])}</span>
     </div>
-    <nav class="site-nav" aria-label="Primary navigation">
+    <nav class="site-nav" aria-label="{html.escape(nav_label)}">
       {nav}
     </nav>
     <a class="language-link" href="{other_href}">{LANG_META[other]["name"]}</a>
