@@ -40,4 +40,4 @@ Between 2010 and 2025, 58 professional development programs were completed. The 
 
 ## Beyond work
 
-I am interested in mountain sports, music, and travel. I have long-standing experience in alpine skiing and snowboarding, occasionally practice kayaking, and play guitar. These activities help me maintain personal balance, attention, discipline, and improvisational thinking.
+I am interested in mountain sports, music, and travel. I have long-standing experience in alpine skiing and snowboarding, occasionally practice kayaking, play guitar, and sing a little. These activities help me maintain personal balance, attention, discipline, and improvisational thinking.
