@@ -9,7 +9,6 @@
 <p class="hero-actions"><a href="projects.html">Проекты</a><a href="publications.html">Публикации</a><a href="contacts.html">Контакты</a></p>
 
 <section class="profile-anchor" aria-label="Текущие роли">
-<div class="profile-monogram" aria-hidden="true">ОА</div>
 <div class="profile-anchor-text">
 <p class="section-kicker">Текущие роли</p>
 <ul class="compact-role-list">
@@ -18,6 +17,7 @@
 <li>Научно-технический лидер AirScope и руководитель платформы «Сибириана».</li>
 </ul>
 </div>
+<img class="profile-photo" src="../assets/profile-portrait-bw-site.webp" alt="Олеслав Антамошкин" width="960" height="960" loading="eager" decoding="async">
 </section>
 
 ## Ключевые направления

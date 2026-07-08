@@ -217,7 +217,7 @@ a:hover {
 .profile-anchor {
   border: 1px solid var(--text);
   display: grid;
-  grid-template-columns: minmax(9rem, 13rem) 1fr;
+  grid-template-columns: 1fr minmax(10rem, 14rem);
   margin: 0 0 3rem;
   min-height: 12rem;
 }
@@ -232,6 +232,15 @@ a:hover {
   justify-content: center;
   line-height: 1;
   min-height: 12rem;
+}
+
+.profile-photo {
+  display: block;
+  height: 100%;
+  min-height: 12rem;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
 }
 
 .profile-anchor-text {
@@ -697,6 +706,10 @@ th {
 
   .profile-monogram {
     min-height: 8rem;
+  }
+
+  .profile-photo {
+    min-height: 14rem;
   }
 
   .direction-grid {
