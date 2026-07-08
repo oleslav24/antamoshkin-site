@@ -215,11 +215,11 @@ a:hover {
 }
 
 .profile-anchor {
+  align-items: start;
   border: 1px solid var(--text);
   display: grid;
-  grid-template-columns: 1fr minmax(10rem, 14rem);
+  grid-template-columns: minmax(0, 1fr) auto;
   margin: 0 0 3rem;
-  min-height: 12rem;
 }
 
 .profile-monogram {
@@ -235,12 +235,13 @@ a:hover {
 }
 
 .profile-photo {
+  aspect-ratio: 1 / 1;
   display: block;
-  height: 100%;
-  min-height: 12rem;
+  height: auto;
+  justify-self: end;
   object-fit: cover;
   object-position: center;
-  width: 100%;
+  width: clamp(8.5rem, 16vw, 11rem);
 }
 
 .profile-anchor-text {
@@ -709,7 +710,8 @@ th {
   }
 
   .profile-photo {
-    min-height: 14rem;
+    justify-self: start;
+    width: min(8rem, 42vw);
   }
 
   .direction-grid {
