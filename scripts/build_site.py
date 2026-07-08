@@ -1119,15 +1119,15 @@ def root_json_ld() -> str:
 
 def render_root() -> str:
     description = (
-        "Oleslav Antamoshkin: software engineering, AI systems, "
-        "distributed computing, UAV monitoring, and applied R&D."
+        "Олеслав Антамошкин: программная инженерия, ИИ-системы, "
+        "распределённые вычисления, мониторинг по данным БАС и прикладные НИОКР."
     )
     return """<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Oleslav Antamoshkin</title>
+  <title>Олеслав Александрович Антамошкин</title>
   <meta name="description" content="{description}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{url}">
@@ -1135,53 +1135,52 @@ def render_root() -> str:
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="Oleslav Antamoshkin">
+  <meta property="og:title" content="Олеслав Александрович Антамошкин">
   <meta property="og:description" content="{description}">
   <meta property="og:url" content="{url}">
   <meta property="og:image" content="{image}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Oleslav Antamoshkin">
+  <meta name="twitter:title" content="Олеслав Александрович Антамошкин">
   <meta name="twitter:description" content="{description}">
   <meta name="twitter:image" content="{image}">
   <link rel="stylesheet" href="styles.css">
   {json_ld}
 </head>
 <body>
-  <a class="skip-link" href="#content">К содержанию / Skip to content</a>
+  <a class="skip-link" href="#content">К содержанию</a>
   <header class="site-header">
     <div class="brand">
-      <a href="index.html" aria-label="Oleslav Antamoshkin" aria-current="page">OA</a>
-      <span>Software engineering · AI · distributed systems</span>
+      <a href="index.html" aria-label="Олеслав Антамошкин" aria-current="page">ОА</a>
+      <span>Программная инженерия · ИИ · распределённые системы</span>
     </div>
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="index.html" aria-current="page">Start</a>
-      <a href="ru/index.html">Главная</a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a class="active" href="index.html" aria-current="page">Главная</a>
       <a href="ru/projects.html">Проекты</a>
+      <a href="ru/research.html">Исследования</a>
       <a href="ru/publications.html">Публикации</a>
+      <a href="ru/experience.html">Роли</a>
       <a href="ru/contacts.html">Контакты</a>
     </nav>
     <a class="language-link" href="en/index.html">EN</a>
   </header>
   <main id="content" class="content page-root">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
       <ol>
-        <li aria-current="page">Oleslav Antamoshkin</li>
+        <li aria-current="page">Профиль</li>
       </ol>
     </nav>
-    <h1>Oleslav Antamoshkin</h1>
-    <p>Software Engineering · AI Systems · Applied R&D</p>
-    <p>Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries.</p>
-    <p>I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
-    <div class="gate-links" aria-label="Language selection and key sections">
-      <a href="ru/index.html">Русская версия</a>
-      <a href="en/index.html">English version</a>
+    <h1>Олеслав Александрович Антамошкин</h1>
+    <p>Программная инженерия · ИИ-системы · прикладные НИОКР</p>
+    <p>Доктор технических наук; заведующий кафедрой программной инженерии ИКИТ Сибирского федерального университета; профессор кафедры информационных технологий в креативных и культурных индустриях ГИ СФУ.</p>
+    <p>Руковожу исследовательскими и инженерными проектами в области распределённых систем, компьютерного зрения, мониторинга на основе данных БАС, цифровых платформ и ИИ-инструментов для программной инженерии.</p>
+    <div class="gate-links" aria-label="Основные разделы">
       <a href="ru/projects.html">Проекты</a>
       <a href="ru/publications.html">Публикации</a>
       <a href="ru/contacts.html">Контакты</a>
     </div>
   </main>
   <footer class="site-footer">
-    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&D profile</span>
+    <span>© 2026 Олеслав Антамошкин · Персональный академический и научно-технический профиль</span>
   </footer>
 </body>
 </html>
