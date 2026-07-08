@@ -42,5 +42,6 @@ Between 2010 and 2025, 58 professional development programs were completed. The 
 
 - Siberian history and cultural heritage.
 - Travel, routes, and field observation across the region.
+- Outdoor and action sports: alpine skiing and freeride, snowboarding, ice skating, kayaking, windsurfing, cycling, inline skating, and longboarding.
 - Maps, spatial data, visual materials, and digital archives.
 - Experimenting with new digital tools for research and engineering tasks.
