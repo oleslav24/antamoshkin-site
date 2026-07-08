@@ -16,6 +16,11 @@ SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
 ASSET_VERSION = "20260708-portrait-size"
 
+HOMEPAGE_TITLES = {
+    "en": "Oleslav Antamoshkin — Software Engineering, AI Systems, Applied R&D",
+    "ru": "Олеслав Антамошкин — программная инженерия, ИИ-системы, прикладные НИОКР",
+}
+
 PAGES = [
     ("index", {"ru": "Главная", "en": "Home"}),
     ("projects", {"ru": "Проекты", "en": "Projects"}),
@@ -272,6 +277,8 @@ def breadcrumb_json_ld(lang: str, slug: str, title: str) -> dict[str, object]:
 def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
     page_url = site_url(page_path(lang, slug))
     language = LANG_META[lang]["html_lang"]
+    page_type = "ProfilePage" if slug == "index" else "WebPage"
+    page_id_suffix = "profile" if slug == "index" else "webpage"
     data = {
         "@context": "https://schema.org",
         "@graph": [
@@ -296,8 +303,8 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                 "inLanguage": language,
             },
             {
-                "@type": "Article",
-                "@id": f"{page_url}#article",
+                "@type": page_type,
+                "@id": f"{page_url}#{page_id_suffix}",
                 "headline": title,
                 "description": description,
                 "author": {"@id": site_url("#person")},
@@ -1024,12 +1031,14 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
     og_locale = "ru_RU" if lang == "ru" else "en_US"
     breadcrumbs = render_breadcrumbs(lang, slug, title)
     json_ld = page_json_ld(lang, slug, title, description)
+    page_title = HOMEPAGE_TITLES[lang] if slug == "index" else f"{title} | {meta['site']}"
+    escaped_page_title = html.escape(page_title)
     return f"""<!doctype html>
 <html lang="{meta["html_lang"]}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{html.escape(title)} | {html.escape(meta["site"])}</title>
+  <title>{escaped_page_title}</title>
   <meta name="description" content="{html.escape(description)}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{html.escape(url, quote=True)}">
@@ -1037,12 +1046,12 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="{og_locale}">
-  <meta property="og:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
+  <meta property="og:title" content="{escaped_page_title}">
   <meta property="og:description" content="{html.escape(description)}">
   <meta property="og:url" content="{html.escape(url, quote=True)}">
   <meta property="og:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
+  <meta name="twitter:title" content="{escaped_page_title}">
   <meta name="twitter:description" content="{html.escape(description)}">
   <meta name="twitter:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
   <link rel="stylesheet" href="{html.escape(versioned_asset("../styles.css"), quote=True)}">
@@ -1097,8 +1106,8 @@ def root_json_ld() -> str:
                 "inLanguage": ["ru", "en"],
             },
             {
-                "@type": "Article",
-                "@id": site_url("#article"),
+                "@type": "ProfilePage",
+                "@id": site_url("#profile"),
                 "headline": "Oleslav Antamoshkin",
                 "description": "Personal academic and applied R&D profile of Oleslav Antamoshkin.",
                 "author": {"@id": site_url("#person")},
