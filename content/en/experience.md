@@ -37,3 +37,10 @@ In the Siberiana and AirScope projects, he coordinated Siberian Federal Universi
 ## Professional Development
 
 Between 2010 and 2025, 58 professional development programs were completed. The main areas were software engineering, artificial intelligence, digital education technologies, project management, information security, and digital humanities practices.
+
+## Personal Interests
+
+- Siberian history and cultural heritage.
+- Travel, routes, and field observation across the region.
+- Maps, spatial data, visual materials, and digital archives.
+- Experimenting with new digital tools for research and engineering tasks.
