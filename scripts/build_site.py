@@ -14,6 +14,7 @@ BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshk
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
+ASSET_VERSION = "20260708-portrait-size"
 
 PAGES = [
     ("index", {"ru": "Главная", "en": "Home"}),
@@ -186,6 +187,10 @@ def page_href(slug: str) -> str:
 def site_url(path: str = "") -> str:
     suffix = path.strip("/")
     return SITE_URL if not suffix else f"{SITE_URL}/{suffix}"
+
+
+def versioned_asset(path: str) -> str:
+    return f"{path}?v={ASSET_VERSION}"
 
 
 def alternate_links(slug: str | None = None) -> str:
@@ -1040,7 +1045,7 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
   <meta name="twitter:title" content="{html.escape(title)} | {html.escape(meta["site"])}">
   <meta name="twitter:description" content="{html.escape(description)}">
   <meta name="twitter:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="{html.escape(versioned_asset("../styles.css"), quote=True)}">
   {json_ld}
 </head>
 <body>
@@ -1143,7 +1148,7 @@ def render_root() -> str:
   <meta name="twitter:title" content="Олеслав Александрович Антамошкин">
   <meta name="twitter:description" content="{description}">
   <meta name="twitter:image" content="{image}">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{stylesheet}">
   {json_ld}
 </head>
 <body>
@@ -1201,6 +1206,7 @@ def render_root() -> str:
         image=html.escape(site_url(OG_IMAGE), quote=True),
         alternate=alternate_links(),
         json_ld=root_json_ld(),
+        stylesheet=html.escape(versioned_asset("styles.css"), quote=True),
     )
 
 
@@ -1266,7 +1272,7 @@ def render_404() -> str:
   <link rel="canonical" href="{url}">
 {alternate}
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{stylesheet}">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -1302,6 +1308,7 @@ def render_404() -> str:
         description=html.escape(description),
         url=html.escape(site_url("404.html"), quote=True),
         alternate=alternate_links(),
+        stylesheet=html.escape(versioned_asset("styles.css"), quote=True),
     )
 
 
