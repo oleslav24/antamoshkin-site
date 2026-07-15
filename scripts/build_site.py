@@ -57,16 +57,16 @@ SELECTED_PUBLICATION_NUMBERS = [
 
 PUBLICATION_BADGES = {
     "186": {
-        "ru": ["Scientific Reports", "Q1", "БАС", "компьютерное зрение"],
-        "en": ["Scientific Reports", "Q1", "UAV", "computer vision"],
+        "ru": ["Scientific Reports", "Scopus Q1", "БАС", "компьютерное зрение"],
+        "en": ["Scientific Reports", "Scopus Q1", "UAV", "computer vision"],
     },
     "70": {
         "ru": ["распределённые системы", "моделирование"],
         "en": ["distributed systems", "simulation"],
     },
     "80": {
-        "ru": ["Q2", "SJR 2025: 0.233", "городская оценка"],
-        "en": ["Q2", "SJR 2025: 0.233", "city evaluation"],
+        "ru": ["Scopus Q2", "SJR 2025: 0.233", "городская оценка"],
+        "en": ["Scopus Q2", "SJR 2025: 0.233", "city evaluation"],
     },
     "99": {
         "ru": ["распределённые системы", "нейросетевое управление"],
@@ -77,8 +77,8 @@ PUBLICATION_BADGES = {
         "en": ["distributed computing", "modeling"],
     },
     "101": {
-        "ru": ["Q2", "SJR 0.40+", "горная промышленность"],
-        "en": ["Q2", "SJR 0.40+", "mining"],
+        "ru": ["Scopus Q2", "SJR 0.40+", "горная промышленность"],
+        "en": ["Scopus Q2", "SJR 0.40+", "mining"],
     },
     "102": {
         "ru": ["БАС", "YOLO", "компьютерное зрение"],
@@ -101,28 +101,28 @@ PUBLICATION_BADGES = {
         "en": ["on-board AI", "object detection"],
     },
     "113": {
-        "ru": ["MDPI", "WEVJ", "энергетика", "электротранспорт"],
-        "en": ["MDPI", "WEVJ", "energy systems", "electric transport"],
+        "ru": ["MDPI", "WEVJ", "Scopus Q2", "энергетика", "электротранспорт"],
+        "en": ["MDPI", "WEVJ", "Scopus Q2", "energy systems", "electric transport"],
     },
     "114": {
-        "ru": ["MDPI", "WEVJ", "зарядка электромобилей", "моделирование"],
-        "en": ["MDPI", "WEVJ", "EV charging", "simulation"],
+        "ru": ["MDPI", "WEVJ", "Scopus Q2", "зарядка электромобилей", "моделирование"],
+        "en": ["MDPI", "WEVJ", "Scopus Q2", "EV charging", "simulation"],
     },
     "119": {
         "ru": ["БАС", "обработка данных"],
         "en": ["UAV", "data processing"],
     },
     "121": {
-        "ru": ["Q3", "SJR 0.272-0.322", "биомасса"],
-        "en": ["Q3", "SJR 0.272-0.322", "biomass"],
+        "ru": ["Scopus Q3", "SJR 0.272-0.322", "биомасса"],
+        "en": ["Scopus Q3", "SJR 0.272-0.322", "biomass"],
     },
     "122": {
-        "ru": ["Q3", "SJR 0.34-0.38", "машинное обучение"],
-        "en": ["Q3", "SJR 0.34-0.38", "machine learning"],
+        "ru": ["Scopus Q3", "SJR 0.34-0.38", "машинное обучение"],
+        "en": ["Scopus Q3", "SJR 0.34-0.38", "machine learning"],
     },
     "127": {
-        "ru": ["Q1", "SJR 0.626", "устойчивое развитие"],
-        "en": ["Q1", "SJR 0.626", "sustainable development"],
+        "ru": ["Scopus Q1", "SJR 0.626", "устойчивое развитие"],
+        "en": ["Scopus Q1", "SJR 0.626", "sustainable development"],
     },
     "133": {
         "ru": ["AISEI 2026", "роботизированная сборка"],
@@ -132,6 +132,16 @@ PUBLICATION_BADGES = {
         "ru": ["AISEI 2026", "периферийный ИИ", "обнаружение отказов"],
         "en": ["AISEI 2026", "Edge AI", "fault detection"],
     },
+}
+
+PUBLICATION_ENGLISH_AUTHORS = {
+    "101": "Antamoshkin O. A., Panfilov I. A., Fedorova N. V., Deryugin F. F., Byankin V. E.",
+    "106": "Antamoshkin O. A., Somov A. K., Bryukhanova E. R., Pleshkova T. S.",
+    "113": "Antamoshkin O. A., Malozyomov B. V., Martyushev N. V., Konyukhov V. Yu., Matienko O. I., Kukartsev V. V., Karlina Y. I.",
+    "114": "Antamoshkin O. A., Khekert E. V., Malozyomov B. V., Klyuev R. V., Martyushev N. V., Konyukhov V. Yu., Kukartsev V. V., Remezov I. S.",
+    "119": "Antamoshkin O. A., Gulyutin N. N., Ermienko N. A., Kretinin V. V., Trukhanov E. V.",
+    "121": "Antamoshkin O. A., Kuznetsova Y. S., Kadirov K. A., Sergeyeva N. V., Malykha E. F.",
+    "127": "Antamoshkin O. A., Samarina V. P., Samarin A. V., Dorofeev E. M.",
 }
 
 SECTION_LABELS = {
@@ -294,6 +304,7 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                 "alternateName": [
                     "Олеслав Александрович Антамошкин",
                     "Олеслав Антамошкин",
+                    "Антамошкин Олеслав",
                     "O. A. Antamoshkin",
                     "Antamoshkin Oleslav",
                 ],
@@ -704,8 +715,23 @@ def localize_own_name(value: str, lang: str) -> str:
     return value
 
 
+def localize_publication_text(
+    publication: dict[str, str], value: str, lang: str
+) -> str:
+    if lang == "en":
+        english_authors = PUBLICATION_ENGLISH_AUTHORS.get(publication["number"])
+        if english_authors:
+            source_authors = split_citation_parts(publication["gost"])["authors"]
+            value = value.replace(source_authors, english_authors)
+    return localize_own_name(value, lang)
+
+
 def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[str, str]:
     parts = split_citation_parts(publication["gost"])
+    if lang == "en":
+        english_authors = PUBLICATION_ENGLISH_AUTHORS.get(publication["number"])
+        if english_authors:
+            parts["authors"] = english_authors
     return {
         key: localize_own_name(value, lang)
         for key, value in parts.items()
@@ -716,7 +742,7 @@ def render_publication_citations(publication: dict[str, str], lang: str) -> list
     citations = publication["citations"]
     parts = []
     for style, _labels in CITATION_STYLES:
-        citation = localize_own_name(citations[style], lang)
+        citation = localize_publication_text(publication, citations[style], lang)
         if style == "bibtex":
             parts.append(
                 f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
@@ -1165,6 +1191,7 @@ def root_json_ld() -> str:
                 "alternateName": [
                     "Олеслав Александрович Антамошкин",
                     "Олеслав Антамошкин",
+                    "Антамошкин Олеслав",
                     "O. A. Antamoshkin",
                     "Antamoshkin Oleslav",
                 ],
