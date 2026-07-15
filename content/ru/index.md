@@ -6,6 +6,8 @@
 
 <p class="hero-summary">Руковожу исследовательскими и инженерными проектами в области распределённых систем, компьютерного зрения, мониторинга на основе данных БАС, цифровых платформ и ИИ-инструментов для программной инженерии.</p>
 
+<p class="name-variant">Английское написание имени: Oleslav Antamoshkin.</p>
+
 <p class="hero-actions"><a href="projects.html">Проекты</a><a href="publications.html">Публикации</a><a href="contacts.html">Контакты</a></p>
 
 <section class="profile-anchor" aria-label="Текущие роли">

@@ -42,6 +42,7 @@ CITATION_STYLES = [
 ]
 
 SELECTED_PUBLICATION_NUMBERS = [
+    "186",
     "127",
     "113",
     "114",
@@ -55,6 +56,10 @@ SELECTED_PUBLICATION_NUMBERS = [
 ]
 
 PUBLICATION_BADGES = {
+    "186": {
+        "ru": ["Scientific Reports", "Q1", "БАС", "компьютерное зрение"],
+        "en": ["Scientific Reports", "Q1", "UAV", "computer vision"],
+    },
     "70": {
         "ru": ["распределённые системы", "моделирование"],
         "en": ["distributed systems", "simulation"],
@@ -191,7 +196,7 @@ def page_href(slug: str) -> str:
 
 def site_url(path: str = "") -> str:
     suffix = path.strip("/")
-    return SITE_URL if not suffix else f"{SITE_URL}/{suffix}"
+    return f"{SITE_URL}/" if not suffix else f"{SITE_URL}/{suffix}"
 
 
 def versioned_asset(path: str) -> str:
@@ -286,7 +291,12 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                 "@type": "Person",
                 "@id": site_url("#person"),
                 "name": "Oleslav Antamoshkin",
-                "alternateName": "Олеслав Александрович Антамошкин",
+                "alternateName": [
+                    "Олеслав Александрович Антамошкин",
+                    "Олеслав Антамошкин",
+                    "O. A. Antamoshkin",
+                    "Antamoshkin Oleslav",
+                ],
                 "url": site_url(),
                 "sameAs": [
                     "https://github.com/oleslav24",
@@ -1090,7 +1100,12 @@ def root_json_ld() -> str:
                 "@type": "Person",
                 "@id": site_url("#person"),
                 "name": "Oleslav Antamoshkin",
-                "alternateName": "Олеслав Александрович Антамошкин",
+                "alternateName": [
+                    "Олеслав Александрович Антамошкин",
+                    "Олеслав Антамошкин",
+                    "O. A. Antamoshkin",
+                    "Antamoshkin Oleslav",
+                ],
                 "url": site_url(),
                 "sameAs": [
                     "https://github.com/oleslav24",

@@ -6,6 +6,8 @@ Software Engineering · AI Systems · Applied R&D
 
 <p class="hero-summary">I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
 
+<p class="name-variant">Russian spelling: Олеслав Антамошкин.</p>
+
 <p class="hero-actions"><a href="projects.html">Selected projects</a><a href="publications.html">Publications</a><a href="contacts.html">Contact</a></p>
 
 <section class="profile-anchor" aria-label="Current roles">
