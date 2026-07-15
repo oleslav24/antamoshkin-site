@@ -195,6 +195,16 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "186": "en",
 }
 
+PUBLICATION_CANONICAL_PARTS = {
+    "106": {
+        "title": "Digital Platform of Yenisei Siberia “Siberiana”",
+        "details": (
+            "In: J. Sib. Fed. Univ. Humanit. Soc. Sci., 2024, 17(9), "
+            "1782–1789. EDN: RMZJPT."
+        ),
+    },
+}
+
 SECTION_LABELS = {
     "Научные работы": {
         "ru": "Научные работы",
@@ -653,8 +663,19 @@ def citation_key(publication: dict[str, str]) -> str:
     return f"antamoshkin{year}_{int(publication['number']):03d}"
 
 
-def make_citations(publication: dict[str, str]) -> dict[str, str]:
+def canonical_publication_citation(publication: dict[str, str]) -> str:
     citation = publication["gost"]
+    source_parts = split_citation_parts(citation)
+    canonical_parts = PUBLICATION_CANONICAL_PARTS.get(publication["number"], {})
+    for key, value in canonical_parts.items():
+        source_value = source_parts[key]
+        if source_value and source_value != value:
+            citation = citation.replace(source_value, value)
+    return citation
+
+
+def make_citations(publication: dict[str, str]) -> dict[str, str]:
+    citation = canonical_publication_citation(publication)
     parts = split_citation_parts(citation)
     authors = parts["authors"]
     authors_sentence = ensure_period(authors)
@@ -778,11 +799,14 @@ def publication_author_variant(publication: dict[str, str], lang: str) -> str | 
 def localize_publication_text(
     publication: dict[str, str], value: str, lang: str
 ) -> str:
-    localized_authors = publication_author_variant(publication, lang)
-    if localized_authors:
-        source_authors = split_citation_parts(publication["gost"])["authors"]
-        return value.replace(source_authors, localized_authors)
-    return localize_own_name(value, lang)
+    source_parts = split_citation_parts(publication["gost"])
+    localized_parts = localized_publication_parts(publication, lang)
+    for key in ("authors", "title", "details"):
+        source_value = source_parts[key]
+        localized_value = localized_parts[key]
+        if source_value and source_value != localized_value:
+            value = value.replace(source_value, localized_value)
+    return value
 
 
 def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[str, str]:
@@ -790,8 +814,12 @@ def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[
     localized_authors = publication_author_variant(publication, lang)
     if localized_authors:
         parts["authors"] = localized_authors
+    canonical_parts = PUBLICATION_CANONICAL_PARTS.get(publication["number"], {})
+    for key, value in canonical_parts.items():
+        parts[key] = value
     return {
-        key: value if key == "authors" and localized_authors else localize_own_name(value, lang)
+        key: value if key in canonical_parts or key == "authors" and localized_authors
+        else localize_own_name(value, lang)
         for key, value in parts.items()
     }
 
