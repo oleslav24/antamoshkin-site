@@ -48,7 +48,6 @@ SELECTED_PUBLICATION_NUMBERS = [
     "114",
     "101",
     "106",
-    "121",
     "80",
     "122",
     "119",
@@ -173,7 +172,11 @@ PUBLICATION_LOCALIZED_AUTHORS = {
     },
     "133": {
         "ru": "Антамошкин О. А., Красовская Л. В., Кукарцева О. И., Соловьёва Т. В., Супрун Е. В., Шиверская М.",
-        "en": "Antamoshkin O. A., Krasovskaya Lyudmila Vladimirovna, Kukartseva Oksana Igorevna, Solovyova Tatyana Vladimirovna, Suprun Elena Vladimirovna, Shiverskaia Mariia",
+        "en": "Antamoshkin O. A., Krasovskaya L. V., Kukartseva O. I., Solovyova T. V., Suprun E. V., Shiverskaia M.",
+    },
+    "134": {
+        "ru": "Антамошкин О. А., Панченко В., Ашмарин Д. Е., Алмазова Е., Кукарцева С. В., Бирюков П. А.",
+        "en": "Antamoshkin O. A., Panchenko V., Ashmarin D. E., Almazova E., Kukartseva S. V., Biryukov P. A.",
     },
     "186": {
         "ru": "Малашин В. Ю., Масич А. Ю., Тынченко В. С., Антамошкин О. А., Мартысюк Г. И., Нелюб А. И., Бородулин В. В., Гантимуров А.",
@@ -192,6 +195,7 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "122": "en",
     "127": "ru",
     "133": "en",
+    "134": "en",
     "186": "en",
 }
 
