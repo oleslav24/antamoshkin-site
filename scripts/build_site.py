@@ -134,14 +134,65 @@ PUBLICATION_BADGES = {
     },
 }
 
-PUBLICATION_ENGLISH_AUTHORS = {
-    "101": "Antamoshkin O. A., Panfilov I. A., Fedorova N. V., Deryugin F. F., Byankin V. E.",
-    "106": "Antamoshkin O. A., Somov A. K., Bryukhanova E. R., Pleshkova T. S.",
-    "113": "Antamoshkin O. A., Malozyomov B. V., Martyushev N. V., Konyukhov V. Yu., Matienko O. I., Kukartsev V. V., Karlina Y. I.",
-    "114": "Antamoshkin O. A., Khekert E. V., Malozyomov B. V., Klyuev R. V., Martyushev N. V., Konyukhov V. Yu., Kukartsev V. V., Remezov I. S.",
-    "119": "Antamoshkin O. A., Gulyutin N. N., Ermienko N. A., Kretinin V. V., Trukhanov E. V.",
-    "121": "Antamoshkin O. A., Kuznetsova Y. S., Kadirov K. A., Sergeyeva N. V., Malykha E. F.",
-    "127": "Antamoshkin O. A., Samarina V. P., Samarin A. V., Dorofeev E. M.",
+PUBLICATION_LOCALIZED_AUTHORS = {
+    "80": {
+        "ru": "Антамошкин О. А., Ступина А., Шагаева О., Ямалетдинов С., Кузьмич Р., Руига И.",
+        "en": "Antamoshkin O. A., Stupina A., Shagaeva O., Yamaletdinov S., Kuzmich R., Ruiga I.",
+    },
+    "101": {
+        "ru": "Антамошкин О. А., Панфилов И. А., Федорова Н. В., Дерюгин Ф. Ф., Бянкин В. Е.",
+        "en": "Antamoshkin O. A., Panfilov I. A., Fedorova N. V., Deryugin F. F., Byankin V. E.",
+    },
+    "106": {
+        "ru": "Антамошкин О. А., Сомов А. К., Брюханова Е. Р., Плешкова Т. С.",
+        "en": "Antamoshkin O. A., Somov A. K., Bryukhanova E. R., Pleshkova T. S.",
+    },
+    "113": {
+        "ru": "Антамошкин О. А., Малозёмов В. Б., Мартюшев Н. В., Конюхов В. Ю., Матиенко О. И., Кукарцев В. В., Карлина И. Ю.",
+        "en": "Antamoshkin O. A., Malozyomov B. V., Martyushev N. V., Konyukhov V. Yu., Matienko O. I., Kukartsev V. V., Karlina Y. I.",
+    },
+    "114": {
+        "ru": "Антамошкин О. А., Хекерт Е. В., Малозёмов В. Б., Клюев В. Р., Мартюшев Н. В., Конюхов В. Ю., Кукарцев В. В., Ремезов И. С.",
+        "en": "Antamoshkin O. A., Khekert E. V., Malozyomov B. V., Klyuev R. V., Martyushev N. V., Konyukhov V. Yu., Kukartsev V. V., Remezov I. S.",
+    },
+    "119": {
+        "ru": "Антамошкин О. А., Гулютин Н. Н., Ермиенко Н. А., Кретинин В. В., Труханов Е. В.",
+        "en": "Antamoshkin O. A., Gulyutin N. N., Ermienko N. A., Kretinin V. V., Trukhanov E. V.",
+    },
+    "121": {
+        "ru": "Антамошкин О. А., Кузнецова Ю. С., Кадиров К. А., Сергеева Н. В., Малыха Е. Ф.",
+        "en": "Antamoshkin O. A., Kuznetsova Y. S., Kadirov K. A., Sergeyeva N. V., Malykha E. F.",
+    },
+    "122": {
+        "ru": "Антамошкин О. А., Красовская Л. В., Тынченко В. С., Пчелинцева С. В., Никаноров М. С.",
+        "en": "Antamoshkin O. A., Krasovskaya L. V., Tynchenko V. S., Pchelintseva S. V., Nikanorov M. S.",
+    },
+    "127": {
+        "ru": "Антамошкин О. А., Самарина В. П., Самарин А. В., Дорофеев Е. М.",
+        "en": "Antamoshkin O. A., Samarina V. P., Samarin A. V., Dorofeev E. M.",
+    },
+    "133": {
+        "ru": "Антамошкин О. А., Красовская Л. В., Кукарцева О. И., Соловьёва Т. В., Супрун Е. В., Шиверская М.",
+        "en": "Antamoshkin O. A., Krasovskaya Lyudmila Vladimirovna, Kukartseva Oksana Igorevna, Solovyova Tatyana Vladimirovna, Suprun Elena Vladimirovna, Shiverskaia Mariia",
+    },
+    "186": {
+        "ru": "Малашин В. Ю., Масич А. Ю., Тынченко В. С., Антамошкин О. А., Мартысюк Г. И., Нелюб А. И., Бородулин В. В., Гантимуров А.",
+        "en": "Malashin V. Yu., Masich A. Yu., Tynchenko V. S., Antamoshkin O. A., Martysyuk G. I., Nelyub A. I., Borodulin V. V., Gantimurov A.",
+    },
+}
+
+PUBLICATION_AUTHOR_LANGUAGE = {
+    "80": "en",
+    "101": "ru",
+    "106": "en",
+    "113": "en",
+    "114": "en",
+    "119": "ru",
+    "121": "en",
+    "122": "en",
+    "127": "ru",
+    "133": "en",
+    "186": "en",
 }
 
 SECTION_LABELS = {
@@ -715,25 +766,32 @@ def localize_own_name(value: str, lang: str) -> str:
     return value
 
 
+def publication_author_variant(publication: dict[str, str], lang: str) -> str | None:
+    author_lang = "en" if lang == "en" else PUBLICATION_AUTHOR_LANGUAGE.get(
+        publication["number"], "ru"
+    )
+    if not author_lang:
+        return None
+    return PUBLICATION_LOCALIZED_AUTHORS.get(publication["number"], {}).get(author_lang)
+
+
 def localize_publication_text(
     publication: dict[str, str], value: str, lang: str
 ) -> str:
-    if lang == "en":
-        english_authors = PUBLICATION_ENGLISH_AUTHORS.get(publication["number"])
-        if english_authors:
-            source_authors = split_citation_parts(publication["gost"])["authors"]
-            value = value.replace(source_authors, english_authors)
+    localized_authors = publication_author_variant(publication, lang)
+    if localized_authors:
+        source_authors = split_citation_parts(publication["gost"])["authors"]
+        return value.replace(source_authors, localized_authors)
     return localize_own_name(value, lang)
 
 
 def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[str, str]:
     parts = split_citation_parts(publication["gost"])
-    if lang == "en":
-        english_authors = PUBLICATION_ENGLISH_AUTHORS.get(publication["number"])
-        if english_authors:
-            parts["authors"] = english_authors
+    localized_authors = publication_author_variant(publication, lang)
+    if localized_authors:
+        parts["authors"] = localized_authors
     return {
-        key: localize_own_name(value, lang)
+        key: value if key == "authors" and localized_authors else localize_own_name(value, lang)
         for key, value in parts.items()
     }
 
