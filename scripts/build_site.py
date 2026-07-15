@@ -14,7 +14,7 @@ BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshk
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
-ASSET_VERSION = "20260708-portrait-size"
+ASSET_VERSION = "20260715-name-variant"
 
 HOMEPAGE_TITLES = {
     "en": "Oleslav Antamoshkin — Software Engineering, AI Systems, Applied R&D",
@@ -688,13 +688,54 @@ def publication_tags(publication: dict[str, str], lang: str) -> list[str]:
     return tags.get(lang, [])
 
 
+def localize_own_name(value: str, lang: str) -> str:
+    if lang == "en":
+        replacements = (
+            ("Антамошкин О. А.", "Antamoshkin O. A."),
+            ("Антамошкин, О. А.", "Antamoshkin O. A."),
+        )
+    else:
+        replacements = (
+            ("Antamoshkin O. A.", "Антамошкин О. А."),
+            ("Antamoshkin, O. A.", "Антамошкин О. А."),
+        )
+    for source, target in replacements:
+        value = value.replace(source, target)
+    return value
+
+
+def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[str, str]:
+    parts = split_citation_parts(publication["gost"])
+    return {
+        key: localize_own_name(value, lang)
+        for key, value in parts.items()
+    }
+
+
+def render_publication_citations(publication: dict[str, str], lang: str) -> list[str]:
+    citations = publication["citations"]
+    parts = []
+    for style, _labels in CITATION_STYLES:
+        citation = localize_own_name(citations[style], lang)
+        if style == "bibtex":
+            parts.append(
+                f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
+                f"<code>{html.escape(citation)}</code></pre>"
+            )
+        else:
+            parts.append(
+                f'<p class="citation citation-{style}" data-citation-style="{style}">'
+                f"{html.escape(citation)}</p>"
+            )
+    return parts
+
+
 def render_publication_item(
     publication: dict[str, str],
     lang: str,
     show_number: bool = True,
 ) -> str:
     section_label = SECTION_LABELS[publication["section"]][lang]
-    citations = publication["citations"]
     class_name = "publication-item" if show_number else "publication-item publication-item-no-number"
     parts = [f'<li class="{class_name}">']
     if show_number:
@@ -712,19 +753,37 @@ def render_publication_item(
             parts.append(f'<span>{html.escape(tag)}</span>')
         parts.append("</div>")
 
-    for style, _labels in CITATION_STYLES:
-        citation = citations[style]
-        if style == "bibtex":
-            parts.append(
-                f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
-                f"<code>{html.escape(citation)}</code></pre>"
-            )
-        else:
-            parts.append(
-                f'<p class="citation citation-{style}" data-citation-style="{style}">'
-                f"{html.escape(citation)}</p>"
-            )
+    parts.extend(render_publication_citations(publication, lang))
     parts.append("</div>")
+    parts.append("</li>")
+    return "\n".join(parts)
+
+
+def render_selected_publication_item(publication: dict[str, str], lang: str) -> str:
+    section_label = SECTION_LABELS[publication["section"]][lang]
+    parts_data = localized_publication_parts(publication, lang)
+    tags = publication_tags(publication, lang)
+    summary = "Цитирование" if lang == "ru" else "Citation"
+    parts = ['<li class="publication-item publication-item-no-number publication-featured-card">']
+    parts.append('<article class="publication-card">')
+    if tags:
+        parts.append('<div class="publication-badges">')
+        for tag in tags:
+            parts.append(f'<span>{html.escape(tag)}</span>')
+        parts.append("</div>")
+    parts.append(f'<h3 class="publication-title">{html.escape(parts_data["title"])}</h3>')
+    parts.append(f'<p class="publication-authors">{html.escape(parts_data["authors"])}</p>')
+    if parts_data["details"]:
+        parts.append(f'<p class="publication-source">{html.escape(parts_data["details"])}</p>')
+    parts.append(
+        f'<div class="publication-meta publication-card-meta">{html.escape(publication["year"])} · '
+        f"{html.escape(section_label)}</div>"
+    )
+    parts.append('<details class="publication-citation-details">')
+    parts.append(f"<summary>{html.escape(summary)}</summary>")
+    parts.extend(render_publication_citations(publication, lang))
+    parts.append("</details>")
+    parts.append("</article>")
     parts.append("</li>")
     return "\n".join(parts)
 
@@ -752,7 +811,10 @@ def render_publication_section(
         parts.append(f'<p class="publication-section-intro">{html.escape(intro)}</p>')
     parts.append('<ol class="publication-list">')
     for publication in entries:
-        parts.append(render_publication_item(publication, lang, show_numbers))
+        if class_name == "publication-selected":
+            parts.append(render_selected_publication_item(publication, lang))
+        else:
+            parts.append(render_publication_item(publication, lang, show_numbers))
     parts.append("</ol>")
     parts.append("</section>")
     return "\n".join(parts)
@@ -1119,7 +1181,7 @@ def root_json_ld() -> str:
                 "@id": site_url("#website"),
                 "url": site_url(),
                 "name": "Oleslav Antamoshkin",
-                "inLanguage": ["ru", "en"],
+                "inLanguage": ["en", "ru"],
             },
             {
                 "@type": "ProfilePage",
@@ -1128,7 +1190,7 @@ def root_json_ld() -> str:
                 "description": "Personal academic and applied R&D profile of Oleslav Antamoshkin.",
                 "author": {"@id": site_url("#person")},
                 "mainEntityOfPage": site_url(),
-                "inLanguage": ["ru", "en"],
+                "inLanguage": "en",
                 "dateModified": "2026-07-07",
             },
             {
@@ -1147,7 +1209,7 @@ def root_json_ld() -> str:
     return json_script(data)
 
 
-def render_root() -> str:
+def render_root_legacy() -> str:
     description = (
         "Олеслав Антамошкин: программная инженерия, ИИ-системы, "
         "распределённые вычисления, мониторинг по данным БАС и прикладные НИОКР."
@@ -1233,6 +1295,87 @@ def render_root() -> str:
         json_ld=root_json_ld(),
         stylesheet=html.escape(versioned_asset("styles.css"), quote=True),
     )
+
+
+def render_root() -> str:
+    title = HOMEPAGE_TITLES["en"]
+    description = PAGE_DESCRIPTIONS["en"]["index"]
+    url = html.escape(site_url(), quote=True)
+    image = html.escape(site_url(OG_IMAGE), quote=True)
+    stylesheet = html.escape(versioned_asset("styles.css"), quote=True)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{html.escape(title)}</title>
+  <meta name="description" content="{html.escape(description)}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="{url}">
+{alternate_links()}
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{html.escape(title)}">
+  <meta property="og:description" content="{html.escape(description)}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{image}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{html.escape(title)}">
+  <meta name="twitter:description" content="{html.escape(description)}">
+  <meta name="twitter:image" content="{image}">
+  <link rel="stylesheet" href="{stylesheet}">
+  {root_json_ld()}
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html" aria-label="Oleslav Antamoshkin" aria-current="page">OA</a>
+      <span>Software engineering · AI · distributed systems</span>
+    </div>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="active" href="index.html" aria-current="page">Home</a>
+      <a href="en/projects.html">Projects</a>
+      <a href="en/publications.html">Publications</a>
+      <a href="en/contacts.html">Contact</a>
+      <a href="ru/index.html">RU</a>
+    </nav>
+  </header>
+  <main id="content" class="content page-root">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li aria-current="page">Profile</li>
+      </ol>
+    </nav>
+    <h1>Oleslav Antamoshkin</h1>
+    <p>Software Engineering · AI Systems · Applied R&amp;D</p>
+    <p class="hero-roles">Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries.</p>
+    <p class="hero-summary">I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
+    <p class="name-variant">Russian spelling: Олеслав Антамошкин.</p>
+    <section class="profile-anchor" aria-label="Current roles">
+      <div class="profile-anchor-text">
+        <p class="section-kicker">Current roles</p>
+        <ul class="compact-role-list">
+          <li>Head of the Software Engineering Department, Siberian Federal University.</li>
+          <li>Professor at the Department of Information Technologies in Creative and Cultural Industries, Siberian Federal University.</li>
+          <li>Scientific and technical lead for AirScope; project lead for Siberiana.</li>
+        </ul>
+      </div>
+      <img class="profile-photo" src="assets/profile-portrait-bw-site.webp" alt="Oleslav Antamoshkin" width="960" height="960" loading="eager" decoding="async">
+    </section>
+    <div class="gate-links" aria-label="Primary sections">
+      <a href="en/projects.html">Projects</a>
+      <a href="en/publications.html">Publications</a>
+      <a href="en/contacts.html">Contact</a>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&amp;D profile</span>
+  </footer>
+</body>
+</html>
+"""
 
 
 def render_sitemap() -> str:
