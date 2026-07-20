@@ -182,6 +182,10 @@ PUBLICATION_LOCALIZED_AUTHORS = {
         "ru": "Малашин В. Ю., Масич А. Ю., Тынченко В. С., Антамошкин О. А., Мартысюк Г. И., Нелюб А. И., Бородулин В. В., Гантимуров А.",
         "en": "Malashin V. Yu., Masich A. Yu., Tynchenko V. S., Antamoshkin O. A., Martysyuk G. I., Nelyub A. I., Borodulin V. V., Gantimurov A.",
     },
+    "187": {
+        "ru": "Антамошкин О. А., Жучков Ф. Г., Колосова О. В.",
+        "en": "Antamoshkin O. A., Zhuchkov F. G., Kolosova O. V.",
+    },
 }
 
 PUBLICATION_AUTHOR_LANGUAGE = {
@@ -197,6 +201,7 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "133": "en",
     "134": "en",
     "186": "en",
+    "187": "ru",
 }
 
 PUBLICATION_CANONICAL_PARTS = {
@@ -237,6 +242,18 @@ PUBLICATION_LOCALIZED_PARTS = {
             "details": (
                 "Sustainable Development of Mountain Territories. 2025;17(4(66)):"
                 "2175–2187. DOI: 10.21177/1998-4502-2025-174-2175-2187."
+            ),
+        },
+    },
+    "187": {
+        "en": {
+            "title": (
+                "Algorithm for Managing the Quality of Changes in an Organizational "
+                "and Production Process Involving an AI Agent"
+            ),
+            "details": (
+                "Automation in Industry. 2026; No. 7. "
+                "URL: https://avtprom.ru/sistemy-upravleniya-biznes-protsessami-1."
             ),
         },
     },
