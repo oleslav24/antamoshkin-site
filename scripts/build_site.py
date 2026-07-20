@@ -209,6 +209,39 @@ PUBLICATION_CANONICAL_PARTS = {
     },
 }
 
+PUBLICATION_LOCALIZED_PARTS = {
+    "101": {
+        "en": {
+            "title": "Prevention of Air Pollution During Open-Pit Mining of Ore Deposits",
+            "details": (
+                "MIAB. Mining Informational and Analytical Bulletin. 2023;(11-1):"
+                "252–264. DOI: 10.25018/0236_1493_2023_111_0_252."
+            ),
+        },
+    },
+    "119": {
+        "en": {
+            "title": "Methodology for Improving Data Processing Accuracy in Onboard Unmanned Aerial Systems",
+            "details": (
+                "Aerospace Instrument Engineering. 2025;(10):11–20. "
+                "DOI: 10.25791/aviakosmos.10.2025.1511."
+            ),
+        },
+    },
+    "127": {
+        "en": {
+            "title": (
+                "Application of Information Technologies to the Management and "
+                "Sustainable Development of Mountain Territories"
+            ),
+            "details": (
+                "Sustainable Development of Mountain Territories. 2025;17(4(66)):"
+                "2175–2187. DOI: 10.21177/1998-4502-2025-174-2175-2187."
+            ),
+        },
+    },
+}
+
 SECTION_LABELS = {
     "Научные работы": {
         "ru": "Научные работы",
@@ -821,8 +854,14 @@ def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[
     canonical_parts = PUBLICATION_CANONICAL_PARTS.get(publication["number"], {})
     for key, value in canonical_parts.items():
         parts[key] = value
+    translated_parts = PUBLICATION_LOCALIZED_PARTS.get(publication["number"], {}).get(
+        lang, {}
+    )
+    for key, value in translated_parts.items():
+        parts[key] = value
     return {
-        key: value if key in canonical_parts or key == "authors" and localized_authors
+        key: value if key in canonical_parts or key in translated_parts
+        or key == "authors" and localized_authors
         else localize_own_name(value, lang)
         for key, value in parts.items()
     }
