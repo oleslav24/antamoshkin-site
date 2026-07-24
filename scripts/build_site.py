@@ -11,6 +11,7 @@ WORKSPACE_ROOT = ROOT.parent
 CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshkin - GOST.md"
+PUBLICATION_EN_TRANSLATIONS = CONTENT_DIR / "en" / "publications.json"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
@@ -297,6 +298,27 @@ PUBLICATION_LOCALIZED_PARTS = {
         },
     },
 }
+
+
+def load_publication_en_translations() -> dict[str, dict[str, str]]:
+    if not PUBLICATION_EN_TRANSLATIONS.exists():
+        return {}
+    try:
+        translations = json.loads(PUBLICATION_EN_TRANSLATIONS.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(translations, dict):
+        return {}
+    return {
+        number: values
+        for number, values in translations.items()
+        if isinstance(number, str)
+        and isinstance(values, dict)
+        and all(isinstance(value, str) for value in values.values())
+    }
+
+
+PUBLICATION_EN_TRANSLATION_DATA = load_publication_en_translations()
 
 SECTION_LABELS = {
     "Научные работы": {
@@ -929,6 +951,11 @@ def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[
     )
     for key, value in translated_parts.items():
         parts[key] = value
+    if lang == "en":
+        for key, value in PUBLICATION_EN_TRANSLATION_DATA.get(
+            publication["number"], {}
+        ).items():
+            parts[key] = value
     return {
         key: value if key in canonical_parts or key in translated_parts
         or key == "authors" and localized_authors
