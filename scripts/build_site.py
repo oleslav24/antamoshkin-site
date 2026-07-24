@@ -186,6 +186,18 @@ PUBLICATION_LOCALIZED_AUTHORS = {
         "ru": "Антамошкин О. А., Жучков Ф. Г., Колосова О. В.",
         "en": "Antamoshkin O. A., Zhuchkov F. G., Kolosova O. V.",
     },
+    "188": {
+        "ru": "Ступина А. А., Антамошкин О. А., Кукарцев В. В., и др",
+        "en": "Stupina A. A., Antamoshkin O. A., Kukartsev V. V., et al",
+    },
+    "189": {
+        "ru": "Ступина А. А., Антамошкин О. А., Кукарцев В. В., и др",
+        "en": "Stupina A. A., Antamoshkin O. A., Kukartsev V. V., et al",
+    },
+    "190": {
+        "ru": "Антамошкин О. А., Ступина А. А., Кукарцев В. В., и др",
+        "en": "Antamoshkin O. A., Stupina A. A., Kukartsev V. V., et al",
+    },
 }
 
 PUBLICATION_AUTHOR_LANGUAGE = {
@@ -202,6 +214,9 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "134": "en",
     "186": "en",
     "187": "ru",
+    "188": "ru",
+    "189": "ru",
+    "190": "ru",
 }
 
 PUBLICATION_CANONICAL_PARTS = {
@@ -255,6 +270,30 @@ PUBLICATION_LOCALIZED_PARTS = {
                 "Automation in Industry. 2026; No. 7. "
                 "URL: https://avtprom.ru/sistemy-upravleniya-biznes-protsessami-1."
             ),
+        },
+    },
+    "188": {
+        "en": {
+            "title": "Information Systems Design: Monograph",
+            "details": (
+                "Moscow: Russian State Agrarian University, 2026. 198 p. "
+                "ISBN 978-5-9675-2150-8. EDN UWUDUR."
+            ),
+        },
+    },
+    "189": {
+        "en": {
+            "title": "Software Engineering: Theory and Practice: Study Guide",
+            "details": (
+                "Moscow: Russian State Agrarian University, 2026. 245 p. "
+                "ISBN 978-5-9675-2151-5. EDN EGWPEK."
+            ),
+        },
+    },
+    "190": {
+        "en": {
+            "title": "Decision Support Systems: Textbook",
+            "details": "Moscow: Russian State Agrarian University, 2026. 112 p. EDN OJTXFE.",
         },
     },
 }
@@ -666,6 +705,20 @@ def split_title_details(value: str) -> tuple[str, str]:
 def split_citation_parts(citation: str) -> dict[str, str]:
     main, separator, source = citation.partition(" // ")
     if separator:
+        et_al_match = re.match(
+            r"^(?P<authors>.+?(?:,\s*)?(?:и\s+др\.|et al\.))\s+(?P<title>.+)$",
+            main,
+        )
+        if et_al_match:
+            authors = clean_spaces(et_al_match.group("authors")).rstrip(",")
+            if re.search(r"[a-zа-яё]\.$", authors):
+                authors = authors[:-1]
+            return {
+                "authors": authors,
+                "title": clean_spaces(et_al_match.group("title")).strip(" ."),
+                "details": clean_spaces(source),
+                "year": extract_year(citation),
+            }
         split_at = main.rfind(". ")
         if split_at > 0:
             authors = clean_spaces(main[: split_at + 1]).rstrip(",")
