@@ -15,20 +15,20 @@ PUBLICATION_EN_TRANSLATIONS = CONTENT_DIR / "en" / "publications.json"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
-ASSET_VERSION = "20260715-name-variant"
+ASSET_VERSION = "20260826-architect-profile"
 
 HOMEPAGE_TITLES = {
-    "en": "Oleslav Antamoshkin — Software Engineering, AI Systems, Applied R&D",
-    "ru": "Олеслав Антамошкин — программная инженерия, ИИ-системы, прикладные НИОКР",
+    "en": "Oleslav Antamoshkin — Software & AI Architect",
+    "ru": "Олеслав Антамошкин — архитектор программных и AI-систем",
 }
 
 PAGES = [
     ("index", {"ru": "Главная", "en": "Home"}),
     ("projects", {"ru": "Проекты", "en": "Projects"}),
+    ("experience", {"ru": "Опыт", "en": "Experience"}),
     ("research", {"ru": "Исследования", "en": "Research"}),
     ("publications", {"ru": "Публикации", "en": "Publications"}),
-    ("experience", {"ru": "Роли", "en": "Roles"}),
-    ("contacts", {"ru": "Контакты", "en": "Contacts"}),
+    ("contacts", {"ru": "Контакты", "en": "Contact"}),
 ]
 
 CITATION_STYLES = [
@@ -199,6 +199,10 @@ PUBLICATION_LOCALIZED_AUTHORS = {
         "ru": "Антамошкин О. А., Ступина А. А., Кукарцев В. В., и др",
         "en": "Antamoshkin O. A., Stupina A. A., Kukartsev V. V., et al",
     },
+    "191": {
+        "ru": "Рукша Т. Г., Антамошкин О. А., Михалев А. С. [и др.]",
+        "en": "T. G. Ruksha, O. A. Antamoshkin, A. S. Mikhalev et al.",
+    },
 }
 
 PUBLICATION_AUTHOR_LANGUAGE = {
@@ -218,6 +222,7 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "188": "ru",
     "189": "ru",
     "190": "ru",
+    "191": "ru",
 }
 
 PUBLICATION_CANONICAL_PARTS = {
@@ -342,8 +347,8 @@ LANG_META = {
         "other": "en",
         "skip": "К содержанию",
         "site": "Олеслав Антамошкин",
-        "role": "Программная инженерия · ИИ · распределённые системы",
-        "footer": "© 2026 Олеслав Антамошкин · Персональный академический и научно-технический профиль",
+        "role": "Архитектура ПО · AI-системы · прикладная разработка",
+        "footer": "© 2026 Олеслав Антамошкин · Архитектура ПО · AI-системы · Прикладная разработка",
     },
     "en": {
         "html_lang": "en",
@@ -351,26 +356,26 @@ LANG_META = {
         "other": "ru",
         "skip": "Skip to content",
         "site": "Oleslav Antamoshkin",
-        "role": "Software engineering · AI · distributed systems",
-        "footer": "© 2026 Oleslav Antamoshkin · Personal academic and R&D profile",
+        "role": "Software Architecture · AI Systems · Applied Engineering",
+        "footer": "© 2026 Oleslav Antamoshkin · Software Architecture · AI Systems · Applied Engineering",
     },
 }
 
 PAGE_DESCRIPTIONS = {
     "ru": {
-        "index": "Олеслав Антамошкин: программная инженерия, ИИ-системы, распределённые вычисления и прикладные НИОКР.",
-        "projects": "Прикладные платформы, исследовательские репозитории и проектные направления Олеслава Антамошкина.",
+        "index": "Архитектор программных и AI-систем: распределённые системы, искусственный интеллект, компьютерное зрение, БАС, цифровые платформы и техническое руководство разработкой.",
+        "projects": "Программные и AI-системы, инженерные репозитории и проектные направления Олеслава Антамошкина.",
         "research": "Научные профили, метрики, диссертационные исследования и исследовательский контур Олеслава Антамошкина.",
         "publications": "Избранные публикации, последние работы, полный архив и PDF-версии библиографии в разных стилях.",
-        "experience": "Академические должности, проектные роли, компетенции, образование и профессиональное развитие.",
+        "experience": "Архитектура ПО, техническое руководство, инженерные компетенции, проекты и академический профиль Олеслава Антамошкина.",
         "contacts": "Электронная почта и публичные профили Олеслава Антамошкина: GitHub, ORCID, Scopus, ResearchGate и СФУ.",
     },
     "en": {
-        "index": "Oleslav Antamoshkin: software engineering, AI systems, distributed computing, and applied R&D.",
-        "projects": "Applied platforms, research engineering repositories, and project directions by Oleslav Antamoshkin.",
+        "index": "Software and AI architect specializing in distributed systems, AI platforms, computer vision, UAV technologies, digital platforms, and engineering leadership.",
+        "projects": "Software and AI systems, engineering repositories, and project directions by Oleslav Antamoshkin.",
         "research": "Scholarly profiles, metrics, dissertation research, and research context for Oleslav Antamoshkin.",
         "publications": "Selected publications, recent works, full bibliography, and PDF exports in multiple citation styles.",
-        "experience": "Academic roles, project leadership, competencies, education, and professional development.",
+        "experience": "Software architecture, technical leadership, engineering competencies, projects, and academic background of Oleslav Antamoshkin.",
         "contacts": "Email and public profiles for Oleslav Antamoshkin: GitHub, ORCID, Scopus, ResearchGate, and SFU.",
     },
 }
@@ -485,6 +490,26 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                     "Antamoshkin Oleslav",
                 ],
                 "url": site_url(),
+                "image": site_url("assets/profile-portrait-bw-site.webp"),
+                "jobTitle": "Software & AI Architect; Head of the Software Engineering Department",
+                "worksFor": {
+                    "@type": "Organization",
+                    "name": "Siberian Federal University",
+                },
+                "alumniOf": {
+                    "@type": "Organization",
+                    "name": "Siberian State Aerospace University",
+                },
+                "knowsAbout": [
+                    "Software Architecture",
+                    "Artificial Intelligence",
+                    "Distributed Systems",
+                    "Machine Learning",
+                    "Computer Vision",
+                    "Multi-Agent Systems",
+                    "UAV Systems",
+                    "Digital Platforms",
+                ],
                 "sameAs": [
                     "https://github.com/oleslav24",
                     "https://orcid.org/0000-0002-5976-5847",
@@ -507,7 +532,7 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                 "author": {"@id": site_url("#person")},
                 "mainEntityOfPage": page_url,
                 "inLanguage": language,
-                "dateModified": "2026-07-07",
+                "dateModified": "2026-08-26",
             },
             breadcrumb_json_ld(lang, slug, title),
         ],
@@ -1422,6 +1447,26 @@ def root_json_ld() -> str:
                     "Antamoshkin Oleslav",
                 ],
                 "url": site_url(),
+                "image": site_url("assets/profile-portrait-bw-site.webp"),
+                "jobTitle": "Software & AI Architect; Head of the Software Engineering Department",
+                "worksFor": {
+                    "@type": "Organization",
+                    "name": "Siberian Federal University",
+                },
+                "alumniOf": {
+                    "@type": "Organization",
+                    "name": "Siberian State Aerospace University",
+                },
+                "knowsAbout": [
+                    "Software Architecture",
+                    "Artificial Intelligence",
+                    "Distributed Systems",
+                    "Machine Learning",
+                    "Computer Vision",
+                    "Multi-Agent Systems",
+                    "UAV Systems",
+                    "Digital Platforms",
+                ],
                 "sameAs": [
                     "https://github.com/oleslav24",
                     "https://orcid.org/0000-0002-5976-5847",
@@ -1440,11 +1485,11 @@ def root_json_ld() -> str:
                 "@type": "ProfilePage",
                 "@id": site_url("#profile"),
                 "headline": "Oleslav Antamoshkin",
-                "description": "Personal academic and applied R&D profile of Oleslav Antamoshkin.",
+                "description": "Software and AI architect profile of Oleslav Antamoshkin.",
                 "author": {"@id": site_url("#person")},
                 "mainEntityOfPage": site_url(),
                 "inLanguage": "en",
-                "dateModified": "2026-07-07",
+                "dateModified": "2026-08-26",
             },
             {
                 "@type": "BreadcrumbList",
@@ -1496,14 +1541,14 @@ def render_root_legacy() -> str:
   <header class="site-header">
     <div class="brand">
       <a href="index.html" aria-label="Олеслав Антамошкин" aria-current="page">ОА</a>
-      <span>Программная инженерия · ИИ · распределённые системы</span>
+      <span>Архитектура ПО · AI-системы · прикладная разработка</span>
     </div>
     <nav class="site-nav" aria-label="Основная навигация">
       <a class="active" href="index.html" aria-current="page">Главная</a>
       <a href="ru/projects.html">Проекты</a>
+      <a href="ru/experience.html">Опыт</a>
       <a href="ru/research.html">Исследования</a>
       <a href="ru/publications.html">Публикации</a>
-      <a href="ru/experience.html">Роли</a>
       <a href="ru/contacts.html">Контакты</a>
     </nav>
     <a class="language-link" href="en/index.html">EN</a>
@@ -1515,9 +1560,10 @@ def render_root_legacy() -> str:
       </ol>
     </nav>
     <h1>Олеслав Александрович Антамошкин</h1>
-    <p>Программная инженерия · ИИ-системы · прикладные НИОКР</p>
-    <p>Доктор технических наук; заведующий кафедрой программной инженерии ИКИТ Сибирского федерального университета; профессор кафедры информационных технологий в креативных и культурных индустриях ГИ СФУ.</p>
-    <p>Руковожу исследовательскими и инженерными проектами в области распределённых систем, компьютерного зрения, мониторинга на основе данных БАС, цифровых платформ и ИИ-инструментов для программной инженерии.</p>
+    <p>Архитектор программных и AI-систем</p>
+    <p>Распределённые системы · AI-платформы · Техническое руководство</p>
+    <p>Проектирую и веду разработку сложных программных и AI-систем: от архитектуры и технического задания до реализации, интеграции и внедрения.</p>
+    <p>Доктор технических наук, заведующий кафедрой программной инженерии Сибирского федерального университета.</p>
     <section class="profile-anchor" aria-label="Текущие роли">
       <div class="profile-anchor-text">
         <p class="section-kicker">Текущие роли</p>
@@ -1536,7 +1582,7 @@ def render_root_legacy() -> str:
     </div>
   </main>
   <footer class="site-footer">
-    <span>© 2026 Олеслав Антамошкин · Персональный академический и научно-технический профиль</span>
+    <span>© 2026 Олеслав Антамошкин · Архитектура ПО · AI-системы · Прикладная разработка</span>
   </footer>
 </body>
 </html>
@@ -1585,11 +1631,13 @@ def render_root() -> str:
   <header class="site-header">
     <div class="brand">
       <a href="index.html" aria-label="Oleslav Antamoshkin" aria-current="page">OA</a>
-      <span>Software engineering · AI · distributed systems</span>
+      <span>Software Architecture · AI Systems · Applied Engineering</span>
     </div>
     <nav class="site-nav" aria-label="Primary navigation">
       <a class="active" href="index.html" aria-current="page">Home</a>
       <a href="en/projects.html">Projects</a>
+      <a href="en/experience.html">Experience</a>
+      <a href="en/research.html">Research</a>
       <a href="en/publications.html">Publications</a>
       <a href="en/contacts.html">Contact</a>
       <a href="ru/index.html">RU</a>
@@ -1602,9 +1650,10 @@ def render_root() -> str:
       </ol>
     </nav>
     <h1>Oleslav Antamoshkin</h1>
-    <p>Software Engineering · AI Systems · Applied R&amp;D</p>
-    <p class="hero-roles">Doctor of Engineering Sciences; Head of the Software Engineering Department, Siberian Federal University; Professor at the Department of Information Technologies in Creative and Cultural Industries.</p>
-    <p class="hero-summary">I lead research and engineering projects in distributed systems, computer vision, UAV-based monitoring, digital platforms, and AI-enabled software engineering.</p>
+    <p>Software &amp; AI Architect</p>
+    <p>Distributed Systems · AI Platforms · Engineering Leadership</p>
+    <p class="hero-summary">I design and lead the development of complex software and AI systems, from architecture and technical specifications to implementation, integration, and deployment.</p>
+    <p class="hero-roles">Doctor of Engineering Sciences. Head of the Software Engineering Department at Siberian Federal University.</p>
     <p class="name-variant">Russian spelling: Олеслав Антамошкин.</p>
     <section class="profile-anchor" aria-label="Current roles">
       <div class="profile-anchor-text">
@@ -1617,14 +1666,45 @@ def render_root() -> str:
       </div>
       <img class="profile-photo" src="assets/profile-portrait-bw-site.webp" alt="Oleslav Antamoshkin" width="960" height="960" loading="eager" decoding="async">
     </section>
+    <section aria-labelledby="engineering-focus">
+      <p class="section-kicker">Engineering focus</p>
+      <h2 id="engineering-focus">Complex systems, built for use</h2>
+      <div class="direction-grid">
+        <article><h3>Software Architecture</h3><p>Architecture for complex, evolving software products and services.</p></article>
+        <article><h3>Distributed Systems</h3><p>Multi-service and distributed computing systems with reliable integration boundaries.</p></article>
+        <article><h3>Artificial Intelligence</h3><p>Machine learning, multi-agent systems, and LLM-enabled engineering workflows.</p></article>
+        <article><h3>Computer Vision</h3><p>Vision systems for imagery, monitoring, detection, and analytical tasks.</p></article>
+        <article><h3>UAV and Spatial Data</h3><p>UAV data pipelines, photogrammetry, 3D reconstruction, and spatial analytics.</p></article>
+        <article><h3>Digital Platforms</h3><p>Applied platforms that connect data, engineering processes, and decision-making.</p></article>
+      </div>
+    </section>
+    <section aria-labelledby="featured-projects">
+      <p class="section-kicker">Featured projects</p>
+      <h2 id="featured-projects">Software &amp; AI systems</h2>
+      <div class="project-showcase">
+        <article><h3>AirScope</h3><p>UAV-based spatial monitoring platform for construction, infrastructure, and industrial objects.</p><p><strong>Role:</strong> Scientific and technical lead.</p><p><strong>Focus:</strong> UAV data, photogrammetry, 3D models, point clouds, and computer vision.</p><p><a href="en/projects.html">View project</a></p></article>
+        <article><h3>Siberiana</h3><p>Digital platform for cultural, historical, and regional information resources of Yenisei Siberia.</p><p><strong>Role:</strong> Project lead.</p><p><strong>Focus:</strong> Platform architecture, data integration, search, and digital archives.</p><p><a href="en/projects.html">View project</a></p></article>
+        <article><h3>Adaptive Control of Heterogeneous Distributed Computing Systems</h3><p>Research engineering repository for adaptive scheduling and control in distributed computing environments.</p><p><strong>Focus:</strong> Distributed systems, optimization, and computational experiments.</p><p><a href="https://github.com/oleslav24/Adaptive-control-of-heterogeneous-distributed-computing-systems">View on GitHub</a></p></article>
+      </div>
+    </section>
+    <section aria-labelledby="what-i-do">
+      <p class="section-kicker">What I do</p>
+      <h2 id="what-i-do">From system design to delivery</h2>
+      <ul>
+        <li>Design software and AI system architectures.</li>
+        <li>Lead engineering teams and applied R&amp;D projects.</li>
+        <li>Develop AI, computer vision, and UAV-data solutions.</li>
+        <li>Build digital platforms and decision-support systems.</li>
+      </ul>
+    </section>
     <div class="gate-links" aria-label="Primary sections">
-      <a href="en/projects.html">Projects</a>
-      <a href="en/publications.html">Publications</a>
+      <a href="en/projects.html">View Projects</a>
+      <a href="https://github.com/oleslav24">GitHub</a>
       <a href="en/contacts.html">Contact</a>
     </div>
   </main>
   <footer class="site-footer">
-    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&amp;D profile</span>
+    <span>© 2026 Oleslav Antamoshkin · Software Architecture · AI Systems · Applied Engineering</span>
   </footer>
 </body>
 </html>
@@ -1640,7 +1720,7 @@ def render_sitemap() -> str:
     for path, priority in urls:
         lines.append("  <url>")
         lines.append(f"    <loc>{html.escape(site_url(path))}</loc>")
-        lines.append("    <lastmod>2026-07-07</lastmod>")
+        lines.append("    <lastmod>2026-08-26</lastmod>")
         lines.append("    <changefreq>monthly</changefreq>")
         lines.append(f"    <priority>{priority}</priority>")
         lines.append("  </url>")
@@ -1668,14 +1748,14 @@ def render_favicon() -> str:
 def render_og_image() -> str:
     return """<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">Oleslav Antamoshkin</title>
-  <desc id="desc">Personal academic and applied R&amp;D profile</desc>
+  <desc id="desc">Software and AI architecture, distributed systems, and applied engineering</desc>
   <rect width="1200" height="630" fill="#ffffff"/>
   <rect x="72" y="72" width="220" height="220" fill="#111111"/>
   <text x="182" y="218" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" text-anchor="middle">OA</text>
   <text x="72" y="390" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Oleslav Antamoshkin</text>
-  <text x="72" y="455" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="32">Software engineering, AI systems, applied R&amp;D</text>
+  <text x="72" y="455" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="32">Software &amp; AI Architect</text>
   <line x1="72" y1="508" x2="1128" y2="508" stroke="#d8d8d8" stroke-width="2"/>
-  <text x="72" y="560" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="24">Siberian Federal University · Distributed systems · UAV-based monitoring</text>
+  <text x="72" y="560" fill="#606060" font-family="Arial, Helvetica, sans-serif" font-size="24">Distributed systems · AI platforms · Engineering leadership</text>
 </svg>
 """
 
@@ -1721,7 +1801,7 @@ def render_404() -> str:
     </div>
   </main>
   <footer class="site-footer">
-    <span>© 2026 Oleslav Antamoshkin · Personal academic and R&D profile</span>
+    <span>© 2026 Oleslav Antamoshkin · Software Architecture · AI Systems · Applied Engineering</span>
   </footer>
 </body>
 </html>

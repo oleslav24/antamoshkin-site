@@ -6,6 +6,12 @@ Primary: [contact@oleslav.com](mailto:contact@oleslav.com)
 
 Personal alias: [antamoshkin@oleslav.com](mailto:antamoshkin@oleslav.com)
 
+## Professional Interests
+
+I am interested in software architecture, AI systems, distributed computing, technical leadership, applied R&D, and the development of complex digital platforms.
+
+For engineering projects, architecture work, applied research collaboration, and senior technical roles, contact me by email.
+
 ## Public Profiles
 
 - [GitHub oleslav24](https://github.com/oleslav24)

@@ -1,8 +1,8 @@
 # Projects
 
-A compact portfolio of applied platforms, research engineering repositories, and active project directions.
+A portfolio of software and AI systems, engineering repositories, and active project directions.
 
-## Featured applied R&D projects
+## Selected Software & AI Systems
 
 <section class="project-showcase" aria-label="Showcase projects">
 <article class="project-card project-card-featured featured-project">
@@ -10,9 +10,13 @@ A compact portfolio of applied platforms, research engineering repositories, and
 <p>UAV-based spatial monitoring platform for construction, infrastructure, industrial objects, and extended assets.</p>
 <dl>
 <dt>Role</dt>
-<dd>scientific and technical lead</dd>
-<dt>Focus</dt>
-<dd>UAV data, photogrammetry, 3D models, point clouds, computer vision, engineering analytics</dd>
+<dd>scientific and technical lead / software architecture</dd>
+<dt>Problem</dt>
+<dd>turn UAV and spatial data into engineering monitoring, control, and analytical workflows</dd>
+<dt>Architecture</dt>
+<dd>UAV data collection, image processing, photogrammetry, 3D reconstruction, point clouds, computer vision, analytics, and web interfaces</dd>
+<dt>Engineering scope</dt>
+<dd>product concept, technical specifications, module decomposition, implementation coordination, and pilot scenarios</dd>
 <dt>Result</dt>
 <dd>platform concept, product architecture, applied scenarios, software registration pipeline, and preparation for commercialization</dd>
 <dt>Module</dt>
@@ -25,18 +29,22 @@ A compact portfolio of applied platforms, research engineering repositories, and
 <p>Digital cultural heritage platform for the Angara-Yenisei region.</p>
 <dl>
 <dt>Role</dt>
-<dd>project lead</dd>
+<dd>project lead / platform architecture</dd>
 <dt>Website</dt>
 <dd><a href="https://siberiana.online/" target="_blank" rel="noreferrer">siberiana.online</a></dd>
-<dt>Focus</dt>
-<dd>heterogeneous cultural heritage data, GIS, 3D models, digital archives, visualization, and platform architecture</dd>
+<dt>Problem</dt>
+<dd>integrate heterogeneous cultural heritage materials into an operational digital platform</dd>
+<dt>Architecture</dt>
+<dd>heterogeneous data integration, GIS, 3D models, digital archives, visualization, and external organization interfaces</dd>
+<dt>Engineering scope</dt>
+<dd>platform architecture, development coordination, and transition from concept to operational software</dd>
 <dt>Result</dt>
 <dd>working digital platform and registered software system, certificate No. 2023615453 dated 07 Apr 2023</dd>
 </dl>
 </article>
 </section>
 
-## Research Engineering Repositories
+## Engineering Repositories
 
 ### AutoTinyCV
 
@@ -44,7 +52,7 @@ A compact portfolio of applied platforms, research engineering repositories, and
 
 A resource-aware experimental framework for selecting, fine-tuning, profiling, compressing, and ranking computer vision models for edge deployment. The current milestone focuses on YAML-driven classification experiments for AID aerial scene data, torchvision model candidates, FP32 fine-tuning, checkpoint profiling, result traceability, hard-constraint filtering, Pareto analysis, and weighted ranking.
 
-Portfolio signal: edge AI, computer vision, reproducible experimental protocols, deployment constraints, and decision support for choosing practical models rather than only the most accurate architecture.
+Engineering signal: edge AI, computer vision, reproducible experimental protocols, deployment constraints, and decision support for choosing practical models rather than only the most accurate architecture.
 
 ### Adaptive-control-of-heterogeneous-distributed-computing-systems
 
@@ -52,7 +60,7 @@ Portfolio signal: edge AI, computer vision, reproducible experimental protocols,
 
 A reproducible research stand for adaptive control of heterogeneous distributed computing systems. It includes a multi-agent model, load and failure scenarios, scheduling algorithms, ML forecasting, a ZNN balancing block, an LLM-agent policy loop, CLI, web UI, reproducibility protocols, and quality gates.
 
-Portfolio signal: a direct connection between the scientific topic, software engineering, and experimental infrastructure.
+Engineering signal: a direct connection between the scientific topic, software engineering, and executable experimental infrastructure.
 
 ### migration
 
