@@ -1,0 +1,5 @@
+https://www.oleslav.com/* https://oleslav.com/:splat 301
+http://oleslav.com/* https://oleslav.com/:splat 301
+http://www.oleslav.com/* https://oleslav.com/:splat 301
+/en/publications /en/publications.html 200
+/ru/publications /ru/publications.html 200

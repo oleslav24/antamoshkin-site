@@ -644,19 +644,8 @@ th {
 }
 
 .citation {
-  display: none;
-  margin: 0;
-}
-
-.publications-page[data-style="gost"] [data-citation-style="gost"],
-.publications-page[data-style="apa"] [data-citation-style="apa"],
-.publications-page[data-style="mla"] [data-citation-style="mla"],
-.publications-page[data-style="chicago"] [data-citation-style="chicago"],
-.publications-page[data-style="harvard"] [data-citation-style="harvard"],
-.publications-page[data-style="ieee"] [data-citation-style="ieee"],
-.publications-page[data-style="vancouver"] [data-citation-style="vancouver"],
-.publications-page[data-style="bibtex"] [data-citation-style="bibtex"] {
   display: block;
+  margin: 0;
 }
 
 .citation-bibtex {

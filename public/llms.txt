@@ -1,0 +1,30 @@
+# Oleslav Antamoshkin
+
+> Official professional and research website of Oleslav Antamoshkin, Software & AI Architect, Doctor of Engineering Sciences and Head of the Software Engineering Department at Siberian Federal University.
+
+## Profile
+- https://oleslav.com/en/about
+
+## Expertise
+- https://oleslav.com/en/expertise/software-architecture
+- https://oleslav.com/en/expertise/ai-systems
+- https://oleslav.com/en/expertise/agentic-software-engineering
+- https://oleslav.com/en/expertise/distributed-systems
+- https://oleslav.com/en/expertise/computer-vision
+- https://oleslav.com/en/expertise/uav-spatial-monitoring
+
+## Projects
+- https://oleslav.com/en/projects/airscope
+- https://oleslav.com/en/projects/siberiana
+
+## Publications
+- https://oleslav.com/en/publications.html
+
+## Russian version
+- https://oleslav.com/ru/index.html
+
+## External identifiers
+- ORCID: https://orcid.org/0000-0002-5976-5847
+- Web of Science ResearcherID: https://www.webofscience.com/wos/author/rid/Q-7307-2018
+- Scopus Author ID: https://www.scopus.com/authid/detail.uri?authorId=56825984000
+- RSCI Author ID: https://elibrary.ru/author_profile.asp?id=501153

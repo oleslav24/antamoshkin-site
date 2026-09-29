@@ -23,6 +23,7 @@ A portfolio of software and AI systems, engineering repositories, and active pro
 <dd><a href="https://airbim.org/" target="_blank" rel="noreferrer">AirBIM</a> for construction progress control, comparison of the actual object state with the design model, and analytical reporting</dd>
 </dl>
 <p>The AirScope track also includes the optimal flight mission module and tree species detection from UAV data.</p>
+<p><a href="projects/airscope/">AirScope UAV spatial monitoring platform</a></p>
 </article>
 <article class="project-card">
 <h3>Siberiana</h3>
@@ -42,6 +43,7 @@ A portfolio of software and AI systems, engineering repositories, and active pro
 <dd>working digital platform and registered software system, certificate No. 2023615453 dated 07 Apr 2023</dd>
 </dl>
 </article>
+<p><a href="projects/siberiana/">Siberiana digital cultural heritage platform</a></p>
 </section>
 
 ## Engineering Repositories

@@ -56,6 +56,7 @@ Software & AI Architect
 ## Explore
 
 - [Projects](projects.html) - software and AI systems, engineering repositories, and project directions.
+- [Professional profile](about/) - roles, expertise, academic identifiers, and external profiles.
 - [Experience](experience.html) - architecture, technical leadership, competencies, and academic background.
 - [Research](research.html) - scholarly profiles, metrics, and dissertation topics.
 - [Publications](publications.html) - full bibliography and citation views.

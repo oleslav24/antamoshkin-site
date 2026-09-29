@@ -15,7 +15,10 @@ PUBLICATION_EN_TRANSLATIONS = CONTENT_DIR / "en" / "publications.json"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
 OG_IMAGE = "og-image.svg"
-ASSET_VERSION = "20260826-architect-profile"
+ASSET_VERSION = "20260929-geo"
+PERSON_ID = "https://oleslav.com/#oleslav-antamoshkin"
+BUILD_DATE = "2026-09-29"
+INDEXNOW_KEY = "4f8b0c59e8194679b2af098c4d7e3a91"
 
 HOMEPAGE_TITLES = {
     "en": "Oleslav Antamoshkin — Software & AI Architect",
@@ -369,6 +372,7 @@ PAGE_DESCRIPTIONS = {
         "publications": "Избранные публикации, последние работы, полный архив и PDF-версии библиографии в разных стилях.",
         "experience": "Архитектура ПО, техническое руководство, инженерные компетенции, проекты и академический профиль Олеслава Антамошкина.",
         "contacts": "Электронная почта и публичные профили Олеслава Антамошкина: GitHub, ORCID, Scopus, ResearchGate и СФУ.",
+        "about": "Профессиональный и научный профиль Олеслава Антамошкина: архитектора программных и AI-систем, доктора технических наук и руководителя инженерных проектов.",
     },
     "en": {
         "index": "Software and AI architect specializing in distributed systems, AI platforms, computer vision, UAV technologies, digital platforms, and engineering leadership.",
@@ -377,6 +381,7 @@ PAGE_DESCRIPTIONS = {
         "publications": "Selected publications, recent works, full bibliography, and PDF exports in multiple citation styles.",
         "experience": "Software architecture, technical leadership, engineering competencies, projects, and academic background of Oleslav Antamoshkin.",
         "contacts": "Email and public profiles for Oleslav Antamoshkin: GitHub, ORCID, Scopus, ResearchGate, and SFU.",
+        "about": "Professional and research profile of Oleslav Antamoshkin, a Software & AI Architect, Doctor of Engineering Sciences, and engineering project leader.",
     },
 }
 
@@ -424,6 +429,58 @@ def page_description(lang: str, slug: str) -> str:
 def json_script(data: dict[str, object]) -> str:
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     return f'<script type="application/ld+json">{payload}</script>'
+
+
+def person_entity() -> dict[str, object]:
+    return {
+        "@type": "Person",
+        "@id": PERSON_ID,
+        "name": "Oleslav Antamoshkin",
+        "alternateName": [
+            "Oleslav A. Antamoshkin",
+            "Олеслав Антамошкин",
+            "Олеслав Александрович Антамошкин",
+            "Антамошкин Олеслав",
+            "O. A. Antamoshkin",
+            "Antamoshkin Oleslav",
+        ],
+        "url": site_url(),
+        "image": site_url("assets/profile-portrait-bw-site.webp"),
+        "jobTitle": [
+            "Software & AI Architect",
+            "Head of the Software Engineering Department",
+        ],
+        "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "Siberian Federal University",
+        },
+        "alumniOf": {
+            "@type": "Organization",
+            "name": "Siberian State Aerospace University",
+        },
+        "identifier": [
+            {"@type": "PropertyValue", "propertyID": "ORCID", "value": "0000-0002-5976-5847"},
+            {"@type": "PropertyValue", "propertyID": "Scopus Author ID", "value": "56825984000"},
+            {"@type": "PropertyValue", "propertyID": "Web of Science ResearcherID", "value": "Q-7307-2018"},
+            {"@type": "PropertyValue", "propertyID": "RSCI Author ID", "value": "501153"},
+            {"@type": "PropertyValue", "propertyID": "SPIN", "value": "8429-4720"},
+        ],
+        "knowsAbout": [
+            "Software Architecture", "Artificial Intelligence", "AI Systems",
+            "Agentic Software Engineering", "Autonomous AI Agents", "Distributed Systems",
+            "Heterogeneous Computing", "Computer Vision", "UAV Systems",
+            "Spatial Monitoring", "GIS and Spatial Data", "Edge AI", "Digital Humanities",
+        ],
+        "sameAs": [
+            "https://github.com/oleslav24",
+            "https://orcid.org/0000-0002-5976-5847",
+            "https://www.researchgate.net/profile/Oleslav-Antamoshkin",
+            "https://www.scopus.com/authid/detail.uri?authorId=56825984000",
+            "https://www.webofscience.com/wos/author/rid/Q-7307-2018",
+            "https://elibrary.ru/author_profile.asp?id=501153",
+            "https://sfu.ru/ru/about/people/a21897cb-8d0f-4ca4-9d2f-7e48780280ea?tab=main",
+        ],
+    }
 
 
 def breadcrumb_entries(lang: str, slug: str, title: str) -> list[tuple[str, str]]:
@@ -478,45 +535,7 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
     data = {
         "@context": "https://schema.org",
         "@graph": [
-            {
-                "@type": "Person",
-                "@id": site_url("#person"),
-                "name": "Oleslav Antamoshkin",
-                "alternateName": [
-                    "Олеслав Александрович Антамошкин",
-                    "Олеслав Антамошкин",
-                    "Антамошкин Олеслав",
-                    "O. A. Antamoshkin",
-                    "Antamoshkin Oleslav",
-                ],
-                "url": site_url(),
-                "image": site_url("assets/profile-portrait-bw-site.webp"),
-                "jobTitle": "Software & AI Architect; Head of the Software Engineering Department",
-                "worksFor": {
-                    "@type": "Organization",
-                    "name": "Siberian Federal University",
-                },
-                "alumniOf": {
-                    "@type": "Organization",
-                    "name": "Siberian State Aerospace University",
-                },
-                "knowsAbout": [
-                    "Software Architecture",
-                    "Artificial Intelligence",
-                    "Distributed Systems",
-                    "Machine Learning",
-                    "Computer Vision",
-                    "Multi-Agent Systems",
-                    "UAV Systems",
-                    "Digital Platforms",
-                ],
-                "sameAs": [
-                    "https://github.com/oleslav24",
-                    "https://orcid.org/0000-0002-5976-5847",
-                    "https://www.researchgate.net/profile/Oleslav-Antamoshkin",
-                    "https://www.scopus.com/authid/detail.uri?authorId=56825984000",
-                ],
-            },
+            person_entity(),
             {
                 "@type": "WebSite",
                 "@id": site_url("#website"),
@@ -529,10 +548,10 @@ def page_json_ld(lang: str, slug: str, title: str, description: str) -> str:
                 "@id": f"{page_url}#{page_id_suffix}",
                 "headline": title,
                 "description": description,
-                "author": {"@id": site_url("#person")},
+                "author": {"@id": PERSON_ID},
                 "mainEntityOfPage": page_url,
                 "inLanguage": language,
-                "dateModified": "2026-08-26",
+                "dateModified": BUILD_DATE,
             },
             breadcrumb_json_ld(lang, slug, title),
         ],
@@ -555,7 +574,14 @@ def render_inline(text: str) -> str:
         href = html.escape(match.group(2), quote=True)
         attrs = ""
         if href.startswith("http"):
-            attrs = ' target="_blank" rel="noreferrer"'
+            identity_hosts = (
+                "github.com/oleslav24", "orcid.org/0000-0002-5976-5847",
+                "researchgate.net/profile/Oleslav-Antamoshkin", "scopus.com/authid/",
+                "webofscience.com/wos/author/rid/", "elibrary.ru/author_profile",
+                "sfu.ru/ru/about/people/",
+            )
+            relation = "me noreferrer" if any(host in href for host in identity_hosts) else "noreferrer"
+            attrs = f' target="_blank" rel="{relation}"'
         return f'<a href="{href}"{attrs}>{label}</a>'
 
     escaped = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", link, escaped)
@@ -990,21 +1016,15 @@ def localized_publication_parts(publication: dict[str, str], lang: str) -> dict[
 
 
 def render_publication_citations(publication: dict[str, str], lang: str) -> list[str]:
-    citations = publication["citations"]
-    parts = []
-    for style, _labels in CITATION_STYLES:
-        citation = localize_publication_text(publication, citations[style], lang)
-        if style == "bibtex":
-            parts.append(
-                f'<pre class="citation citation-bibtex" data-citation-style="{style}">'
-                f"<code>{html.escape(citation)}</code></pre>"
-            )
-        else:
-            parts.append(
-                f'<p class="citation citation-{style}" data-citation-style="{style}">'
-                f"{html.escape(citation)}</p>"
-            )
-    return parts
+    """Render a single canonical citation and the fields needed for client formatting."""
+    citation = localize_publication_text(publication, publication["citations"]["gost"], lang)
+    fields = localized_publication_parts(publication, lang)
+    fields.update({"number": publication["number"], "gost": citation})
+    payload = html.escape(json.dumps(fields, ensure_ascii=False), quote=True)
+    return [
+        f'<p class="citation" data-citation-style="gost" data-bibliography="{payload}">'
+        f"{html.escape(citation)}</p>"
+    ]
 
 
 def render_publication_item(
@@ -1022,6 +1042,13 @@ def render_publication_item(
         f'<div class="publication-meta">{html.escape(publication["year"])} · '
         f"{html.escape(section_label)}</div>"
     )
+
+    publication_parts = localized_publication_parts(publication, lang)
+    publication_link = publication_page_href(publication, lang)
+    title_html = html.escape(publication_parts["title"])
+    if publication_link:
+        title_html = f'<a href="{publication_link}">{title_html}</a>'
+    parts.append(f'<h3 class="publication-title">{title_html}</h3>')
 
     tags = publication_tags(publication, lang)
     if tags:
@@ -1048,7 +1075,11 @@ def render_selected_publication_item(publication: dict[str, str], lang: str) -> 
         for tag in tags:
             parts.append(f'<span>{html.escape(tag)}</span>')
         parts.append("</div>")
-    parts.append(f'<h3 class="publication-title">{html.escape(parts_data["title"])}</h3>')
+    publication_link = publication_page_href(publication, lang)
+    title_html = html.escape(parts_data["title"])
+    if publication_link:
+        title_html = f'<a href="{publication_link}">{title_html}</a>'
+    parts.append(f'<h3 class="publication-title">{title_html}</h3>')
     parts.append(f'<p class="publication-authors">{html.escape(parts_data["authors"])}</p>')
     if parts_data["details"]:
         parts.append(f'<p class="publication-source">{html.escape(parts_data["details"])}</p>')
@@ -1240,10 +1271,30 @@ def render_publications_page(lang: str) -> str:
   const root = document.querySelector(".publications-page");
   if (!root) return;
   const buttons = Array.from(root.querySelectorAll(".style-button"));
+  const sentence = (value) => value && /[.!?]$/.test(value) ? value : `${value}.`;
+  const formatCitation = (record, style) => {
+    const { authors, title, details, year, number, gost } = record;
+    if (style === "gost") return gost;
+    if (style === "bibtex") return `@misc{antamoshkin${year}_${String(number).padStart(3, "0")},\n  author = {${authors}},\n  title = {${title}},\n  year = {${year}},\n  note = {${gost}}\n}`;
+    if (style === "apa") return `${authors} (${year}). ${sentence(title)} ${sentence(details)}`;
+    if (style === "harvard") return `${authors} ${year}. ${sentence(title)} ${sentence(details)}`;
+    if (style === "ieee") return `[${number}] ${authors}, "${title}," ${sentence(details)}`;
+    if (style === "vancouver") return `${sentence(authors)} ${sentence(title)} ${sentence(details)} ${year}.`;
+    return `${sentence(authors)} "${title}." ${sentence(details)} ${year}.`;
+  };
+  const updateCitations = (style) => {
+    root.querySelectorAll("[data-bibliography]").forEach((citation) => {
+      const record = JSON.parse(citation.dataset.bibliography);
+      citation.textContent = formatCitation(record, style);
+      citation.dataset.citationStyle = style;
+      citation.classList.toggle("citation-bibtex", style === "bibtex");
+    });
+  };
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const style = button.dataset.style;
       root.dataset.style = style;
+      updateCitations(style);
       buttons.forEach((item) => {
         const active = item === button;
         item.classList.toggle("active", active);
@@ -1431,49 +1482,313 @@ def render_page(lang: str, slug: str, title: str, body: str) -> str:
 """
 
 
+PROJECT_ENTITIES = {
+    "airscope": {
+        "en": {
+            "title": "AirScope — UAV Spatial Monitoring",
+            "description": "AirScope is a UAV-based spatial monitoring platform for construction, infrastructure, industrial objects, and extended assets.",
+            "answer": "AirScope is a platform for turning UAV and spatial data into engineering monitoring, control, and analytical workflows. Oleslav Antamoshkin is its scientific and technical lead and contributes product architecture, technical requirements, module decomposition, and implementation coordination.",
+            "problem": "Construction and infrastructure monitoring needs a consistent link between field data, the actual condition of an object, project models, and analytical reporting.",
+            "approach": "The platform combines UAV data collection, image processing, photogrammetry, 3D reconstruction, point clouds, computer vision, analytics, and web interfaces.",
+            "applications": "Construction progress control, infrastructure monitoring, industrial-object monitoring, and extended-asset monitoring.",
+            "results": "The project has a platform concept, product architecture, applied scenarios, a software-registration pipeline, and preparation for commercialization. AirBIM is the construction module for comparison with design models and analytical reporting.",
+            "external": ("AirBIM", "https://airbim.org/"),
+        },
+        "ru": {
+            "title": "AirScope — пространственный мониторинг по данным БАС",
+            "description": "AirScope — платформа дистанционного пространственного мониторинга строительства, инфраструктуры, промышленных объектов и протяжённых активов по данным БАС.",
+            "answer": "AirScope — платформа, превращающая данные БАС и пространственные данные в инженерные контуры мониторинга, контроля и аналитики. Олеслав Антамошкин является научно-техническим лидером проекта и отвечает за архитектуру продукта, технические требования, декомпозицию модулей и координацию реализации.",
+            "problem": "Для мониторинга строительства и инфраструктуры требуется связать полевые данные, фактическое состояние объекта, проектные модели и аналитическую отчётность.",
+            "approach": "Платформа объединяет сбор данных БАС, обработку изображений, фотограмметрию, 3D-реконструкцию, облака точек, компьютерное зрение, аналитику и веб-интерфейсы.",
+            "applications": "Контроль хода строительства, мониторинг инфраструктуры, промышленных объектов и протяжённых активов.",
+            "results": "Сформированы концепция платформы, архитектура продукта, прикладные сценарии, контур регистрации ПО и подготовка к коммерциализации. AirBIM является строительным модулем для сопоставления с проектной моделью и аналитической отчётности.",
+            "external": ("AirBIM", "https://airbim.org/"),
+        },
+    },
+    "siberiana": {
+        "en": {
+            "title": "Siberiana — Digital Cultural Heritage Platform",
+            "description": "Siberiana is an operational digital platform for cultural heritage resources of the Angara-Yenisei region.",
+            "answer": "Siberiana is a digital cultural heritage platform for the Angara-Yenisei region. Oleslav Antamoshkin leads the project and its platform architecture, addressing the integration of heterogeneous cultural heritage materials into an operational public system.",
+            "problem": "Cultural heritage materials are heterogeneous and need a usable digital environment for access, integration, visualization, and collaboration with external organizations.",
+            "approach": "The platform integrates heterogeneous data, GIS, 3D models, digital archives, visualization, and interfaces for external organizations.",
+            "applications": "Digital archives, regional cultural heritage access, visualization, and research and public-information workflows.",
+            "results": "Siberiana is a working digital platform and registered software system (certificate No. 2023615453, 07 April 2023).",
+            "external": ("siberiana.online", "https://siberiana.online/"),
+        },
+        "ru": {
+            "title": "Сибириана — цифровая платформа культурного наследия",
+            "description": "«Сибириана» — работающая цифровая платформа культурного наследия Ангаро-Енисейского региона.",
+            "answer": "«Сибириана» — цифровая платформа культурного наследия Ангаро-Енисейского региона. Олеслав Антамошкин руководит проектом и архитектурой платформы; она решает задачу интеграции разнородных материалов культурного наследия в работающую публичную систему.",
+            "problem": "Разнородным материалам культурного наследия нужна единая цифровая среда для доступа, интеграции, визуализации и взаимодействия с внешними организациями.",
+            "approach": "Платформа объединяет интеграцию разнородных данных, ГИС, 3D-модели, цифровые архивы, визуализацию и интерфейсы внешних организаций.",
+            "applications": "Цифровые архивы, доступ к региональному культурному наследию, визуализация и исследовательские и публичные информационные сценарии.",
+            "results": "«Сибириана» — полноценно работающая цифровая платформа и зарегистрированная программная система, свидетельство № 2023615453 от 07.04.2023.",
+            "external": ("siberiana.online", "https://siberiana.online/"),
+        },
+    },
+}
+
+EXPERTISE_ENTITIES = {
+    "software-architecture": {
+        "en": ("Software Architecture", "Software architecture concerns the structure, interfaces, and evolution of complex software systems. In Oleslav Antamoshkin's work it connects project requirements with implementation, integration, and operation in applied AI and digital-platform projects.", "AirScope and Siberiana provide applied contexts for architecture work, while engineering repositories demonstrate reproducible software and experimental infrastructure."),
+        "ru": ("Архитектура программного обеспечения", "Архитектура программного обеспечения определяет структуру, интерфейсы и развитие сложных программных систем. В работе Олеслава Антамошкина она связывает требования проектов с реализацией, интеграцией и эксплуатацией прикладных AI-систем и цифровых платформ.", "AirScope и «Сибириана» дают прикладной контекст для архитектурной работы, а инженерные репозитории показывают воспроизводимую программную и экспериментальную инфраструктуру."),
+    },
+    "ai-systems": {
+        "en": ("AI Systems", "AI systems combine data, models, software components, and operational workflows to solve a defined engineering problem. Oleslav Antamoshkin works on applied AI systems involving machine learning, decision support, computer vision, and platform integration.", "Relevant work includes computer-vision and UAV-data projects, multi-agent models, and AI-enabled software engineering repositories."),
+        "ru": ("AI-системы", "AI-системы объединяют данные, модели, программные компоненты и рабочие процессы для решения определённой инженерной задачи. Олеслав Антамошкин работает с прикладными AI-системами, включающими машинное обучение, поддержку принятия решений, компьютерное зрение и интеграцию платформ.", "К этому направлению относятся проекты компьютерного зрения и БАС, многоагентные модели и репозитории, связанные с AI-поддержкой разработки."),
+    },
+    "agentic-software-engineering": {
+        "en": ("Agentic Software Engineering", "Agentic software engineering applies autonomous and LLM-enabled agents to software and engineering workflows while preserving explicit evaluation, reproducibility, and human responsibility. Oleslav Antamoshkin's engineering work includes an LLM-agent policy loop in an adaptive distributed-computing research stand.", "The Adaptive Control of Heterogeneous Distributed Computing Systems repository links multi-agent models, ML forecasting, scheduling, load and failure scenarios, a CLI, web UI, and reproducibility protocols."),
+        "ru": ("Агентная программная инженерия", "Агентная программная инженерия использует автономных и LLM-агентов в программных и инженерных процессах, сохраняя явную оценку, воспроизводимость и ответственность человека. В инженерной работе Олеслава Антамошкина контур политики LLM-агента входит в стенд адаптивного управления распределёнными вычислениями.", "Репозиторий Adaptive Control of Heterogeneous Distributed Computing Systems связывает многоагентные модели, ML-прогнозирование, планирование, сценарии нагрузки и отказов, CLI, веб-интерфейс и протоколы воспроизводимости."),
+    },
+    "distributed-systems": {
+        "en": ("Distributed Systems", "Distributed systems coordinate computation and data across multiple nodes, services, or agents. Oleslav Antamoshkin's research profile includes heterogeneous information processing, multi-agent systems, decision support, adaptive scheduling, and distributed computing experiments.", "The adaptive-control repository and OptiNet simulation provide executable research infrastructure for this area."),
+        "ru": ("Распределённые системы", "Распределённые системы координируют вычисления и данные между несколькими узлами, сервисами или агентами. Научный профиль Олеслава Антамошкина включает гетерогенную обработку информации, многоагентные системы, поддержку принятия решений, адаптивное планирование и эксперименты с распределёнными вычислениями.", "Репозиторий адаптивного управления и симуляция OptiNet дают исполняемую исследовательскую инфраструктуру этого направления."),
+    },
+    "computer-vision": {
+        "en": ("Computer Vision", "Computer vision extracts usable information from images and video for detection, monitoring, and analytical tasks. Oleslav Antamoshkin's work includes UAV imagery, object detection, 3D reconstruction, and resource-aware model selection for edge deployment.", "AutoTinyCV and AirScope connect experimental computer vision with practical deployment constraints and spatial monitoring workflows."),
+        "ru": ("Компьютерное зрение", "Компьютерное зрение извлекает полезную информацию из изображений и видео для обнаружения, мониторинга и аналитических задач. Работа Олеслава Антамошкина включает изображения БАС, обнаружение объектов, 3D-реконструкцию и ресурсно-ориентированный выбор моделей для периферийного развёртывания.", "AutoTinyCV и AirScope связывают экспериментальное компьютерное зрение с ограничениями практического внедрения и задачами пространственного мониторинга."),
+    },
+    "uav-spatial-monitoring": {
+        "en": ("UAV Spatial Monitoring", "UAV spatial monitoring uses aerial data, photogrammetry, 3D reconstruction, point clouds, and computer vision to assess the condition and change of real-world objects. This is the central applied domain of AirScope, led scientifically and technically by Oleslav Antamoshkin.", "Relevant work includes AirScope, its AirBIM construction module, optimal flight-mission planning, and UAV-based tree-species detection."),
+        "ru": ("Пространственный мониторинг по данным БАС", "Пространственный мониторинг по данным БАС использует аэрофотосъёмку, фотограмметрию, 3D-реконструкцию, облака точек и компьютерное зрение для оценки состояния и изменений реальных объектов. Это центральное прикладное направление AirScope, научно-техническим лидером которого является Олеслав Антамошкин.", "К направлению относятся AirScope, строительный модуль AirBIM, оптимальное планирование полётного задания и определение пород деревьев по данным БПЛА."),
+    },
+}
+
+
+def nested_url(lang: str, section: str, slug: str) -> str:
+    if section == "about":
+        return site_url(f"{lang}/about")
+    if section == "expertise" and slug == "index":
+        return site_url(f"{lang}/expertise")
+    return site_url(f"{lang}/{section}/{slug}")
+
+
+def nested_breadcrumbs(lang: str, section: str, section_label: str, title: str, section_hub: bool = False) -> str:
+    home = "Главная" if lang == "ru" else "Home"
+    label = "Хлебные крошки" if lang == "ru" else "Breadcrumb"
+    section_href = "./" if section_hub else ("../" if section in {"about", "expertise"} else f"../../{section}.html")
+    home_href = "../index.html" if section == "about" or section_hub else "../../index.html"
+    return (
+        f'<nav class="breadcrumbs" aria-label="{label}"><ol>'
+        f'<li><a href="{home_href}">{home}</a></li>'
+        f'<li><a href="{section_href}">{html.escape(section_label)}</a></li>'
+        f'<li aria-current="page">{html.escape(title)}</li>'
+        "</ol></nav>"
+    )
+
+
+def render_nested_page(
+    lang: str,
+    section: str,
+    slug: str,
+    title: str,
+    description: str,
+    body: str,
+    schema: dict[str, object],
+    section_label: str,
+    other_slug: str | None = None,
+    section_hub: bool = False,
+) -> str:
+    meta = LANG_META[lang]
+    other = meta["other"]
+    other_slug = other_slug or slug
+    url = nested_url(lang, section, slug)
+    other_url = nested_url(other, section, other_slug)
+    page_title = f"{title} | {meta['site']}"
+    nav_label = "Основная навигация" if lang == "ru" else "Primary navigation"
+    relative_root = "../" if section == "about" or section_hub else "../../"
+    graph = [person_entity(), {"@type": "WebSite", "@id": site_url("#website"), "url": site_url(), "name": "Oleslav Antamoshkin"}, schema]
+    graph.append({
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": site_url()},
+            {"@type": "ListItem", "position": 2, "name": section_label, "item": nested_url(lang, section, slug) if section == "about" else site_url(page_path(lang, section))},
+            {"@type": "ListItem", "position": 3, "name": title, "item": url},
+        ],
+    })
+    json_ld = json_script({"@context": "https://schema.org", "@graph": graph})
+    nav = "\n".join(
+        f'<a href="{relative_root}{page_href(item_slug)}">{html.escape(labels[lang])}</a>'
+        for item_slug, labels in PAGES
+    )
+    return f"""<!doctype html>
+<html lang="{meta['html_lang']}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{html.escape(page_title)}</title>
+  <meta name="description" content="{html.escape(description)}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="{html.escape(url, quote=True)}">
+  <link rel="alternate" hreflang="en" href="{html.escape(nested_url('en', section, slug), quote=True)}">
+  <link rel="alternate" hreflang="ru" href="{html.escape(nested_url('ru', section, slug), quote=True)}">
+  <link rel="alternate" hreflang="x-default" href="{html.escape(nested_url('en', section, slug), quote=True)}">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{'ru_RU' if lang == 'ru' else 'en_US'}">
+  <meta property="og:title" content="{html.escape(page_title)}">
+  <meta property="og:description" content="{html.escape(description)}">
+  <meta property="og:url" content="{html.escape(url, quote=True)}">
+  <meta property="og:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{html.escape(page_title)}">
+  <meta name="twitter:description" content="{html.escape(description)}">
+  <meta name="twitter:image" content="{html.escape(site_url(OG_IMAGE), quote=True)}">
+  <link rel="stylesheet" href="../../styles.css?v={ASSET_VERSION}">
+  {json_ld}
+</head>
+<body>
+  <a class="skip-link" href="#content">{html.escape(meta['skip'])}</a>
+  <header class="site-header">
+    <div class="brand"><a href="{relative_root}index.html" aria-label="{html.escape(meta['site'])}">OA</a><span>{html.escape(meta['role'])}</span></div>
+    <nav class="site-nav" aria-label="{nav_label}">{nav}</nav>
+    <a class="language-link" href="{'../../' + other + '/about/' if section == 'about' else '../../' + other + '/expertise/' if section_hub else '../../../' + other + '/' + section + '/' + other_slug + '/'}">{LANG_META[other]['name']}</a>
+  </header>
+  <main id="content" class="content page-{section}-entity">
+    {nested_breadcrumbs(lang, section, section_label, title, section_hub)}
+    {body}
+  </main>
+  <footer class="site-footer"><span>{html.escape(meta['footer'])}</span></footer>
+</body>
+</html>
+"""
+
+
+def render_project_entity(lang: str, slug: str) -> str:
+    data = PROJECT_ENTITIES[slug][lang]
+    labels = {
+        "en": ("Projects", "Overview", "Problem", "Approach and architecture", "Applications", "Results", "External reference", "Related expertise"),
+        "ru": ("Проекты", "Обзор", "Задача", "Подход и архитектура", "Применение", "Результаты", "Внешняя ссылка", "Связанная экспертиза"),
+    }[lang]
+    expertise = "../../expertise/uav-spatial-monitoring/" if slug == "airscope" else "../../expertise/software-architecture/"
+    expertise_label = "UAV spatial monitoring" if slug == "airscope" else "Software architecture"
+    if lang == "ru":
+        expertise_label = "Пространственный мониторинг по данным БАС" if slug == "airscope" else "Архитектура программного обеспечения"
+    external_name, external_url = data["external"]
+    body = (
+        f"<article class=\"entity-page\"><h1>{html.escape(data['title'])}</h1><p class=\"answer-first\">{html.escape(data['answer'])}</p>"
+        f"<h2>{labels[1]}</h2><p>{html.escape(data['description'])}</p>"
+        f"<h2>{labels[2]}</h2><p>{html.escape(data['problem'])}</p>"
+        f"<h2>{labels[3]}</h2><p>{html.escape(data['approach'])}</p>"
+        f"<h2>{labels[4]}</h2><p>{html.escape(data['applications'])}</p>"
+        f"<h2>{labels[5]}</h2><p>{html.escape(data['results'])}</p>"
+        f"<h2>{labels[6]}</h2><p><a href=\"{html.escape(external_url, quote=True)}\" rel=\"noreferrer\">{html.escape(external_name)}</a></p>"
+        f"<h2>{labels[7]}</h2><p><a href=\"{expertise}\">{html.escape(expertise_label)}</a></p></article>"
+    )
+    schema = {
+        "@type": "SoftwareApplication", "@id": f"{nested_url(lang, 'projects', slug)}#software",
+        "url": nested_url(lang, "projects", slug), "name": "AirScope" if slug == "airscope" else "Siberiana",
+        "description": data["description"], "author": {"@id": PERSON_ID}, "dateModified": BUILD_DATE,
+    }
+    return render_nested_page(lang, "projects", slug, data["title"], data["description"], body, schema, labels[0])
+
+
+def render_expertise_entity(lang: str, slug: str) -> str:
+    title, answer, evidence = EXPERTISE_ENTITIES[slug][lang]
+    section_label = "Экспертиза" if lang == "ru" else "Expertise"
+    related = "../../projects/airscope/" if slug in {"computer-vision", "uav-spatial-monitoring"} else "../../projects.html"
+    project_label = "AirScope" if slug in {"computer-vision", "uav-spatial-monitoring"} else ("Проекты" if lang == "ru" else "Projects")
+    body = (
+        f"<article class=\"entity-page\"><h1>{html.escape(title)}</h1><p class=\"answer-first\">{html.escape(answer)}</p>"
+        f"<h2>{'Связь с работой' if lang == 'ru' else 'Relation to the work'}</h2><p>{html.escape(evidence)}</p>"
+        f"<h2>{'Связанные проекты и репозитории' if lang == 'ru' else 'Related projects and repositories'}</h2><p><a href=\"{related}\">{project_label}</a> · <a href=\"../../publications.html\">{'Публикации' if lang == 'ru' else 'Publications'}</a> · <a href=\"https://github.com/oleslav24\">GitHub</a></p></article>"
+    )
+    description = answer
+    schema = {"@type": "DefinedTerm", "@id": f"{nested_url(lang, 'expertise', slug)}#topic", "name": title, "description": description, "inDefinedTermSet": site_url("#expertise"), "url": nested_url(lang, "expertise", slug)}
+    return render_nested_page(lang, "expertise", slug, title, description, body, schema, section_label)
+
+
+def render_expertise_hub(lang: str) -> str:
+    title = "Экспертиза" if lang == "ru" else "Expertise"
+    description = "Ключевые инженерные и исследовательские направления Олеслава Антамошкина." if lang == "ru" else "Key engineering and research areas of Oleslav Antamoshkin."
+    links = []
+    for slug, localized in EXPERTISE_ENTITIES.items():
+        item_title, answer, _evidence = localized[lang]
+        links.append(f'<li><a href="{slug}/">{html.escape(item_title)}</a><br>{html.escape(answer)}</li>')
+    body = f'<article class="entity-page"><h1>{title}</h1><p class="answer-first">{html.escape(description)}</p><ul>{"".join(links)}</ul></article>'
+    schema = {"@type": "CollectionPage", "@id": f"{nested_url(lang, 'expertise', 'index')}#collection", "url": nested_url(lang, "expertise", "index"), "name": title, "description": description, "author": {"@id": PERSON_ID}}
+    return render_nested_page(lang, "expertise", "index", title, description, body, schema, title, section_hub=True)
+
+
+def render_about_entity(lang: str) -> str:
+    markdown = (CONTENT_DIR / lang / "about.md").read_text(encoding="utf-8")
+    title = first_heading(markdown, "Oleslav Antamoshkin")
+    description = page_description(lang, "about")
+    schema = {
+        "@type": "ProfilePage", "@id": f"{nested_url(lang, 'about', 'profile')}#profile",
+        "url": nested_url(lang, "about", "profile"), "headline": title,
+        "description": description, "mainEntity": {"@id": PERSON_ID},
+        "dateModified": BUILD_DATE,
+    }
+    # The route is /{lang}/about; the generic nested helper uses a leaf directory.
+    body = markdown_to_html(markdown)
+    return render_nested_page(lang, "about", "profile", title, description, body, schema, "Профиль" if lang == "ru" else "Profile")
+
+
+def publication_slug(publication: dict[str, str], lang: str) -> str:
+    title = localized_publication_parts(publication, lang)["title"].lower()
+    ascii_title = re.sub(r"[^a-z0-9]+", "-", title).strip("-")
+    return f"{publication['number']}-{ascii_title[:72] or 'publication'}"
+
+
+def extract_doi(value: str) -> str | None:
+    match = re.search(r"\b10\.\d{4,9}/[-._;()/:a-z0-9]+", value, re.IGNORECASE)
+    return match.group(0).rstrip(".,;") if match else None
+
+
+def publication_is_indexable(publication: dict[str, str], selected_numbers: set[str], recent_numbers: set[str]) -> bool:
+    return publication["number"] in selected_numbers or publication["number"] in recent_numbers or bool(extract_doi(publication["gost"]))
+
+
+def publication_page_href(publication: dict[str, str], lang: str) -> str | None:
+    if publication["number"] in SELECTED_PUBLICATION_NUMBERS or int(publication["number"]) >= 182 or extract_doi(publication["gost"]):
+        return f"publications/{publication_slug(publication, lang)}/"
+    return None
+
+
+def render_publication_entity(lang: str, publication: dict[str, str]) -> str:
+    data = localized_publication_parts(publication, lang)
+    slug = publication_slug(publication, lang)
+    doi = extract_doi(data["details"]) or extract_doi(publication["gost"])
+    labels = {
+        "en": ("Publications", "Authors", "Year", "Publication venue", "DOI", "Citation", "All publications"),
+        "ru": ("Публикации", "Авторы", "Год", "Издание", "DOI", "Цитирование", "Все публикации"),
+    }[lang]
+    citation = localize_publication_text(publication, publication["citations"]["gost"], lang)
+    doi_html = f'<a href="https://doi.org/{html.escape(doi, quote=True)}">{html.escape(doi)}</a>' if doi else ""
+    body = [f'<article class="entity-page publication-entity"><h1>{html.escape(data["title"])}</h1>']
+    body.append(f"<h2>{labels[1]}</h2><p>{html.escape(data['authors'])}</p>")
+    body.append(f"<h2>{labels[2]}</h2><p>{html.escape(publication['year'])}</p>")
+    if data["details"]:
+        body.append(f"<h2>{labels[3]}</h2><p>{html.escape(data['details'])}</p>")
+    if doi_html:
+        body.append(f"<h2>{labels[4]}</h2><p>{doi_html}</p>")
+    body.append(f"<h2>{labels[5]}</h2><p class=\"citation\">{html.escape(citation)}</p>")
+    body.append(f'<p><a href="../../publications.html">{labels[6]}</a></p></article>')
+    authors: list[dict[str, str]] = []
+    for author in re.split(r",\s*", data["authors"]):
+        if "Antamoshkin" in author or "Антамошкин" in author:
+            authors.append({"@id": PERSON_ID})
+        elif author:
+            authors.append({"@type": "Person", "name": author})
+    schema: dict[str, object] = {
+        "@type": "ScholarlyArticle", "@id": f"{nested_url(lang, 'publications', slug)}#article",
+        "url": nested_url(lang, "publications", slug), "headline": data["title"],
+        "datePublished": publication["year"], "author": authors,
+    }
+    if doi:
+        schema["identifier"] = [{"@type": "PropertyValue", "propertyID": "DOI", "value": doi}]
+        schema["sameAs"] = f"https://doi.org/{doi}"
+    return render_nested_page(lang, "publications", slug, data["title"], data["details"] or data["title"], "\n".join(body), schema, labels[0], publication_slug(publication, "ru" if lang == "en" else "en"))
+
+
 def root_json_ld() -> str:
     data = {
         "@context": "https://schema.org",
         "@graph": [
-            {
-                "@type": "Person",
-                "@id": site_url("#person"),
-                "name": "Oleslav Antamoshkin",
-                "alternateName": [
-                    "Олеслав Александрович Антамошкин",
-                    "Олеслав Антамошкин",
-                    "Антамошкин Олеслав",
-                    "O. A. Antamoshkin",
-                    "Antamoshkin Oleslav",
-                ],
-                "url": site_url(),
-                "image": site_url("assets/profile-portrait-bw-site.webp"),
-                "jobTitle": "Software & AI Architect; Head of the Software Engineering Department",
-                "worksFor": {
-                    "@type": "Organization",
-                    "name": "Siberian Federal University",
-                },
-                "alumniOf": {
-                    "@type": "Organization",
-                    "name": "Siberian State Aerospace University",
-                },
-                "knowsAbout": [
-                    "Software Architecture",
-                    "Artificial Intelligence",
-                    "Distributed Systems",
-                    "Machine Learning",
-                    "Computer Vision",
-                    "Multi-Agent Systems",
-                    "UAV Systems",
-                    "Digital Platforms",
-                ],
-                "sameAs": [
-                    "https://github.com/oleslav24",
-                    "https://orcid.org/0000-0002-5976-5847",
-                    "https://www.researchgate.net/profile/Oleslav-Antamoshkin",
-                    "https://www.scopus.com/authid/detail.uri?authorId=56825984000",
-                ],
-            },
+            person_entity(),
             {
                 "@type": "WebSite",
                 "@id": site_url("#website"),
@@ -1486,10 +1801,10 @@ def root_json_ld() -> str:
                 "@id": site_url("#profile"),
                 "headline": "Oleslav Antamoshkin",
                 "description": "Software and AI architect profile of Oleslav Antamoshkin.",
-                "author": {"@id": site_url("#person")},
+                "author": {"@id": PERSON_ID},
                 "mainEntityOfPage": site_url(),
                 "inLanguage": "en",
-                "dateModified": "2026-08-26",
+                "dateModified": BUILD_DATE,
             },
             {
                 "@type": "BreadcrumbList",
@@ -1716,11 +2031,24 @@ def render_sitemap() -> str:
     for lang in ("en", "ru"):
         for slug, _labels in PAGES:
             urls.append((page_path(lang, slug), "0.8" if slug != "index" else "0.9"))
+        urls.append((f"{lang}/about", "0.9"))
+        urls.append((f"{lang}/expertise", "0.8"))
+        for project_slug in PROJECT_ENTITIES:
+            urls.append((f"{lang}/projects/{project_slug}", "0.8"))
+        for expertise_slug in EXPERTISE_ENTITIES:
+            urls.append((f"{lang}/expertise/{expertise_slug}", "0.7"))
+    publications = load_publications()
+    recent_numbers = {item["number"] for item in sorted(publications, key=publication_sort_key, reverse=True)[:10]}
+    selected_numbers = set(SELECTED_PUBLICATION_NUMBERS)
+    for lang in ("en", "ru"):
+        for publication in publications:
+            if publication_is_indexable(publication, selected_numbers, recent_numbers):
+                urls.append((f"{lang}/publications/{publication_slug(publication, lang)}", "0.6"))
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for path, priority in urls:
         lines.append("  <url>")
         lines.append(f"    <loc>{html.escape(site_url(path))}</loc>")
-        lines.append("    <lastmod>2026-08-26</lastmod>")
+        lines.append(f"    <lastmod>{BUILD_DATE}</lastmod>")
         lines.append("    <changefreq>monthly</changefreq>")
         lines.append(f"    <priority>{priority}</priority>")
         lines.append("  </url>")
@@ -1729,10 +2057,62 @@ def render_sitemap() -> str:
 
 
 def render_robots() -> str:
-    return f"""User-agent: *
-Allow: /
+    agents = [
+        "*", "OAI-SearchBot", "GPTBot", "ClaudeBot", "Claude-SearchBot",
+        "Claude-User", "PerplexityBot", "Google-Extended",
+    ]
+    rules = []
+    for agent in agents:
+        rules.extend([f"User-agent: {agent}", "Allow: /", ""])
+    return "\n".join(rules) + f"Sitemap: {site_url('sitemap.xml')}\n"
 
-Sitemap: {site_url("sitemap.xml")}
+
+def render_llms() -> str:
+    return """# Oleslav Antamoshkin
+
+> Official professional and research website of Oleslav Antamoshkin, Software & AI Architect, Doctor of Engineering Sciences and Head of the Software Engineering Department at Siberian Federal University.
+
+## Profile
+- https://oleslav.com/en/about
+
+## Expertise
+- https://oleslav.com/en/expertise/software-architecture
+- https://oleslav.com/en/expertise/ai-systems
+- https://oleslav.com/en/expertise/agentic-software-engineering
+- https://oleslav.com/en/expertise/distributed-systems
+- https://oleslav.com/en/expertise/computer-vision
+- https://oleslav.com/en/expertise/uav-spatial-monitoring
+
+## Projects
+- https://oleslav.com/en/projects/airscope
+- https://oleslav.com/en/projects/siberiana
+
+## Publications
+- https://oleslav.com/en/publications.html
+
+## Russian version
+- https://oleslav.com/ru/index.html
+
+## External identifiers
+- ORCID: https://orcid.org/0000-0002-5976-5847
+- Web of Science ResearcherID: https://www.webofscience.com/wos/author/rid/Q-7307-2018
+- Scopus Author ID: https://www.scopus.com/authid/detail.uri?authorId=56825984000
+- RSCI Author ID: https://elibrary.ru/author_profile.asp?id=501153
+"""
+
+
+def render_redirects() -> str:
+    return """https://www.oleslav.com/* https://oleslav.com/:splat 301
+http://oleslav.com/* https://oleslav.com/:splat 301
+http://www.oleslav.com/* https://oleslav.com/:splat 301
+/en/publications /en/publications.html 200
+/ru/publications /ru/publications.html 200
+"""
+
+
+def render_headers() -> str:
+    return """/downloads/publications-*.pdf
+  X-Robots-Tag: noindex
 """
 
 
@@ -1838,9 +2218,41 @@ def build() -> None:
                 body = markdown_to_html(markdown)
             destination.write_text(render_page(lang, slug, title, body), encoding="utf-8")
 
+        about_destination = PUBLIC_DIR / lang / "about" / "index.html"
+        about_destination.parent.mkdir(parents=True, exist_ok=True)
+        about_destination.write_text(render_about_entity(lang), encoding="utf-8")
+
+        for project_slug in PROJECT_ENTITIES:
+            destination = PUBLIC_DIR / lang / "projects" / project_slug / "index.html"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(render_project_entity(lang, project_slug), encoding="utf-8")
+
+        for expertise_slug in EXPERTISE_ENTITIES:
+            destination = PUBLIC_DIR / lang / "expertise" / expertise_slug / "index.html"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(render_expertise_entity(lang, expertise_slug), encoding="utf-8")
+
+        expertise_destination = PUBLIC_DIR / lang / "expertise" / "index.html"
+        expertise_destination.parent.mkdir(parents=True, exist_ok=True)
+        expertise_destination.write_text(render_expertise_hub(lang), encoding="utf-8")
+
+        publications = load_publications()
+        recent_numbers = {item["number"] for item in sorted(publications, key=publication_sort_key, reverse=True)[:10]}
+        selected_numbers = set(SELECTED_PUBLICATION_NUMBERS)
+        for publication in publications:
+            if not publication_is_indexable(publication, selected_numbers, recent_numbers):
+                continue
+            destination = PUBLIC_DIR / lang / "publications" / publication_slug(publication, lang) / "index.html"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(render_publication_entity(lang, publication), encoding="utf-8")
+
     (PUBLIC_DIR / "index.html").write_text(render_root(), encoding="utf-8")
     (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(), encoding="utf-8")
     (PUBLIC_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
+    (PUBLIC_DIR / "llms.txt").write_text(render_llms(), encoding="utf-8")
+    (PUBLIC_DIR / "_redirects").write_text(render_redirects(), encoding="utf-8")
+    (PUBLIC_DIR / "_headers").write_text(render_headers(), encoding="utf-8")
+    (PUBLIC_DIR / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
     (PUBLIC_DIR / "favicon.svg").write_text(render_favicon(), encoding="utf-8")
     (PUBLIC_DIR / OG_IMAGE).write_text(render_og_image(), encoding="utf-8")
     (PUBLIC_DIR / "404.html").write_text(render_404(), encoding="utf-8")
