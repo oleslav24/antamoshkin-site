@@ -419,6 +419,8 @@ def alternate_links(slug: str | None = None) -> str:
 
 
 def page_path(lang: str, slug: str) -> str:
+    if slug == "publications":
+        return f"{lang}/publications"
     return f"{lang}/{page_href(slug)}"
 
 
@@ -1560,8 +1562,8 @@ EXPERTISE_ENTITIES = {
 def nested_url(lang: str, section: str, slug: str) -> str:
     if section == "about":
         return site_url(f"{lang}/about")
-    if section == "expertise" and slug == "index":
-        return site_url(f"{lang}/expertise")
+    if section in {"expertise", "publications"} and slug == "index":
+        return site_url(f"{lang}/{section}")
     return site_url(f"{lang}/{section}/{slug}")
 
 
@@ -1644,7 +1646,7 @@ def render_nested_page(
   <header class="site-header">
     <div class="brand"><a href="{relative_root}index.html" aria-label="{html.escape(meta['site'])}">OA</a><span>{html.escape(meta['role'])}</span></div>
     <nav class="site-nav" aria-label="{nav_label}">{nav}</nav>
-    <a class="language-link" href="{'../../' + other + '/about/' if section == 'about' else '../../' + other + '/expertise/' if section_hub else '../../../' + other + '/' + section + '/' + other_slug + '/'}">{LANG_META[other]['name']}</a>
+    <a class="language-link" href="{'../../' + other + '/about/' if section == 'about' else '../../' + other + '/' + section + '/' if section_hub else '../../../' + other + '/' + section + '/' + other_slug + '/'}">{LANG_META[other]['name']}</a>
   </header>
   <main id="content" class="content page-{section}-entity">
     {nested_breadcrumbs(lang, section, section_label, title, section_hub)}
@@ -1710,6 +1712,20 @@ def render_expertise_hub(lang: str) -> str:
     body = f'<article class="entity-page"><h1>{title}</h1><p class="answer-first">{html.escape(description)}</p><ul>{"".join(links)}</ul></article>'
     schema = {"@type": "CollectionPage", "@id": f"{nested_url(lang, 'expertise', 'index')}#collection", "url": nested_url(lang, "expertise", "index"), "name": title, "description": description, "author": {"@id": PERSON_ID}}
     return render_nested_page(lang, "expertise", "index", title, description, body, schema, title, section_hub=True)
+
+
+def render_publications_hub(lang: str) -> str:
+    body = render_publications_page(lang)
+    body = body.replace('href="../downloads/', 'href="../../downloads/')
+    body = body.replace('href="publications/', 'href="')
+    title = "Публикации" if lang == "ru" else "Publications"
+    description = page_description(lang, "publications")
+    schema = {
+        "@type": "CollectionPage", "@id": f"{nested_url(lang, 'publications', 'index')}#collection",
+        "url": nested_url(lang, "publications", "index"), "name": title,
+        "description": description, "author": {"@id": PERSON_ID}, "dateModified": BUILD_DATE,
+    }
+    return render_nested_page(lang, "publications", "index", title, description, body, schema, title, section_hub=True)
 
 
 def render_about_entity(lang: str) -> str:
@@ -2105,8 +2121,6 @@ def render_redirects() -> str:
     return """https://www.oleslav.com/* https://oleslav.com/:splat 301
 http://oleslav.com/* https://oleslav.com/:splat 301
 http://www.oleslav.com/* https://oleslav.com/:splat 301
-/en/publications /en/publications.html 200
-/ru/publications /ru/publications.html 200
 """
 
 
@@ -2245,6 +2259,10 @@ def build() -> None:
             destination = PUBLIC_DIR / lang / "publications" / publication_slug(publication, lang) / "index.html"
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text(render_publication_entity(lang, publication), encoding="utf-8")
+
+        publications_destination = PUBLIC_DIR / lang / "publications" / "index.html"
+        publications_destination.parent.mkdir(parents=True, exist_ok=True)
+        publications_destination.write_text(render_publications_hub(lang), encoding="utf-8")
 
     (PUBLIC_DIR / "index.html").write_text(render_root(), encoding="utf-8")
     (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(), encoding="utf-8")
