@@ -174,6 +174,10 @@ PUBLICATION_LOCALIZED_AUTHORS = {
         "ru": "Антамошкин О. А., Самарина В. П., Самарин А. В., Дорофеев Е. М.",
         "en": "Antamoshkin O. A., Samarina V. P., Samarin A. V., Dorofeev E. M.",
     },
+    "129": {
+        "ru": "Li J., Antamoshkin O. A.",
+        "en": "Li J., Antamoshkin O. A.",
+    },
     "133": {
         "ru": "Антамошкин О. А., Красовская Л. В., Кукарцева О. И., Соловьёва Т. В., Супрун Е. В., Шиверская М.",
         "en": "Antamoshkin O. A., Krasovskaya L. V., Kukartseva O. I., Solovyova T. V., Suprun E. V., Shiverskaia M.",
@@ -218,6 +222,7 @@ PUBLICATION_AUTHOR_LANGUAGE = {
     "121": "en",
     "122": "en",
     "127": "ru",
+    "129": "en",
     "133": "en",
     "134": "en",
     "186": "en",
@@ -279,6 +284,16 @@ PUBLICATION_LOCALIZED_PARTS = {
                 "Automation in Industry. 2026; No. 7. "
                 "URL: https://avtprom.ru/sistemy-upravleniya-biznes-protsessami-1."
             ),
+        },
+    },
+    "129": {
+        "en": {
+            "title": "Tiered Neighborhood-Exchange Differential Evolution for Budget-Constrained Multi-Root Localization of Nonlinear Equation Systems",
+            "details": "Modeling, Optimization and Information Technology. 2026;14(4(55)). DOI: 10.26102/2310-6018/2026.55.4.016. EDN: BTYULL.",
+        },
+        "ru": {
+            "title": "Tiered Neighborhood-Exchange Differential Evolution for Budget-Constrained Multi-Root Localization of Nonlinear Equation Systems",
+            "details": "Modeling, Optimization and Information Technology. 2026;14(4(55)). DOI: 10.26102/2310-6018/2026.55.4.016. EDN: BTYULL.",
         },
     },
     "188": {
