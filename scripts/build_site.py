@@ -405,6 +405,10 @@ def page_href(slug: str) -> str:
     return "index.html" if slug == "index" else f"{slug}.html"
 
 
+def page_link(slug: str) -> str:
+    return "publications" if slug == "publications" else page_href(slug)
+
+
 def site_url(path: str = "") -> str:
     suffix = path.strip("/")
     return f"{SITE_URL}/" if not suffix else f"{SITE_URL}/{suffix}"
@@ -434,9 +438,7 @@ def alternate_links(slug: str | None = None) -> str:
 
 
 def page_path(lang: str, slug: str) -> str:
-    if slug == "publications":
-        return f"{lang}/publications"
-    return f"{lang}/{page_href(slug)}"
+    return f"{lang}/{page_link(slug)}"
 
 
 def page_description(lang: str, slug: str) -> str:
@@ -506,7 +508,7 @@ def breadcrumb_entries(lang: str, slug: str, title: str) -> list[tuple[str, str]
     else:
         entries = [("Profile", "../index.html"), ("English version", "index.html")]
     if slug != "index":
-        entries.append((title, page_href(slug)))
+        entries.append((title, page_link(slug)))
     return entries
 
 
@@ -1433,7 +1435,7 @@ def render_nav(lang: str, current_slug: str) -> str:
         class_name = "active" if slug == current_slug else ""
         current = ' aria-current="page"' if slug == current_slug else ""
         links.append(
-            f'<a class="{class_name}" href="{page_href(slug)}"{current}>{html.escape(labels[lang])}</a>'
+            f'<a class="{class_name}" href="{page_link(slug)}"{current}>{html.escape(labels[lang])}</a>'
         )
     return "\n".join(links)
 
@@ -1441,7 +1443,7 @@ def render_nav(lang: str, current_slug: str) -> str:
 def render_page(lang: str, slug: str, title: str, body: str) -> str:
     meta = LANG_META[lang]
     other = meta["other"]
-    other_href = f"../{other}/{page_href(slug)}"
+    other_href = f"../{other}/{page_link(slug)}"
     nav = render_nav(lang, slug)
     description = page_description(lang, slug)
     url = site_url(page_path(lang, slug))
@@ -1585,7 +1587,7 @@ def nested_url(lang: str, section: str, slug: str) -> str:
 def nested_breadcrumbs(lang: str, section: str, section_label: str, title: str, section_hub: bool = False) -> str:
     home = "Главная" if lang == "ru" else "Home"
     label = "Хлебные крошки" if lang == "ru" else "Breadcrumb"
-    section_href = "./" if section_hub else ("../" if section in {"about", "expertise"} else f"../../{section}.html")
+    section_href = "./" if section_hub else ("../" if section in {"about", "expertise"} else f"../../{page_link(section)}")
     home_href = "../index.html" if section == "about" or section_hub else "../../index.html"
     return (
         f'<nav class="breadcrumbs" aria-label="{label}"><ol>'
@@ -1627,7 +1629,7 @@ def render_nested_page(
     })
     json_ld = json_script({"@context": "https://schema.org", "@graph": graph})
     nav = "\n".join(
-        f'<a href="{relative_root}{page_href(item_slug)}">{html.escape(labels[lang])}</a>'
+        f'<a href="{relative_root}{page_link(item_slug)}">{html.escape(labels[lang])}</a>'
         for item_slug, labels in PAGES
     )
     return f"""<!doctype html>
@@ -1710,7 +1712,7 @@ def render_expertise_entity(lang: str, slug: str) -> str:
     body = (
         f"<article class=\"entity-page\"><h1>{html.escape(title)}</h1><p class=\"answer-first\">{html.escape(answer)}</p>"
         f"<h2>{'Связь с работой' if lang == 'ru' else 'Relation to the work'}</h2><p>{html.escape(evidence)}</p>"
-        f"<h2>{'Связанные проекты и репозитории' if lang == 'ru' else 'Related projects and repositories'}</h2><p><a href=\"{related}\">{project_label}</a> · <a href=\"../../publications.html\">{'Публикации' if lang == 'ru' else 'Publications'}</a> · <a href=\"https://github.com/oleslav24\">GitHub</a></p></article>"
+        f"<h2>{'Связанные проекты и репозитории' if lang == 'ru' else 'Related projects and repositories'}</h2><p><a href=\"{related}\">{project_label}</a> · <a href=\"../../publications\">{'Публикации' if lang == 'ru' else 'Publications'}</a> · <a href=\"https://github.com/oleslav24\">GitHub</a></p></article>"
     )
     description = answer
     schema = {"@type": "DefinedTerm", "@id": f"{nested_url(lang, 'expertise', slug)}#topic", "name": title, "description": description, "inDefinedTermSet": site_url("#expertise"), "url": nested_url(lang, "expertise", slug)}
@@ -1797,7 +1799,7 @@ def render_publication_entity(lang: str, publication: dict[str, str]) -> str:
     if doi_html:
         body.append(f"<h2>{labels[4]}</h2><p>{doi_html}</p>")
     body.append(f"<h2>{labels[5]}</h2><p class=\"citation\">{html.escape(citation)}</p>")
-    body.append(f'<p><a href="../../publications.html">{labels[6]}</a></p></article>')
+    body.append(f'<p><a href="../../publications">{labels[6]}</a></p></article>')
     authors: list[dict[str, str]] = []
     for author in re.split(r",\s*", data["authors"]):
         if "Antamoshkin" in author or "Антамошкин" in author:
@@ -1894,7 +1896,7 @@ def render_root_legacy() -> str:
       <a href="ru/projects.html">Проекты</a>
       <a href="ru/experience.html">Опыт</a>
       <a href="ru/research.html">Исследования</a>
-      <a href="ru/publications.html">Публикации</a>
+      <a href="ru/publications">Публикации</a>
       <a href="ru/contacts.html">Контакты</a>
     </nav>
     <a class="language-link" href="en/index.html">EN</a>
@@ -1923,7 +1925,7 @@ def render_root_legacy() -> str:
     </section>
     <div class="gate-links" aria-label="Основные разделы">
       <a href="ru/projects.html">Проекты</a>
-      <a href="ru/publications.html">Публикации</a>
+      <a href="ru/publications">Публикации</a>
       <a href="ru/contacts.html">Контакты</a>
     </div>
   </main>
@@ -1984,7 +1986,7 @@ def render_root() -> str:
       <a href="en/projects.html">Projects</a>
       <a href="en/experience.html">Experience</a>
       <a href="en/research.html">Research</a>
-      <a href="en/publications.html">Publications</a>
+      <a href="en/publications">Publications</a>
       <a href="en/contacts.html">Contact</a>
       <a href="ru/index.html">RU</a>
     </nav>
@@ -2119,7 +2121,7 @@ def render_llms() -> str:
 - https://oleslav.com/en/projects/siberiana
 
 ## Publications
-- https://oleslav.com/en/publications.html
+- https://oleslav.com/en/publications
 
 ## Russian version
 - https://oleslav.com/ru/index.html
@@ -2195,7 +2197,7 @@ def render_404() -> str:
       <a href="ru/index.html">Главная</a>
       <a href="en/index.html">Home</a>
       <a href="ru/projects.html">Проекты</a>
-      <a href="en/publications.html">Publications</a>
+      <a href="en/publications">Publications</a>
       <a href="en/contacts.html">Contact</a>
     </nav>
   </header>

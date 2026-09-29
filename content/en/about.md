@@ -33,7 +33,7 @@ Software architecture, artificial intelligence, distributed and heterogeneous co
 
 ## Selected publications
 
-Selected and recent works, DOI links, and the complete bibliography are available on the [Publications](../publications.html) page.
+Selected and recent works, DOI links, and the complete bibliography are available on the [Publications](../publications) page.
 
 ## Academic identifiers
 

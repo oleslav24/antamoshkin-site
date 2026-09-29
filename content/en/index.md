@@ -59,5 +59,5 @@ Software & AI Architect
 - [Professional profile](about/) - roles, expertise, academic identifiers, and external profiles.
 - [Experience](experience.html) - architecture, technical leadership, competencies, and academic background.
 - [Research](research.html) - scholarly profiles, metrics, and dissertation topics.
-- [Publications](publications.html) - full bibliography and citation views.
+- [Publications](publications) - full bibliography and citation views.
 - [Contact](contacts.html) - email and public profiles.
