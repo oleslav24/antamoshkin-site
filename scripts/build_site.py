@@ -1284,9 +1284,13 @@ def render_publications_page(lang: str) -> str:
         parts.append("</section>")
 
     parts.append("</details>")
-    parts.append(
-        """<script>
-(() => {
+    parts.append('<script src="/publications.js" defer></script>')
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
+def render_publications_script() -> str:
+    return """(() => {
   const root = document.querySelector(".publications-page");
   if (!root) return;
   const buttons = Array.from(root.querySelectorAll(".style-button"));
@@ -1322,10 +1326,7 @@ def render_publications_page(lang: str) -> str:
     });
   });
 })();
-</script>"""
-    )
-    parts.append("</div>")
-    return "\n".join(parts)
+"""
 
 
 def pdf_font_path() -> Path | None:
@@ -2142,7 +2143,15 @@ http://www.oleslav.com/* https://oleslav.com/:splat 301
 
 
 def render_headers() -> str:
-    return """/downloads/publications-*.pdf
+    return """/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+
+/downloads/publications-*.pdf
   X-Robots-Tag: noindex
 """
 
@@ -2285,6 +2294,7 @@ def build() -> None:
     (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(), encoding="utf-8")
     (PUBLIC_DIR / "robots.txt").write_text(render_robots(), encoding="utf-8")
     (PUBLIC_DIR / "llms.txt").write_text(render_llms(), encoding="utf-8")
+    (PUBLIC_DIR / "publications.js").write_text(render_publications_script(), encoding="utf-8")
     (PUBLIC_DIR / "_redirects").write_text(render_redirects(), encoding="utf-8")
     (PUBLIC_DIR / "_headers").write_text(render_headers(), encoding="utf-8")
     (PUBLIC_DIR / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
