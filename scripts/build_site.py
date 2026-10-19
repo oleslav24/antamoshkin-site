@@ -11,6 +11,8 @@ WORKSPACE_ROOT = ROOT.parent
 CONTENT_DIR = ROOT / "content"
 PUBLIC_DIR = ROOT / "public"
 BIBLIOGRAPHY_SOURCE = WORKSPACE_ROOT / "tmp" / "Bibliography - Oleslav Antamoshkin - GOST.md"
+if not BIBLIOGRAPHY_SOURCE.is_file():
+    BIBLIOGRAPHY_SOURCE = CONTENT_DIR / "bibliography.md"
 PUBLICATION_EN_TRANSLATIONS = CONTENT_DIR / "en" / "publications.json"
 PDF_EXPORT_DIR = PUBLIC_DIR / "downloads"
 SITE_URL = "https://oleslav.com"
@@ -586,11 +588,11 @@ def render_inline(text: str) -> str:
         return f"\x00CODE{len(code_spans) - 1}\x00"
 
     text = re.sub(r"`([^`]+)`", stash_code, text)
-    escaped = html.escape(text)
+    escaped = html.escape(html.unescape(text))
 
     def link(match: re.Match[str]) -> str:
         label = match.group(1)
-        href = html.escape(match.group(2), quote=True)
+        href = html.escape(html.unescape(match.group(2)), quote=True)
         attrs = ""
         if href.startswith("http"):
             identity_hosts = (
@@ -1046,6 +1048,26 @@ def render_publication_citations(publication: dict[str, str], lang: str) -> list
     ]
 
 
+def render_publication_files(publication: dict[str, str], lang: str) -> str:
+    files = {
+        "192": [
+            ("adaptive-control-2026.pdf", "Полный текст монографии", "Full monograph"),
+            ("adaptive-control-2026-cover.pdf", "Обложка", "Cover"),
+            ("adaptive-control-2026-title.pdf", "Титульные страницы", "Title pages"),
+        ],
+        "193": [("llm-agent-fitness-2026.pdf", "Текст статьи (версия, принятая к печати)", "Article text (accepted version)")],
+    }
+    links = []
+    for filename, ru_label, en_label in files.get(publication["number"], []):
+        href = f"/papers/{filename}"
+        if not (PUBLIC_DIR / "papers" / filename).is_file():
+            raise FileNotFoundError(f"Publication attachment missing: {filename}")
+        label = ru_label if lang == "ru" else en_label
+        download = "Скачать PDF" if lang == "ru" else "Download PDF"
+        links.append(f'<p><a href="{href}">{label} (PDF)</a> · <a href="{href}" download>{download}</a></p>')
+    return "\n".join(links)
+
+
 def render_publication_item(
     publication: dict[str, str],
     lang: str,
@@ -1077,6 +1099,7 @@ def render_publication_item(
         parts.append("</div>")
 
     parts.extend(render_publication_citations(publication, lang))
+    parts.append(render_publication_files(publication, lang))
     parts.append("</div>")
     parts.append("</li>")
     return "\n".join(parts)
@@ -1616,6 +1639,7 @@ def render_nested_page(
     other_slug = other_slug or slug
     url = nested_url(lang, section, slug)
     other_url = nested_url(other, section, other_slug)
+    language_urls = {lang: url, other: other_url}
     page_title = f"{title} | {meta['site']}"
     nav_label = "Основная навигация" if lang == "ru" else "Primary navigation"
     relative_root = "../" if section == "about" or section_hub else "../../"
@@ -1642,9 +1666,9 @@ def render_nested_page(
   <meta name="description" content="{html.escape(description)}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{html.escape(url, quote=True)}">
-  <link rel="alternate" hreflang="en" href="{html.escape(nested_url('en', section, slug), quote=True)}">
-  <link rel="alternate" hreflang="ru" href="{html.escape(nested_url('ru', section, slug), quote=True)}">
-  <link rel="alternate" hreflang="x-default" href="{html.escape(nested_url('en', section, slug), quote=True)}">
+  <link rel="alternate" hreflang="en" href="{html.escape(language_urls['en'], quote=True)}">
+  <link rel="alternate" hreflang="ru" href="{html.escape(language_urls['ru'], quote=True)}">
+  <link rel="alternate" hreflang="x-default" href="{html.escape(language_urls['en'], quote=True)}">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="{'ru_RU' if lang == 'ru' else 'en_US'}">
@@ -1773,7 +1797,7 @@ def extract_doi(value: str) -> str | None:
 
 
 def publication_is_indexable(publication: dict[str, str], selected_numbers: set[str], recent_numbers: set[str]) -> bool:
-    return publication["number"] in selected_numbers or publication["number"] in recent_numbers or bool(extract_doi(publication["gost"]))
+    return publication["number"] in selected_numbers or publication["number"] in recent_numbers or int(publication["number"]) >= 182 or bool(extract_doi(publication["gost"]))
 
 
 def publication_page_href(publication: dict[str, str], lang: str) -> str | None:
@@ -1799,6 +1823,9 @@ def render_publication_entity(lang: str, publication: dict[str, str]) -> str:
         body.append(f"<h2>{labels[3]}</h2><p>{html.escape(data['details'])}</p>")
     if doi_html:
         body.append(f"<h2>{labels[4]}</h2><p>{doi_html}</p>")
+    attachments = render_publication_files(publication, lang)
+    if attachments:
+        body.append(f"<h2>{'Полный текст и файлы' if lang == 'ru' else 'Full text and files'}</h2>{attachments}")
     body.append(f"<h2>{labels[5]}</h2><p class=\"citation\">{html.escape(citation)}</p>")
     body.append(f'<p><a href="../../publications">{labels[6]}</a></p></article>')
     authors: list[dict[str, str]] = []
@@ -2082,7 +2109,6 @@ def render_sitemap() -> str:
     for path, priority in urls:
         lines.append("  <url>")
         lines.append(f"    <loc>{html.escape(site_url(path))}</loc>")
-        lines.append(f"    <lastmod>{BUILD_DATE}</lastmod>")
         lines.append("    <changefreq>monthly</changefreq>")
         lines.append(f"    <priority>{priority}</priority>")
         lines.append("  </url>")
@@ -2107,31 +2133,32 @@ def render_llms() -> str:
 > Official professional and research website of Oleslav Antamoshkin, Software & AI Architect, Doctor of Engineering Sciences and Head of the Software Engineering Department at Siberian Federal University.
 
 ## Profile
-- https://oleslav.com/en/about
+- [Professional profile](https://oleslav.com/en/about): roles, engineering expertise, research and academic identifiers.
 
 ## Expertise
-- https://oleslav.com/en/expertise/software-architecture
-- https://oleslav.com/en/expertise/ai-systems
-- https://oleslav.com/en/expertise/agentic-software-engineering
-- https://oleslav.com/en/expertise/distributed-systems
-- https://oleslav.com/en/expertise/computer-vision
-- https://oleslav.com/en/expertise/uav-spatial-monitoring
+- [Software architecture](https://oleslav.com/en/expertise/software-architecture): design of complex software systems.
+- [AI systems](https://oleslav.com/en/expertise/ai-systems): applied machine learning and AI platforms.
+- [Agentic software engineering](https://oleslav.com/en/expertise/agentic-software-engineering): autonomous and LLM-enabled software engineering.
+- [Distributed systems](https://oleslav.com/en/expertise/distributed-systems): distributed computing and adaptive control.
+- [Computer vision](https://oleslav.com/en/expertise/computer-vision): image analysis and detection.
+- [UAV spatial monitoring](https://oleslav.com/en/expertise/uav-spatial-monitoring): aerial data and spatial analytics.
 
 ## Projects
-- https://oleslav.com/en/projects/airscope
-- https://oleslav.com/en/projects/siberiana
+- [AirScope](https://oleslav.com/en/projects/airscope): UAV-based spatial monitoring platform.
+- [Siberiana](https://oleslav.com/en/projects/siberiana): cultural and historical digital platform.
 
 ## Publications
-- https://oleslav.com/en/publications
+- [Publications](https://oleslav.com/en/publications): selected works, full bibliography and citation formats.
 
 ## Russian version
-- https://oleslav.com/ru/index.html
+- [Russian version](https://oleslav.com/ru/index.html): Russian-language professional profile.
 
 ## External identifiers
-- ORCID: https://orcid.org/0000-0002-5976-5847
-- Web of Science ResearcherID: https://www.webofscience.com/wos/author/rid/Q-7307-2018
-- Scopus Author ID: https://www.scopus.com/authid/detail.uri?authorId=56825984000
-- RSCI Author ID: https://elibrary.ru/author_profile.asp?id=501153
+- [ORCID](https://orcid.org/0000-0002-5976-5847): researcher identifier.
+- [GitHub](https://github.com/oleslav24): public engineering repositories.
+- [Web of Science](https://www.webofscience.com/wos/author/rid/Q-7307-2018): researcher profile.
+- [Scopus](https://www.scopus.com/authid/detail.uri?authorId=56825984000): indexed author profile.
+- [RSCI](https://elibrary.ru/author_profile.asp?id=501153): Russian Science Citation Index profile.
 """
 
 
@@ -2139,6 +2166,8 @@ def render_redirects() -> str:
     return """https://www.oleslav.com/* https://oleslav.com/:splat 301
 http://oleslav.com/* https://oleslav.com/:splat 301
 http://www.oleslav.com/* https://oleslav.com/:splat 301
+/en/publications.html /en/publications 301
+/ru/publications.html /ru/publications 301
 """
 
 
@@ -2237,20 +2266,13 @@ def build() -> None:
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     (PUBLIC_DIR / "ru").mkdir(exist_ok=True)
     (PUBLIC_DIR / "en").mkdir(exist_ok=True)
-    bibliography_available = BIBLIOGRAPHY_SOURCE.exists()
 
     for lang in LANG_META:
         for slug, labels in PAGES:
             destination = PUBLIC_DIR / lang / page_href(slug)
             if slug == "publications":
-                if not bibliography_available and destination.exists():
-                    print(
-                        f"Warning: bibliography source not found at {BIBLIOGRAPHY_SOURCE}; "
-                        f"preserving {destination}."
-                    )
-                    continue
-                title = labels[lang]
-                body = render_publications_page(lang)
+                destination.unlink(missing_ok=True)
+                continue
             else:
                 source = CONTENT_DIR / lang / f"{slug}.md"
                 markdown = source.read_text(encoding="utf-8")

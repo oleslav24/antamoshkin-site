@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import re
+import xml.etree.ElementTree as ET
+from urllib.parse import urlsplit
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -19,6 +21,8 @@ class PageAudit(HTMLParser):
         self.descriptions = 0
         self.canonicals: list[str] = []
         self.hreflangs: set[str] = set()
+        self.alternates: dict[str, str] = {}
+        self.inline_executable = False
         self.h1_count = 0
         self._in_h1 = False
         self.json_ld: list[str] = []
@@ -34,6 +38,11 @@ class PageAudit(HTMLParser):
             self.canonicals.append(values.get("href", ""))
         if tag == "link" and values.get("rel") == "alternate" and values.get("hreflang"):
             self.hreflangs.add(values["hreflang"])
+            self.alternates[values["hreflang"]] = values.get("href", "")
+        if tag == "script" and not values.get("src") and values.get("type", "").lower() not in {"application/ld+json", "application/json"}:
+            self.inline_executable = True
+        if any(key.startswith("on") for key in values):
+            self.inline_executable = True
         if tag == "h1":
             self.h1_count += 1
             self._in_h1 = True
@@ -57,6 +66,10 @@ def check_page(page: Path) -> list[str]:
     audit.feed(source)
     errors: list[str] = []
     label = page.relative_to(PUBLIC).as_posix()
+    if re.search(r'&amp;(?:amp|quot|lt|gt);', source):
+        errors.append(f"{label}: double HTML escaping")
+    if audit.inline_executable:
+        errors.append(f"{label}: inline executable JavaScript")
     if audit.titles != 1:
         errors.append(f"{label}: expected one title")
     if audit.descriptions != 1:
@@ -104,7 +117,63 @@ def main() -> None:
         if f"<loc>{url}</loc>" not in sitemap:
             errors.append(f"sitemap.xml: {url} missing")
 
-    publications = (PUBLIC / "en" / "publications.html").read_text(encoding="utf-8")
+    namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    entries = ET.fromstring(sitemap).findall("s:url", namespace)
+    sitemap_urls = [entry.findtext("s:loc", namespaces=namespace) for entry in entries]
+    if len(sitemap_urls) != len(set(sitemap_urls)):
+        errors.append("sitemap.xml: duplicate canonical URLs")
+    normalized: set[str] = set()
+    for url in sitemap_urls:
+        if not url:
+            errors.append("sitemap.xml: empty URL")
+            continue
+        key = url.removesuffix(".html").rstrip("/")
+        if key in normalized:
+            errors.append(f"sitemap.xml: clean/html alias duplicated: {url}")
+        normalized.add(key)
+    dates = [entry.findtext("s:lastmod", namespaces=namespace) for entry in entries]
+    from build_site import BUILD_DATE
+    if dates and all(date == BUILD_DATE for date in dates):
+        errors.append("sitemap.xml: all lastmod values equal build date")
+
+    canonical_pages: dict[str, tuple[Path, PageAudit]] = {}
+    for page in pages:
+        source = page.read_text(encoding="utf-8")
+        if page.name == "404.html":
+            continue
+        audit = PageAudit()
+        audit.feed(source)
+        if len(audit.canonicals) != 1:
+            continue
+        canonical = audit.canonicals[0]
+        if canonical in canonical_pages:
+            errors.append(f"duplicate canonical {canonical}: {page} and {canonical_pages[canonical][0]}")
+        canonical_pages[canonical] = (page, audit)
+        if canonical not in sitemap_urls:
+            errors.append(f"{page}: canonical missing from sitemap")
+    for url in sitemap_urls:
+        if url not in canonical_pages:
+            errors.append(f"sitemap.xml: no generated page for {url}")
+    for canonical, (page, audit) in canonical_pages.items():
+        language = urlsplit(canonical).path.strip("/").split("/")[0]
+        if language not in {"en", "ru"}:
+            continue
+        for other in ("en", "ru"):
+            target = audit.alternates.get(other)
+            if target not in canonical_pages:
+                errors.append(f"{page}: hreflang {other} target missing: {target}")
+            elif canonical_pages[target][1].alternates.get(language) != canonical:
+                errors.append(f"{page}: hreflang {other} is not reciprocal")
+    if not (PUBLIC / "publications.js").is_file():
+        errors.append("publications.js: missing")
+    redirects = (PUBLIC / "_redirects").read_text(encoding="utf-8")
+    for language in ("en", "ru"):
+        if (PUBLIC / language / "publications.html").exists():
+            errors.append(f"{language}/publications.html: duplicate physical page")
+        if f"/{language}/publications.html /{language}/publications 301" not in redirects:
+            errors.append(f"{language}: publication alias redirect missing")
+
+    publications = (PUBLIC / "en" / "publications" / "index.html").read_text(encoding="utf-8")
     if re.search(r'data-citation-style="(?:apa|mla|chicago|harvard|ieee|vancouver|bibtex)"', publications):
         errors.append("publications: inactive citation formats were rendered into the initial DOM")
 

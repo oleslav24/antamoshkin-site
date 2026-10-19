@@ -3,28 +3,29 @@
 > Official professional and research website of Oleslav Antamoshkin, Software & AI Architect, Doctor of Engineering Sciences and Head of the Software Engineering Department at Siberian Federal University.
 
 ## Profile
-- https://oleslav.com/en/about
+- [Professional profile](https://oleslav.com/en/about): roles, engineering expertise, research and academic identifiers.
 
 ## Expertise
-- https://oleslav.com/en/expertise/software-architecture
-- https://oleslav.com/en/expertise/ai-systems
-- https://oleslav.com/en/expertise/agentic-software-engineering
-- https://oleslav.com/en/expertise/distributed-systems
-- https://oleslav.com/en/expertise/computer-vision
-- https://oleslav.com/en/expertise/uav-spatial-monitoring
+- [Software architecture](https://oleslav.com/en/expertise/software-architecture): design of complex software systems.
+- [AI systems](https://oleslav.com/en/expertise/ai-systems): applied machine learning and AI platforms.
+- [Agentic software engineering](https://oleslav.com/en/expertise/agentic-software-engineering): autonomous and LLM-enabled software engineering.
+- [Distributed systems](https://oleslav.com/en/expertise/distributed-systems): distributed computing and adaptive control.
+- [Computer vision](https://oleslav.com/en/expertise/computer-vision): image analysis and detection.
+- [UAV spatial monitoring](https://oleslav.com/en/expertise/uav-spatial-monitoring): aerial data and spatial analytics.
 
 ## Projects
-- https://oleslav.com/en/projects/airscope
-- https://oleslav.com/en/projects/siberiana
+- [AirScope](https://oleslav.com/en/projects/airscope): UAV-based spatial monitoring platform.
+- [Siberiana](https://oleslav.com/en/projects/siberiana): cultural and historical digital platform.
 
 ## Publications
-- https://oleslav.com/en/publications
+- [Publications](https://oleslav.com/en/publications): selected works, full bibliography and citation formats.
 
 ## Russian version
-- https://oleslav.com/ru/index.html
+- [Russian version](https://oleslav.com/ru/index.html): Russian-language professional profile.
 
 ## External identifiers
-- ORCID: https://orcid.org/0000-0002-5976-5847
-- Web of Science ResearcherID: https://www.webofscience.com/wos/author/rid/Q-7307-2018
-- Scopus Author ID: https://www.scopus.com/authid/detail.uri?authorId=56825984000
-- RSCI Author ID: https://elibrary.ru/author_profile.asp?id=501153
+- [ORCID](https://orcid.org/0000-0002-5976-5847): researcher identifier.
+- [GitHub](https://github.com/oleslav24): public engineering repositories.
+- [Web of Science](https://www.webofscience.com/wos/author/rid/Q-7307-2018): researcher profile.
+- [Scopus](https://www.scopus.com/authid/detail.uri?authorId=56825984000): indexed author profile.
+- [RSCI](https://elibrary.ru/author_profile.asp?id=501153): Russian Science Citation Index profile.

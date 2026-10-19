@@ -46,7 +46,18 @@ python -B scripts\verify_geo.py
 1. In Cloudflare, confirm a redirect rule or zone configuration sends `www.oleslav.com` and all HTTP variants to `https://oleslav.com`, preserving path and query string. On 29 Sep 2026, `https://www.oleslav.com/` still returned `200` rather than a redirect, while HTTP variants returned `301`. Cloudflare Pages `_redirects` is included, but DNS/zone settings can override it; add a zone-level 301/308 redirect if the deployment does not correct this.
 2. Confirm Cloudflare WAF/Bot Management does not challenge the explicitly allowed public crawler user agents on HTML, `robots.txt`, `sitemap.xml`, and `llms.txt`.
 3. Submit the canonical sitemap to Google Search Console and Bing Webmaster Tools. IndexNow publication is intentionally not triggered during local builds; after deployment, submit changed production URLs with the included script or from the deployment workflow.
-4. Consider `X-Robots-Tag: noindex` for the generated citation-list PDFs only if Cloudflare header rules can target `/downloads/publications-*.pdf` without affecting genuine scholarly documents.
+4. Confirm the existing `/downloads/publications-*.pdf` header rule continues to return `X-Robots-Tag: noindex`.
+
+## URL and sitemap maintenance (30 Sep 2026)
+
+- Sitemap `lastmod` is omitted: no reliable per-page content modification date is available for all Markdown, bibliography and generator-owned entity content. Build dates are not sitemap modification dates. Rebuilding identical sources preserves the sitemap byte-for-byte.
+- Existing legacy page canonicals retain `.html`. Entity pages and the publication hubs retain clean URLs; no general URL migration is performed.
+- Publication hubs have one physical HTML file per language (`public/<lang>/publications/index.html`). The generator removes the obsolete hub `.html` files and `_redirects` explicitly redirects their old URLs to the clean canonicals with 301. Confirm these redirects on Cloudflare after deployment.
+- Individual publication hreflang targets use the actual localized slug of the counterpart page. Both languages link back to each other.
+- `llms.txt` is a short Markdown directory with descriptions and professional identifiers.
+- Markdown inline text is decoded before HTML escaping; link destinations are escaped once. Raw HTML blocks keep their existing handling.
+- `verify_geo.py` checks canonical uniqueness and sitemap coverage, duplicate sitemap entries and clean/HTML aliases, build-date-only lastmod, reciprocal hreflang, double escaping, inline executable scripts, the external citation script, and publication alias redirects. JSON-LD and the existing metadata checks remain enabled.
+- Citation JavaScript is served as `/publications.js`; the global CSP requires no `unsafe-inline`. PDF noindex and security headers remain in `_headers`.
 
 ## IndexNow
 
