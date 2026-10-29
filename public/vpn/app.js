@@ -16,8 +16,8 @@ async function refresh(){
    const p=document.createElement("p");
    const state=device.state==="draft"?"черновик":device.state==="active"?"активен":"отозван";
    p.append(document.createTextNode(device.label+" · "+(device.protocol==="xray"?"Xray":"AWG 3.1")+" · "+state+" "));
-   if(device.state==="draft"&&device.protocol==="xray"){
-    const b=document.createElement("button");b.textContent="Выпустить .vpn";
+   if(["draft","active"].includes(device.state)&&device.protocol==="xray"){
+    const b=document.createElement("button");b.textContent=device.state==="active"?"Скачать .vpn повторно":"Выпустить .vpn";
     b.addEventListener("click",()=>provision(device.id,b));p.append(b);
    }
    devices.append(p);
@@ -25,7 +25,7 @@ async function refresh(){
  }catch(e){status(e.message);devices.textContent="Нет данных";}
 }
 async function provision(id,button){
- if(!confirm("Создать реального пользователя Xray на VPS и выпустить AmneziaVPN-файл?"))return;
+ if(!confirm("Получить нативный AmneziaVPN-файл? Для нового устройства будет создан пользователь Xray."))return;
  button.disabled=true;status("Отправляем запрос на выпуск профиля…");
  try{
   const r=await fetch("/api/vpn/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});
@@ -34,7 +34,7 @@ async function provision(id,button){
   pendingProfile={text:data.vpn,name:(data.label||"device").replace(/[^a-zA-Z0-9_-]/g,"_")+".vpn"};
   el("#download-panel").hidden=false;
   await refresh();
-  status("Профиль создан. Скачайте .vpn сейчас: повторно он не показывается.");
+  status("Профиль готов. Скачайте .vpn. Доступно повторное скачивание из кабинета.");
  }catch(e){status("Выпуск не выполнен: "+e.message);}
  finally{button.disabled=false;}
 }
