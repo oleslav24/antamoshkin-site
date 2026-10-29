@@ -33,8 +33,9 @@ async function provision(id,button){
   if(!r.ok)throw new Error(data.message||data.error||"Ошибка выпуска");
   pendingProfile={text:data.vpn,name:(data.label||"device").replace(/[^a-zA-Z0-9_-]/g,"_")+".vpn"};
   el("#download-panel").hidden=false;
+  el("#save-profile").click();
   await refresh();
-  status("Профиль готов. Скачайте .vpn. Доступно повторное скачивание из кабинета.");
+  status("Скачивание .vpn запущено. Если браузер его заблокировал, воспользуйтесь кнопкой «Скачать .vpn» ниже списка устройств.");
  }catch(e){status("Выпуск не выполнен: "+e.message);}
  finally{button.disabled=false;}
 }
