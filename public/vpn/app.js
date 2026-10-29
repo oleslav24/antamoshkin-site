@@ -8,7 +8,7 @@ async function refresh(){
   if(r.status===401){location.replace("/vpn/login.html");return;}
   const data=await r.json();
   if(!r.ok)throw new Error("Ошибка реестра устройств");
-  status("Реестр подключён. Для выпуска Xray требуется настроенный серверный API.");
+  if(!pendingProfile)status("Реестр подключён. Создание Xray-профилей доступно через кнопку «Выпустить .vpn».");
   el("#create button").disabled=false;
   devices.replaceChildren();
   if(!data.devices.length){devices.textContent="Устройств пока нет";return;}
@@ -33,8 +33,8 @@ async function provision(id,button){
   if(!r.ok)throw new Error(data.message||data.error||"Ошибка выпуска");
   pendingProfile={text:data.vpn,name:(data.label||"device").replace(/[^a-zA-Z0-9_-]/g,"_")+".vpn"};
   el("#download-panel").hidden=false;
-  status("Профиль создан. Скачайте .vpn сейчас: повторно он не показывается.");
   await refresh();
+  status("Профиль создан. Скачайте .vpn сейчас: повторно он не показывается.");
  }catch(e){status("Выпуск не выполнен: "+e.message);}
  finally{button.disabled=false;}
 }
