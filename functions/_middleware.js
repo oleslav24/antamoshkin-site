@@ -12,7 +12,7 @@ export async function onRequest(context) {
   if (!url.pathname.startsWith("/vpn/") && !url.pathname.startsWith("/api/vpn/")) return context.next();
   const secret = env.VPN_PORTAL_PASSWORD;
   if (!secret || secret.length < 24) return new Response("VPN portal is not configured", { status: 503, headers: { "Cache-Control": "no-store" } });
-  if (["/vpn/login.html", "/vpn/login.js", "/vpn/vpn.css", "/api/vpn/login"].includes(url.pathname)) return context.next();
+  if (["/vpn/login", "/vpn/login.html", "/vpn/login.js", "/vpn/vpn.css", "/api/vpn/login"].includes(url.pathname)) return context.next();
   const raw = (request.headers.get("Cookie") || "").split(";").map(s => s.trim()).find(s => s.startsWith("vpn_session="))?.slice(12);
   let authenticated = false;
   if (raw) {
