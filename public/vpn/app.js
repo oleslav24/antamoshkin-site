@@ -20,9 +20,29 @@ async function refresh(){
     const b=document.createElement("button");b.textContent=device.state==="active"?"Скачать .vpn повторно":"Выпустить .vpn";
     b.addEventListener("click",()=>provision(device.id,b));p.append(b);
    }
+   if(device.state==="active"&&device.protocol==="xray"){
+     const revokeButton=document.createElement("button");
+     revokeButton.textContent="Отозвать доступ";revokeButton.className="secondary";
+     revokeButton.style.marginLeft="8px";
+     revokeButton.addEventListener("click",()=>revokeDevice(device,revokeButton));
+     p.append(revokeButton);
+   }
    devices.append(p);
   }
  }catch(e){status(e.message);devices.textContent="Нет данных";}
+}
+async function revokeDevice(device,button){
+ if(!confirm("Безвозвратно отозвать VPN-доступ устройства «"+device.label+"»? Существующий .vpn перестанет работать. Для нового доступа потребуется новый профиль."))return;
+ button.disabled=true;
+ status("Отзываем доступ на сервере…");
+ try{
+   const r=await fetch("/api/vpn/revoke",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:device.id,confirmation:"REVOKE"})});
+   const response=await r.json();
+   if(!r.ok)throw new Error(response.message||response.error||"Ошибка отзыва");
+   await refresh();
+   status("Доступ «"+device.label+"» отозван. Ранее выданный .vpn больше не должен проходить новую авторизацию.");
+ }catch(e){status("Не удалось подтвердить отзыв: "+e.message);}
+ finally{button.disabled=false;}
 }
 async function provision(id,button){
  if(!confirm("Получить нативный AmneziaVPN-файл? Для нового устройства будет создан пользователь Xray."))return;
