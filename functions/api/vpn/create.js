@@ -6,7 +6,7 @@ export async function onRequestPost({request,env}) {
   if(request.headers.get("Origin")!==origin)return respond({error:"invalid_origin"},403);
   if(!request.headers.get("content-type")?.startsWith("application/json"))return respond({error:"invalid_type"},415);
   if(!env.VPN_DB)return respond({error:"database_not_configured"},503);
-  if(!env.VPN_PROVISION_URL||!env.VPN_PROVISION_TOKEN)return respond({error:"provisioning_not_enabled"},503);
+  if(!env.VPN_PROVISION_URL||!env.VPN_PROVISION_TOKEN||!env.CF_ACCESS_CLIENT_ID||!env.CF_ACCESS_CLIENT_SECRET)return respond({error:"provisioning_not_enabled"},503);
   let data;try{data=await request.json();}catch{return respond({error:"invalid_json"},400);}
   const id=typeof data?.id==="string"?data.id:"";
   if(!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id))return respond({error:"invalid_id"},400);
@@ -19,7 +19,7 @@ export async function onRequestPost({request,env}) {
   try {
     response=await fetch(env.VPN_PROVISION_URL.replace(/\/$/,"")+"/v1/xray/provision",{
       method:"POST",
-      headers:{"Authorization":"Bearer "+env.VPN_PROVISION_TOKEN,"Content-Type":"application/json","Accept":"application/json","Idempotency-Key":id},
+      headers:{"Authorization":"Bearer "+env.VPN_PROVISION_TOKEN,"Content-Type":"application/json","Accept":"application/json","Idempotency-Key":id,"CF-Access-Client-Id":env.CF_ACCESS_CLIENT_ID,"CF-Access-Client-Secret":env.CF_ACCESS_CLIENT_SECRET},
       body:JSON.stringify({id,label:device.label}),
       signal:AbortSignal.timeout(25000)
     });
